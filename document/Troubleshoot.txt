@@ -1,0 +1,32 @@
+1. Clear gradle daemon
+    - เชคว่ามี gradle daemon stopped ไปเเล้วจำนวนมากมั้ย
+        > android/./gradlew --status
+    - หยุดการทำงานของ daemon
+        > android/./gradlew --stop
+    - clear daemon folder ใน C:\Users\%USERNAME%\.gradle\daemon
+        - powershell
+            > Remove-Item "$env:USERPROFILE\.gradle\daemon\*"
+        - cmd
+            > rmdir /s "%USERPROFILE%\.gradle\daemon"
+
+2. Clear gradle cache เมื่อมีปัญหา
+    - เมื่ออัปเดตเวอร์ชั่นของ Gradle
+    - ไฟล์ dependencies ที่ดาวโหลดมาไม่สมบูรณ์
+    - เมื่อใช้ผ่านการใช้งานมานาน cache มีการเพิ่มขึ้น การ clear cache ช่วยให้โฟลเดอร์มีขนาดเล็กลงได้
+        > ./gradlew clean build
+    - เมื่อมีการเปลี่ยน dependencies ใน android/build.gradle
+        > ./gradlew clean build --refresh-dependencies
+
+
+3. ถ้ามี Error port ถูกใช้เเล้ว เช่น error listen EADDRINUSE: address already in use :::8081.
+    - รันคำสั่ง kill port (ถ้าไม่ได้ใช้อยู่แล้ว แต่ขึ้น error ข้างต้น)
+        > npx kill-port 8081
+    - ตรวจสอบ session ที่ใช้งานพอร์ต
+        > netstat -aon | findstr :8081
+
+4. Build Failed - java.io.UncheckedIOException: Could not move temporary workspace
+    - ref: https://stackoverflow.com/questions/78384724/react-native-error-java-io-uncheckedioexception-could-not-move-temporary-work
+    - แก้ gradle distributions version ในไฟล์ 
+        > gradle-wrapper.properties
+    - เลือกจากใน distributions นี้
+        > https://services.gradle.org/distributions/

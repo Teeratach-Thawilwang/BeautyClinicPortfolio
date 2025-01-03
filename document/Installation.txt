@@ -1,0 +1,45 @@
+1. ติดตั้ง Android studio
+    - ref1: https://www.youtube.com/watch?v=2lHPaT7urVA
+    - ref2: https://www.youtube.com/watch?v=KP338EGXLtw
+    - ติดตั้ง Android studio ตาม ref1 หรือ ref2
+    - สร้าง SDK ตาม ref1 หรือ ref2
+    - ติดตั้ง java version 11 หรือ 17 ผ่าน android studio [ตาม ref2]
+    - Add Environment Path [ดูใน ref2]
+        - ANDROID_HOME
+        - JAVA_HOME
+    - Add Path to powershell profile
+        - เปิด $PROFILE ด้วย notepade ผ่าน vscode powershell
+            > notepad $PROFILE
+        - ถ้าไม่มี $PROFILE ให้รันคำสั่งต่อไปนี้เพื่อสร้างขึ้นมา
+            > New-Item -ItemType File -Path $PROFILE -Force
+        - เพิ่ม Path JAVA_HOME, ANDROID_HOME
+            $env:JAVA_HOME = "C:\Users\$env:USERNAME\.jdks\corretto-17.0.12"
+            $env:ANDROID_HOME = "C:\Users\$env:USERNAME\AppData\Local\Android\Sdk"
+        - ทำการ refresh powershell
+            > . $PROFILE
+
+2. ติดตั้ง vscode extension เพื่อรัน Emulator ได้จาก vscode
+    - ติดดั้ง Android iOS Emulator
+    - ไปที่ Preference > settings 
+    - ค้นหาใน settings ว่า Emulator
+    - เพิ่ม path เหมือนใน ANDROID_HOME ลงในช่อง Emulator: Emulator Path
+
+3. สร้าง Project react native
+    - ref: https://reactnative.dev/docs/getting-started-without-a-framework
+    - สร้างโปรเจค ปัจจุบันจะ default เป็น typescript เเล้ว
+      ชื่อโปรเจคต้องไม่มี _ หรือ - ดังนั้นให้ใช้แค่ [A-Z] หรือ [a-z]
+        > npx @react-native-community/cli@latest init <project_name>
+        ทั้งนี้ชื่อแอพพลิเคชั่นสามารถแก้ไขเป็นชื่อแบบมี space ก็ได้
+        แนะนำให้ตั้งขึ้นต้นด้วยพิมพ์ใหญ่ เช่น SimpleMobileApp
+        แต่ package.json จะ warning ว่าตั้งชื่อไม่ตรง convention จะแก้หรือไม่ก็ได้
+        ถ้าจะแก้ ก็ปรับเป็นพิมพ์เล็กให้หมด เเล้วลบ package-lock.json ออก จากนั้นทำการ npm install
+    - เปิด Emulator บน vscode
+        - กด ctrl + shift + p หรือ command + shift + p
+        - ค้นคำว่า emulator
+        - กดเลือก View Android emulators
+        - เลือก AVD ที่ต้องการจะรันแอพ
+    - ทดสอบรัน
+        > npm run
+    - กด a เพื่อเลือกรันบน android emulator
+
+4. ติดตั้ง Debugger ตามคู่มือ https://docs.infinite.red/reactotron/quick-start/react-native/#installing-reactotronapp 
