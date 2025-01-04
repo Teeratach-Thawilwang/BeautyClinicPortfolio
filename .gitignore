@@ -1,5 +1,6 @@
 # Custom Ignore
 .env
+output
 
 # OSX
 #

@@ -1,22 +1,23 @@
 - dependencies
 @react-native-async-storage/async-storage
-@react-navigation/bottom-tabs
 @react-navigation/native
-@react-navigation/stack
+@react-navigation/native-stack
 @reduxjs/toolkit
 react-native-config
 react-native-gesture-handler
+react-native-paper
 react-native-reanimated
 react-native-safe-area-context
 react-native-screens
+react-native-vector-icons
 react-redux
 redux-persist
-@rneui/base
-@rneui/themed
-react-native-vector-icons
 
 - devDependencies
+@types/react-native-vector-icons
 @trivago/prettier-plugin-sort-imports
 babel-plugin-module-resolver
+babel-plugin-transform-imports
 reactotron-react-native
 reactotron-redux
+prettier
