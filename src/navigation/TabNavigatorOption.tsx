@@ -23,5 +23,6 @@ export default function TabNavigatorOption({route}: TabNavigatorOptionProps): Bo
     tabBarStyle: {backgroundColor: theme.colors.background, borderColor: theme.colors.outlineVariant},
     headerShown: false,
     tabBarPosition: 'bottom',
+    tabBarHideOnKeyboard: true,
   }
 }
