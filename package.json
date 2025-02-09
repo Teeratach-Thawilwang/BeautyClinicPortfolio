@@ -10,23 +10,30 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
     "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-native-google-signin/google-signin": "^13.1.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
     "@reduxjs/toolkit": "^2.5.0",
+    "@supabase/supabase-js": "^2.47.12",
     "react": "18.3.1",
+    "react-hook-form": "^7.54.2",
     "react-native": "0.76.5",
-    "react-native-config": "^1.5.3",
+    "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.21.2",
+    "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.12.5",
     "react-native-reanimated": "^3.16.6",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.4.0",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.2.0",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
