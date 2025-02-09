@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react'
-import {Platform} from 'react-native'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
-import SplashScreen from 'react-native-splash-screen'
 
+import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
 import AppNavigator from '@navigation/AppNavigator'
+import {configureGoogleSignIn} from '@repositories/GoogleSignin'
+import {configureSplashScreen} from '@utils/SplashScreenConfig'
 
 if (process.env.STAGING != 'production') {
   require('./ReactotronConfig')
@@ -12,16 +13,17 @@ if (process.env.STAGING != 'production') {
 
 export default function App() {
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      SplashScreen.hide()
-    }
+    configureSplashScreen()
+    configureGoogleSignIn()
   }, [])
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
-        <AppNavigator />
-      </ThemeProvider>
+      <ReduxProvider>
+        <ThemeProvider>
+          <AppNavigator />
+        </ThemeProvider>
+      </ReduxProvider>
     </SafeAreaProvider>
   )
 }
