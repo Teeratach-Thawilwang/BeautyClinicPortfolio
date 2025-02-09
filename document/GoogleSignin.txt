@@ -1,0 +1,29 @@
+การตั้งค่า Project ให้ Signin Google ได้
+    ดูรายละเอียดใน ref [https://github.com/t-ho/react-native-google-signin-example]
+    1. ให้ย้ายมาใช้ Library : @react-native-google-signin/google-signin
+    2. ตั้งค่า Google Cloud Console
+    3. แก้ไขไฟล์ android/build.gradle
+    4. ใช้ Web Oauth ClientId 2.0 ในการใช้งานในโค้ด
+    5. (Optional) ถ้าต้องนำไปใช้กับ supabase ให้นำ web clientId ไปใส่ใน Auth Providers > Google > Client IDs ด้วย
+        วิธีเข้าไปหน้าดังกล่าว
+        Supabase Project Dashboard > Authentication > Providers
+
+
+การตั้งค่า Google Cloud Console ให้สามารถ signin โดยไม่ใช้ Firebase Authentication
+
+1. สร้างโปรเจค OAuth consent screen บน Google cloud console
+    สำหรับ Test mode ให้ใส่ Email ที่จะใช้ signin ไว้
+
+2. สร้าง OAuth Client 2.0 ไว้ทั้ง 3 Type คือ Web, Android, IOS
+    สำหรับ Web ไม่ต้องกำหนด redirect ใดๆ
+    สำหรับ Android ต้องใช้ Package name และ SHA-1
+        - Package name ดูที่ applicationId ในไฟล์ android/app/build.gradle
+        - SHA-1 ให้ใช้คำสั่ง {JAVA_HOME}\bin\keytool -keystore {path-to-debug-or-production-keystore-file} -list -v
+            - open cmd inside root project 
+            > %USERPROFILE%\.jdks\corretto-17.0.12\bin\keytool -keystore ./android/app/debug.keystore -list
+    สำหรับ IOS [ยังไม่ลองทำ]
+
+3. เมื่อต้อง Deploy ขึ้น Production ต้องสร้าง OAuth Client 2.0 ไว้ทั้ง 3 ใหม่
+    และใช้ SHA-1 จาก Google Play console (แหล่ง deploy android app)
+    ดูรายละเอียดอีกที่จาก ref [https://stackoverflow.com/questions/54417232/react-native-google-signin-gives-developer-error]
+

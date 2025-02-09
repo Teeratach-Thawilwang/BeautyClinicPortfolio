@@ -1,0 +1,60 @@
+ระบบ Authentication สำหรับ Frontend
+
+* Authentication Screens
+    1. Signup screen
+    2. Signin screen
+    3. Forgot password screen
+    4. Reset password screen
+    5. Confirm password screen
+
+* Authentication APIs
+    1. Signup with email, password
+    2. Signup with google
+    3. Signin with email, password
+    4. Signin with google
+    5. Forgot password
+    6. Reset password
+    7. Verify reset password token
+    8. Verify confirm email token
+
+* Signup with email, password Flows
+    - User click signup -> success -> show success modal -> End
+                        -> fail    -> show fail modal    -> End
+
+* Signup with google Flows
+    - User click signup -> show google signup modal -> signup success -> logged in and already confirm signup -> redirect to home -> End
+
+* Forgot password Flow
+    User click forgot password -> success -> show success modal -> End
+                               -> failed  -> show fail modal    -> End
+    
+* Reset password Flow
+    User click reset password link on email
+    -> reset password screen -> render loading component
+       (disable back step)   -> if logged in -> redirect to home screen -> End
+                             -> verify token -> success -> show form -> submit reset password -> success -> show success modal -> End
+                                                                                    |----------> failed  -> show fail modal    -> End
+                                                               |------> close app -> logged out -> End
+                                      |-------> failed  -> show error -> End
+
+* Confirm signup Flow
+    User click confirm email link on email
+    -> confirm email screen -> render loading component
+       (disable back step)  -> if logged in -> redirect to home screen -> End
+                            -> verify token -> success -> show success modal -> continue button -> redirect to home screen -> End
+                                                                  |-----------> close app -> End
+                                            -> failed  -> show fail modal    -> signup button   -> redirect to signup button -> End
+
+* verify with token
+    - Link format on Email : {{ .RedirectTo }}?token_hash={{ .TokenHash }}
+                             เช่น myapp://reset-password?token_hash=....
+                                 https://mydomain.com/reset-password?token_hash=....
+    - Setup url on supabase : supabase -> Authentication -> URL Configuration -> Redirect URLs -> เพิ่ม reset-password link กับ confirm-email link 
+    - type on verifyOtp :
+        - Confirm signup
+            const {data, error} = await supabase.auth.verifyOtp({token_hash: tokenHash, type: 'signup'})
+        - Reset password
+            const {data, error} = await supabase.auth.verifyOtp({token_hash: tokenHash, type: 'recovery'})
+    - เมื่อ verifyOtp success จะถือว่า logged in เเล้ว จะมีผลต่อการออกแบบ Flow
+        - Confirm signup : ถือว่า logged in ไปเลย
+        - Reset password : ต้องพาไป update password ถ้า user ปิด app ต้อง signout ทันที
