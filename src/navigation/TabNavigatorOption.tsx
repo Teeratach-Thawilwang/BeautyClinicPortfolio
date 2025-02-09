@@ -1,17 +1,19 @@
 import {BottomTabNavigationOptions} from '@react-navigation/bottom-tabs'
-import {RouteProp} from '@react-navigation/native'
 import React from 'react'
 import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {BottomTabNavigatorParamList, TabRoutes} from '@navigation/AppNavigator'
+import {TabParamList} from '@navigation/TabScreens'
 
 type TabNavigatorOptionProps = {
-  route: RouteProp<BottomTabNavigatorParamList, keyof BottomTabNavigatorParamList>
+  route: {
+    name: keyof TabParamList
+  }
 }
 
 export default function TabNavigatorOption({route}: TabNavigatorOptionProps): BottomTabNavigationOptions {
   const {theme} = useTheme()
+
   return {
     tabBarIcon: ({focused, color, size}: {focused: boolean; color: string; size: number}) => {
       const tabRoute = TabRoutes.filter(val => val.name === route.name)[0]
@@ -26,3 +28,9 @@ export default function TabNavigatorOption({route}: TabNavigatorOptionProps): Bo
     tabBarHideOnKeyboard: true,
   }
 }
+
+const TabRoutes = [
+  {name: 'HomeScreen', focusedIcon: 'ant-home', unfocusedIcon: 'ant-home'},
+  {name: 'AppointmentScreen', focusedIcon: 'ant-calendar', unfocusedIcon: 'ant-calendar'},
+  {name: 'MenuScreen', focusedIcon: 'text-account', unfocusedIcon: 'text-account'},
+]
