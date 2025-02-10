@@ -4,16 +4,18 @@ import Reactotron from 'ReactotronConfig'
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
 import {persistReducer, persistStore} from 'redux-persist'
 
+import ThemeSlice from '@store/slices/ThemeSlice'
 import UserSlice from '@store/slices/UserSlice'
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['user', 'theme'],
 }
 
 const rootReducer = combineReducers({
   user: UserSlice,
+  theme: ThemeSlice,
 })
 
 export const store = configureStore({
