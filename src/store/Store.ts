@@ -7,6 +7,9 @@ import {persistReducer, persistStore} from 'redux-persist'
 import ThemeSlice from '@store/slices/ThemeSlice'
 import UserSlice from '@store/slices/UserSlice'
 
+const stagging = process.env.STAGING
+const isStaggingValid = stagging != 'production' && stagging != 'test'
+
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
@@ -21,14 +24,14 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: persistReducer(persistConfig, rootReducer),
   enhancers: getDefaultEnhancers => {
-    const reactotronEnhancer = process.env.STAGING != 'production' ? [Reactotron.createEnhancer!()] : []
+    const reactotronEnhancer = isStaggingValid ? [Reactotron.createEnhancer!()] : []
     return getDefaultEnhancers().concat(reactotronEnhancer)
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-  devTools: process.env.STAGING != 'production',
+  devTools: isStaggingValid,
 })
 
 export type RootStateType = ReturnType<typeof rootReducer>

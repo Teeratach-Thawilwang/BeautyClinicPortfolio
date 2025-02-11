@@ -7,7 +7,7 @@ import AppNavigator from '@navigation/AppNavigator'
 import {configureGoogleSignIn} from '@repositories/GoogleSignin'
 import {configureSplashScreen} from '@utils/SplashScreenConfig'
 
-if (process.env.STAGING != 'production') {
+if (process.env.STAGING !== 'production' && process.env.STAGING !== 'test') {
   require('./ReactotronConfig')
 }
 
