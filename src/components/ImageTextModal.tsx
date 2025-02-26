@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet, View} from 'react-native'
+import {Image, ImageSourcePropType, StyleSheet, View} from 'react-native'
 import Modal from 'react-native-modal'
 import {MD3Theme, Text} from 'react-native-paper'
 
@@ -10,17 +10,24 @@ type ImageTextModalProps = {
   onDismiss: () => void
   title: string
   text: string
-  imageSource: any
+  imageSource: ImageSourcePropType
   children?: JSX.Element
 }
 
-export default function ImageTextModal(props: ImageTextModalProps) {
+export default function ImageTextModal({
+  visible,
+  onDismiss,
+  title,
+  text,
+  imageSource,
+  children,
+}: ImageTextModalProps) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const {visible, onDismiss, title, text, imageSource, children} = props
 
   return (
     <Modal
+      testID='react-native-modal'
       isVisible={visible}
       onBackdropPress={onDismiss}
       animationIn='bounceIn'

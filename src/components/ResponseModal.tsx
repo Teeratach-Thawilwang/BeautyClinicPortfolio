@@ -16,30 +16,40 @@ type ResponseModalProps = {
   onDismiss?: () => void
 }
 
-export default function ResponseModal(props: ResponseModalProps) {
+export default function ResponseModal({
+  isVisible,
+  isSuccess,
+  title,
+  text,
+  buttonText,
+  children,
+  onButtonPress = () => null,
+  onDismiss = () => null,
+}: ResponseModalProps) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  let {isVisible, isSuccess, title, text, buttonText, children, onButtonPress, onDismiss} = props
 
   return (
     <ImageTextModal
       visible={isVisible}
-      onDismiss={onDismiss ?? (() => null)}
+      onDismiss={onDismiss}
       title={title}
       text={text}
-      imageSource={isSuccess ? require('@assets/successfully_icon.png') : require('@assets/failed_icon.png')}>
+      imageSource={
+        isSuccess
+          ? require('@assets/successfully_icon.png')
+          : require('@assets/failed_icon.png')
+      }>
       <>
         {buttonText ? (
           <Button
             style={styles.button}
-            labelStyle={{fontSize: theme.fonts.bodyLarge.fontSize}}
+            labelStyle={styles.buttonLabel}
             mode='contained'
             onPress={onButtonPress}>
             {buttonText}
           </Button>
-        ) : (
-          <></>
-        )}
+        ) : null}
         {children}
       </>
     </ImageTextModal>
@@ -54,6 +64,9 @@ function getStyles(theme: MD3Theme) {
       paddingVertical: 4,
       color: theme.colors.onPrimary,
       backgroundColor: theme.colors.primary,
+    },
+    buttonLabel: {
+      fontSize: theme.fonts.bodyLarge.fontSize,
     },
   })
 }

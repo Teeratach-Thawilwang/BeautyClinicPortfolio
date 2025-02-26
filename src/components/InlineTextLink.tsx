@@ -1,18 +1,25 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Button, MD3Theme} from 'react-native-paper'
+import {Button, MD3Theme, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useNavigate} from '@hooks/CommonHooks'
 
-export default function ForgotPasswordButton() {
+type InlineTextLinkProps = {
+  text: string
+  linkText: string
+  onPress: (() => void) | (() => Promise<void>)
+}
+
+export default function InlineTextLink({text, linkText, onPress}: InlineTextLinkProps) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const navigation = useNavigate()
   return (
     <View style={styles.container}>
-      <Button labelStyle={styles.label} mode='text' onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-        Forgot password ?
+      <Text variant='titleMedium' style={styles.text}>
+        {text}
+      </Text>
+      <Button labelStyle={styles.label} mode='text' onPress={onPress}>
+        {linkText}
       </Button>
     </View>
   )
@@ -21,10 +28,15 @@ export default function ForgotPasswordButton() {
 function getStyles(theme: MD3Theme) {
   return StyleSheet.create({
     container: {
-      marginTop: 20,
+      marginVertical: 10,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    text: {
+      color: theme.colors.onSurfaceVariant,
+      flexShrink: 1,
+      fontWeight: 'light',
     },
     label: {
       padding: 0,

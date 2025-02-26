@@ -9,11 +9,11 @@ export default function TextDivider({text}: {text: string}) {
   const styles = getStyles(theme)
   return (
     <View style={styles.container}>
-      <Divider style={styles.devider} />
+      <Divider testID='left-divider' style={styles.devider} />
       <Text variant='titleMedium' style={styles.text}>
         {text}
       </Text>
-      <Divider style={styles.devider} />
+      <Divider testID='right-divider' style={styles.devider} />
     </View>
   )
 }

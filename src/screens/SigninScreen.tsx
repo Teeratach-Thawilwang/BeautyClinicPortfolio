@@ -1,42 +1,43 @@
 import React from 'react'
-import {ScrollView, StyleSheet} from 'react-native'
-import {MD3Theme} from 'react-native-paper'
+import {ScrollView} from 'react-native'
 
-import ForgotPasswordButton from '@components/ForgotPasswordButton'
-import GoogleSigninButton from '@components/GoogleSigninButton'
-import SignFormLogo from '@components/SignFormLogo'
-import SigninForm from '@components/SigninForm'
+import SignInForm from '@components/Authentication/SignInForm'
+import Button from '@components/Button'
+import InlineTextLink from '@components/InlineTextLink'
+import LogoHeader from '@components/LogoHeader'
 import TextDivider from '@components/TextDivider'
-import TextLinkInline from '@components/TextLinkInline'
-import {useTheme} from '@context-providers/ThemeProvider'
+import {googleSignInHandler} from '@hooks/CommonHooks'
 import {useNavigate} from '@hooks/CommonHooks'
+import ForgotPasswordButtonStyle from '@styles/ForgotPasswordButtonStyle'
+import GoogleSignInButtonStyle from '@styles/GoogleSignInButtonStyle'
+import ScreenStyle from '@styles/ScreenStyle'
 
-export default function SigninScreen() {
-  const {theme} = useTheme()
-  const styles = getStyles(theme)
+export default function SignInScreen() {
   const navigation = useNavigate()
+
   return (
-    <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
-      <SignFormLogo />
-      <SigninForm />
+    <ScrollView style={ScreenStyle().container} keyboardShouldPersistTaps='handled'>
+      <LogoHeader />
+      <SignInForm />
       <TextDivider text='or' />
-      <GoogleSigninButton />
-      <ForgotPasswordButton />
-      <TextLinkInline
+      <Button
+        useLoading={true}
+        onPress={() => googleSignInHandler(navigation)}
+        icon={require('@assets/google_icon.png')}
+        styles={GoogleSignInButtonStyle()}>
+        Sign In with Google
+      </Button>
+      <Button
+        mode='text'
+        onPress={() => navigation.navigate('ForgotPasswordScreen')}
+        styles={ForgotPasswordButtonStyle()}>
+        Forgot password ?
+      </Button>
+      <InlineTextLink
         text="Don't have an account yet ?"
         linkText='Sign Up'
-        onPress={() => navigation.navigate('SignupScreen')}
+        onPress={() => navigation.navigate('SignUpScreen')}
       />
     </ScrollView>
   )
-}
-
-function getStyles(theme: MD3Theme) {
-  return StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: theme.colors.background,
-      flex: 1,
-    },
-  })
 }

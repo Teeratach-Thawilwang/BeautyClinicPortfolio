@@ -5,7 +5,7 @@ import {MD3Theme, Text, TextInput} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 
-interface TextInputSignFormProps {
+interface TextInputFormProps {
   label: string
   name: string
   icon: string
@@ -15,7 +15,7 @@ interface TextInputSignFormProps {
   disabled?: boolean
 }
 
-export default function TextInputSignForm({
+export default function TextInputForm({
   label,
   name,
   icon,
@@ -23,7 +23,7 @@ export default function TextInputSignForm({
   error,
   secureTextEntry,
   disabled,
-}: TextInputSignFormProps) {
+}: TextInputFormProps) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const [isSecureText, setIsSecureText] = useState(secureTextEntry ?? false)
@@ -36,6 +36,7 @@ export default function TextInputSignForm({
         name={name}
         render={({field: {onChange, value}}) => (
           <TextInput
+            testID='text-input'
             style={styles.textInput}
             theme={{roundness: 8}}
             label={label}
@@ -48,6 +49,7 @@ export default function TextInputSignForm({
             right={
               secureTextEntry ? (
                 <TextInput.Icon
+                  testID='secure-text-icon'
                   icon={iconName}
                   onPress={() => {
                     setIsSecureText(val => !val)

@@ -1,19 +1,18 @@
-import {useNavigation} from '@react-navigation/native'
 import React from 'react'
 import {Image, StyleSheet, View} from 'react-native'
 import {IconButton, MD3Theme, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {useNavigate} from '@hooks/CommonHooks'
 
-export default function SignFormLogo({isBackAble}: {isBackAble?: boolean}) {
-  isBackAble = isBackAble ?? true
+export default function LogoHeader({allowBack = true}: {allowBack?: boolean}) {
   const {theme} = useTheme()
-  const styles = getStyles(theme, isBackAble)
-  const navigation = useNavigation()
+  const styles = getStyles(theme, allowBack)
+  const navigation = useNavigate()
 
   return (
     <View style={styles.container}>
-      {isBackAble ? (
+      {allowBack ? (
         <IconButton
           icon='keyboard-backspace'
           iconColor={theme.colors.onSurface}
@@ -37,10 +36,10 @@ export default function SignFormLogo({isBackAble}: {isBackAble?: boolean}) {
   )
 }
 
-function getStyles(theme: MD3Theme, isBackAble: boolean) {
+function getStyles(theme: MD3Theme, allowBack: boolean) {
   return StyleSheet.create({
     container: {
-      marginTop: isBackAble ? 5 : 30,
+      marginTop: allowBack ? 5 : 30,
       marginBottom: 30,
       backgroundColor: theme.colors.background,
       position: 'relative',

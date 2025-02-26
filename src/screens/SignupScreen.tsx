@@ -1,40 +1,36 @@
 import React from 'react'
-import {ScrollView, StyleSheet} from 'react-native'
-import {MD3Theme} from 'react-native-paper'
+import {ScrollView} from 'react-native'
 
-import GoogleSigninButton from '@components/GoogleSigninButton'
-import SignFormLogo from '@components/SignFormLogo'
-import SignupForm from '@components/SignupForm'
+import SignUpForm from '@components/Authentication/SignUpForm'
+import Button from '@components/Button'
+import InlineTextLink from '@components/InlineTextLink'
+import LogoHeader from '@components/LogoHeader'
 import TextDivider from '@components/TextDivider'
-import TextLinkInline from '@components/TextLinkInline'
-import {useTheme} from '@context-providers/ThemeProvider'
+import {googleSignInHandler} from '@hooks/CommonHooks'
 import {useNavigate} from '@hooks/CommonHooks'
+import GoogleSignInButtonStyle from '@styles/GoogleSignInButtonStyle'
+import ScreenStyle from '@styles/ScreenStyle'
 
-export default function SignupScreen() {
-  const {theme} = useTheme()
-  const styles = getStyles(theme)
+export default function SignUpScreen() {
   const navigation = useNavigate()
+
   return (
-    <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
-      <SignFormLogo />
-      <SignupForm />
+    <ScrollView style={ScreenStyle().container} keyboardShouldPersistTaps='handled'>
+      <LogoHeader />
+      <SignUpForm />
       <TextDivider text='or' />
-      <GoogleSigninButton />
-      <TextLinkInline
+      <Button
+        useLoading={true}
+        onPress={() => googleSignInHandler(navigation)}
+        icon={require('@assets/google_icon.png')}
+        styles={GoogleSignInButtonStyle()}>
+        Sign In with Google
+      </Button>
+      <InlineTextLink
         text='Do you have an account ?'
         linkText='Sign In'
-        onPress={() => navigation.navigate('SigninScreen')}
+        onPress={() => navigation.navigate('SignInScreen')}
       />
     </ScrollView>
   )
-}
-
-function getStyles(theme: MD3Theme) {
-  return StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: theme.colors.background,
-      flex: 1,
-    },
-  })
 }

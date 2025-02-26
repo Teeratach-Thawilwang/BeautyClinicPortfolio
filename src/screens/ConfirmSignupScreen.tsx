@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native'
 import {ActivityIndicator, MD3Theme} from 'react-native-paper'
 
+import LogoHeader from '@components/LogoHeader'
 import ResponseModal from '@components/ResponseModal'
-import SignFormLogo from '@components/SignFormLogo'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {disableBackSwipe, useEffectScreen, useNavigate} from '@hooks/CommonHooks'
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
@@ -31,8 +31,11 @@ export default function ConfirmSignupScreen({route}: {route: ConfirmSignupScreen
   }, [])
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
-      <SignFormLogo isBackAble={false} />
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{flexGrow: 1}}
+      keyboardShouldPersistTaps='handled'>
+      <LogoHeader allowBack={false} />
       <View style={styles.containerLoading}>
         <ActivityIndicator animating={true} color={theme.colors.primary} size='small' />
       </View>
