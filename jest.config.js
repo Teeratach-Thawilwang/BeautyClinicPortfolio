@@ -18,10 +18,12 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ["json", "lcov", "text", "clover"],
   collectCoverageFrom: [
-    "src/components/*",
+    "src/components/**/*",
     "src/hooks/*",
     "src/screens/*",
-    "src/utils/*"
+    "src/utils/*",
+    "!src/**/__mock__/**",
+    "!src/**/__test__/**"
   ],
   reporters: [
     'default',

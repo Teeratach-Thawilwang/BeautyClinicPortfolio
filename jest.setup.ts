@@ -3,6 +3,8 @@ import React from 'react'
 // ----------------------------------------------------------------------------
 // ------------------------- Mock Third-party Library -------------------------
 
+jest.mock('react-native-modal', () => require('@components/__mock__/ReactNativeModal'))
+
 jest.mock('reactotron-react-native', () => ({
   setAsyncStorageHandler: jest.fn().mockReturnThis(),
   configure: jest.fn().mockReturnThis(),
@@ -49,55 +51,59 @@ jest.mock('react-native-gesture-handler', () => {
   }
 })
 
+jest.mock('@react-native-google-signin/google-signin', () => ({
+  GoogleSignin: jest.fn(),
+}))
+
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
 
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper')
+
 // ----------------------------------------------------------------------------
-// ----------------------------- Mock Own Service -----------------------------
+// ----------------------- Custom Mock Implementation -------------------------
 
-jest.mock('@context-providers/ReduxProvider', () => ({children}: {children: JSX.Element}) => {
-  children
-})
+jest.mock('react-native-modal', () => require('@components/__mock__/ReactNativeModal'))
 
-jest.mock('@context-providers/ThemeProvider', () => {
-  const {LightTheme} = require('@assets/Theme')
-  return {
-    default:
-      () =>
-      ({children}: {children: JSX.Element}) => {
-        children
-      },
-    useTheme: () => ({
-      theme: LightTheme,
-      schema: 'light',
-      toggleTheme: jest.fn(),
-    }),
-    __esModule: true,
-  }
-})
+jest.mock(
+  '@context-providers/ReduxProvider',
+  () =>
+    ({children}: {children: JSX.Element}) => {
+      children
+    },
+)
 
 jest.mock('@store/Store', () => ({
   useAppSelector: jest.fn(),
-}))
-
-jest.mock('@react-native-google-signin/google-signin', () => ({
-  GoogleSignin: jest.fn(),
 }))
 
 jest.mock('@repositories/supabase/SupabaseClient', () => ({
   createClient: jest.fn(),
 }))
 
-jest.mock('@repositories/GoogleSignin', () => ({
+jest.mock('@repositories/GoogleSignIn', () => ({
   configureGoogleSignIn: jest.fn(),
-  signinOnGoogle: jest.fn(),
+  signInOnGoogle: jest.fn(),
 }))
 
 jest.mock('@utils/SplashScreenConfig', () => ({
   configureSplashScreen: jest.fn(),
 }))
 
-jest.mock('@hooks/CommonHooks', () => ({
-  useNavigate: () => ({
-    navigate: jest.fn(),
-  }),
-}))
+jest.mock('@hooks/CommonHooks', () => {
+  return {
+    ...jest.requireActual('@hooks/CommonHooks'),
+    useNavigate: jest.fn(() => ({
+      navigate: jest.fn(),
+      replace: jest.fn(),
+    })),
+  }
+})
+
+// ----------------------------------------------------------------------------
+// -------------------------------- Setup Test --------------------------------
+
+beforeEach(() => {
+  // if want to use real timers, use jest.useRealTimers() inside each test.
+  jest.useFakeTimers()
+  jest.resetAllMocks()
+})
