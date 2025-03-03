@@ -8,7 +8,11 @@ import {ResetPasswordScreenRouteProp} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
 import ScreenStyle from '@styles/ScreenStyle'
 
-export default function ResetPasswordScreen({route}: {route: ResetPasswordScreenRouteProp}) {
+export default function ResetPasswordScreen({
+  route,
+}: {
+  route: ResetPasswordScreenRouteProp
+}) {
   const navigation = useNavigate()
   const isPasswordUpdated = useRef(false)
   const user = AuthenticationService.getUser()

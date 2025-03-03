@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native'
-import {render} from '@testing-library/react-native'
+import {render, renderHook} from '@testing-library/react-native'
 import React from 'react'
 
 import ThemeProvider from '@context-providers/ThemeProvider'
@@ -7,13 +7,20 @@ import ThemeProvider from '@context-providers/ThemeProvider'
 function Warpper(ui: React.ReactElement, options?: any) {
   return render(ui, {
     wrapper: ({children}) => (
-      <NavigationContainer>
-        <ThemeProvider>{children}</ThemeProvider>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>{children}</NavigationContainer>
+      </ThemeProvider>
     ),
     ...options,
   })
 }
 
+function RenderHookWrapper<T>(hook: () => T) {
+  return renderHook(hook, {
+    wrapper: ({children}) => <NavigationContainer>{children}</NavigationContainer>,
+  })
+}
+
 export * from '@testing-library/react-native'
 export {Warpper as render}
+export {RenderHookWrapper as renderHook}

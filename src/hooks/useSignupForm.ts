@@ -14,15 +14,26 @@ export const signupSchema = z
     path: ['confirmPassword'],
   })
 
-export type SignupFormData = z.infer<typeof signupSchema>
+export type SignUpFormData = z.infer<typeof signupSchema>
 
-export default function useSignUpForm() {
+export default function useSignUpForm(
+  name?: string,
+  email?: string,
+  password?: string,
+  confirmPassword?: string,
+) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<SignupFormData>({
+  } = useForm<SignUpFormData>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      name: name ?? '',
+      email: email ?? '',
+      password: password ?? '',
+      confirmPassword: confirmPassword ?? '',
+    },
   })
 
   return {

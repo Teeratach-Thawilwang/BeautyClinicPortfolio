@@ -7,7 +7,7 @@ export function configureGoogleSignIn() {
   })
 }
 
-export async function signinOnGoogle() {
+export async function signInOnGoogle() {
   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true})
   return await GoogleSignin.signIn()
 }

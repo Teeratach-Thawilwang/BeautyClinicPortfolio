@@ -3,7 +3,7 @@ import {User} from '@supabase/supabase-js'
 import {shallowEqual} from 'react-redux'
 
 import {UserSliceInterface} from '@models/UserInterface'
-import {signinOnGoogle} from '@repositories/GoogleSignin'
+import {signInOnGoogle} from '@repositories/GoogleSignIn'
 import supabase from '@repositories/supabase/SupabaseClient'
 import {store, useAppSelector} from '@store/Store'
 import {update} from '@store/slices/UserSlice'
@@ -86,7 +86,7 @@ class AuthenticationService {
 
   public async signinWithGoogle(): Promise<Response> {
     this.update({isLoading: true})
-    const response = await signinOnGoogle()
+    const response = await signInOnGoogle()
     if (response.type === 'cancelled') {
       this.update({data: null, isLoading: false, error: null})
       return {success: null, data: null, error: null}

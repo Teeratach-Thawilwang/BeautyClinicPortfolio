@@ -15,7 +15,11 @@ export const resetPasswordSchema = z
 
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 
-export default function useResetPasswordForm(email: string) {
+export default function useResetPasswordForm(
+  email: string,
+  password?: string,
+  confirmPassword?: string,
+) {
   const {
     control,
     handleSubmit,
@@ -24,8 +28,8 @@ export default function useResetPasswordForm(email: string) {
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       email: email,
-      password: '',
-      confirmPassword: '',
+      password: password ?? '',
+      confirmPassword: confirmPassword ?? '',
     },
   })
 

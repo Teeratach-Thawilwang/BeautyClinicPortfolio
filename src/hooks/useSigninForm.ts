@@ -7,15 +7,19 @@ export const signinSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters long'),
 })
 
-export type SigninFormData = z.infer<typeof signinSchema>
+export type SignInFormData = z.infer<typeof signinSchema>
 
-export default function useSigninForm() {
+export default function useSignInForm(email?: string, password?: string) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<SigninFormData>({
+  } = useForm<SignInFormData>({
     resolver: zodResolver(signinSchema),
+    defaultValues: {
+      email: email ?? '',
+      password: password ?? '',
+    },
   })
 
   return {

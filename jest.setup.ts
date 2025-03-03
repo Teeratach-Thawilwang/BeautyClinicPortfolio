@@ -105,5 +105,6 @@ jest.mock('@hooks/CommonHooks', () => {
 beforeEach(() => {
   // if want to use real timers, use jest.useRealTimers() inside each test.
   jest.useFakeTimers()
+  jest.restoreAllMocks()
   jest.resetAllMocks()
 })

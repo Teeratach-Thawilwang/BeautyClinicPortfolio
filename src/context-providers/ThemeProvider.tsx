@@ -30,7 +30,9 @@ export const ThemeContext = createContext<ThemeType | null>(null)
 export function useTheme(): ThemeType {
   const context = useContext(ThemeContext)
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider and ReduxProvider respectively.')
+    throw new Error(
+      'useTheme must be used within a ThemeProvider and ReduxProvider respectively.',
+    )
   }
   return context
 }

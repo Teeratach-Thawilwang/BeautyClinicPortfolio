@@ -4,7 +4,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context'
 import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
 import AppNavigator from '@navigation/AppNavigator'
-import {configureGoogleSignIn} from '@repositories/GoogleSignin'
+import {configureGoogleSignIn} from '@repositories/GoogleSignIn'
 import {configureSplashScreen} from '@utils/SplashScreenConfig'
 
 if (process.env.STAGING !== 'production' && process.env.STAGING !== 'test') {
