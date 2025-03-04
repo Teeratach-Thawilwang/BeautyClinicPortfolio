@@ -7,7 +7,8 @@
 การทำ FCM
     1. เพิ่มโค้ด update or create fcm token ไปยัง supabase เมื่อ user เปิดแอพ (update เฉพาะ user ที่ signin เเล้ว)
     2. เพิ่มโค้ด delete fcm_tokens เมื่อ user signout
-    3. สร้าง Trigger ในส่วนของ database ของ supabase ให้ลบ token ที่มีโคลัม updated_at เกิน 3 เดือน
+    3. สร้าง Cron job integration ของ supabase ให้ลบ token ที่มีโคลัม updated_at เกิน 3 เดือน
+        DELETE FROM user_fcm_tokens WHERE updated_at  < NOW() - INTERVAL '3 months';
 
 
 FCM Policy
