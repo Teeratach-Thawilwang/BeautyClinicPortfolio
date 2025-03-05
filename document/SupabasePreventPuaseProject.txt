@@ -15,6 +15,7 @@
         > ตั้ง SUPABASE_URL เช่น https://your-project.supabase.co
         > ตั้ง SUPABASE_KEY จะเป็น bearer token
     3. สร้าง github action โดยใช้ code yml ตาม code section
+    4. สามารถกดรันทดสอบได้ทันทีไม่ต้องรอเวลาตามที่ระบุใน schedule
 
 
 ################################### CODE SECTION ###################################
