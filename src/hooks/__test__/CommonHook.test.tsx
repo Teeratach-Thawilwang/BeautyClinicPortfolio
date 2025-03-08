@@ -91,7 +91,7 @@ describe('CommonHook', () => {
       await googleSignInHandler(navigation)
     })
 
-    expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+    expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
   })
 
   it('should not navigate if Google sign-in fails', async () => {

@@ -43,6 +43,6 @@ describe('ResetPasswordError', () => {
     const homeButton = getByText('Home')
     fireEvent.press(homeButton)
 
-    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
   })
 })

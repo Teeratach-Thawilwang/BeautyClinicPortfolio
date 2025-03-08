@@ -23,7 +23,7 @@ export default function SignInForm() {
       formData.password,
     )
     if (success) {
-      navigation.navigate('TabScreen', {screen: 'HomeScreen'})
+      navigation.navigate('TabScreen', {screen: 'Home'})
     } else {
       setIsModalVisible(true)
     }

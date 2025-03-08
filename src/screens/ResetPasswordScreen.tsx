@@ -26,7 +26,7 @@ export default function ResetPasswordScreen({
     isPasswordUpdated.current = false
 
     if (user) {
-      navigation.replace('TabScreen', {screen: 'HomeScreen'})
+      navigation.replace('TabScreen', {screen: 'Home'})
       return
     }
     if (route.params.token_hash) {

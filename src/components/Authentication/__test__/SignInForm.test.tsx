@@ -44,7 +44,7 @@ describe('SignInForm', () => {
 
     await waitFor(() => {
       expect(keyboardInstanct).toHaveBeenCalledTimes(1)
-      expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+      expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
     })
   })
 

@@ -43,7 +43,7 @@ export default function TabNavigatorOption({
 }
 
 const TabRoutes = [
-  {name: 'HomeScreen', focusedIcon: 'ant-home', unfocusedIcon: 'ant-home'},
-  {name: 'AppointmentScreen', focusedIcon: 'ant-calendar', unfocusedIcon: 'ant-calendar'},
-  {name: 'MenuScreen', focusedIcon: 'text-account', unfocusedIcon: 'text-account'},
+  {name: 'Home', focusedIcon: 'ant-home', unfocusedIcon: 'ant-home'},
+  {name: 'Appointment', focusedIcon: 'ant-calendar', unfocusedIcon: 'ant-calendar'},
+  {name: 'Menu', focusedIcon: 'text-account', unfocusedIcon: 'text-account'},
 ]

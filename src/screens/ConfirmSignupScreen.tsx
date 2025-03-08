@@ -9,7 +9,11 @@ import {disableBackSwipe, useEffectScreen, useNavigate} from '@hooks/CommonHooks
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
 
-export default function ConfirmSignupScreen({route}: {route: ConfirmSignupScreenRouteProp}) {
+export default function ConfirmSignupScreen({
+  route,
+}: {
+  route: ConfirmSignupScreenRouteProp
+}) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
@@ -22,11 +26,13 @@ export default function ConfirmSignupScreen({route}: {route: ConfirmSignupScreen
   useEffectScreen(() => {
     setIsModalShow(false)
     if (user) {
-      navigation.replace('TabScreen', {screen: 'HomeScreen'})
+      navigation.replace('TabScreen', {screen: 'Home'})
     } else if (route.params.token_hash) {
-      AuthenticationService.verifyConfirmSingupToken(route.params.token_hash).finally(() => {
-        setIsModalShow(true)
-      })
+      AuthenticationService.verifyConfirmSingupToken(route.params.token_hash).finally(
+        () => {
+          setIsModalShow(true)
+        },
+      )
     }
   }, [])
 
@@ -46,7 +52,7 @@ export default function ConfirmSignupScreen({route}: {route: ConfirmSignupScreen
           title='Confirm Signup Failed.'
           text={error}
           buttonText='Continue'
-          onButtonPress={() => navigation.replace('TabScreen', {screen: 'HomeScreen'})}
+          onButtonPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
         />
       ) : (
         <ResponseModal
@@ -55,7 +61,7 @@ export default function ConfirmSignupScreen({route}: {route: ConfirmSignupScreen
           title='Confirm Signup Successfully.'
           text="Signup successful! You're ready to get started."
           buttonText='Continue'
-          onButtonPress={() => navigation.replace('TabScreen', {screen: 'HomeScreen'})}
+          onButtonPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
         />
       )}
     </ScrollView>

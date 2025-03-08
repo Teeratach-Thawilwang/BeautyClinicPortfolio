@@ -48,7 +48,7 @@ describe('ResetPasswordResponse', () => {
     expect(button).toBeTruthy()
 
     fireEvent.press(button)
-    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
   })
 
   it('should replace screen to ForgotPasswordScreen when there is an error and onButtonPress is Pressed', () => {

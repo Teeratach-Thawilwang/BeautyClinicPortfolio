@@ -23,6 +23,6 @@ export function disableBackSwipe(handler: () => boolean) {
 export async function googleSignInHandler(navigation: RootScreenNavigationProps) {
   const {success} = await AuthenticationService.signinWithGoogle()
   if (success) {
-    navigation.navigate('TabScreen', {screen: 'HomeScreen'})
+    navigation.navigate('TabScreen', {screen: 'Home'})
   }
 }

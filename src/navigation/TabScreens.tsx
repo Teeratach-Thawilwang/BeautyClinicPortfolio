@@ -13,18 +13,18 @@ export default function TabScreens() {
     <Navigator
       key='TabScreens'
       screenOptions={TabNavigatorOption}
-      initialRouteName='HomeScreen'>
-      <Screen name='HomeScreen' component={HomeScreen} />
-      <Screen name='AppointmentScreen' component={AppointmentScreen} />
-      <Screen name='MenuScreen' component={MenuScreen} />
+      initialRouteName='Home'>
+      <Screen name='Home' component={HomeScreen} />
+      <Screen name='Appointment' component={AppointmentScreen} />
+      <Screen name='Menu' component={MenuScreen} />
     </Navigator>
   )
 }
 
 export type TabScreenParamList = {
-  HomeScreen: undefined
-  AppointmentScreen: undefined
-  MenuScreen: undefined
+  Home: undefined
+  Appointment: undefined
+  Menu: undefined
 }
 
 export type TabNavigatorRouteProp = NavigatorScreenParams<TabScreenParamList>

@@ -28,7 +28,7 @@ export default function ResetPasswordResponse({isVisible}: {isVisible: boolean})
       title='Successfully.'
       text='Your password has been updated.'
       buttonText='Continue'
-      onButtonPress={() => navigation.replace('TabScreen', {screen: 'HomeScreen'})}
+      onButtonPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
     />
   )
 }

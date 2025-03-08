@@ -61,7 +61,7 @@ describe('ResetPasswordScreen', () => {
       />,
     )
 
-    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
     expect(signOutSpy).toHaveBeenCalledTimes(0)
   })
 
