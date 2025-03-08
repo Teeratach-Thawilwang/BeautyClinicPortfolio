@@ -10,7 +10,10 @@ const {Navigator, Screen} = createBottomTabNavigator<TabScreenParamList>()
 
 export default function TabScreens() {
   return (
-    <Navigator screenOptions={TabNavigatorOption} initialRouteName='HomeScreen'>
+    <Navigator
+      key='TabScreens'
+      screenOptions={TabNavigatorOption}
+      initialRouteName='HomeScreen'>
       <Screen name='HomeScreen' component={HomeScreen} />
       <Screen name='AppointmentScreen' component={AppointmentScreen} />
       <Screen name='MenuScreen' component={MenuScreen} />
@@ -18,7 +21,7 @@ export default function TabScreens() {
   )
 }
 
-type TabScreenParamList = {
+export type TabScreenParamList = {
   HomeScreen: undefined
   AppointmentScreen: undefined
   MenuScreen: undefined

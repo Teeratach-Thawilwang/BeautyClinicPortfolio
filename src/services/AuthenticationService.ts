@@ -16,12 +16,16 @@ type Response = {
 }
 
 class AuthenticationService {
-  public async update(data: Partial<UserSliceInterface>) {
+  public update(data: Partial<UserSliceInterface>) {
     store.dispatch(update(data))
   }
 
   public getUser() {
     return useAppSelector(state => state.user.data, shallowEqual)
+  }
+
+  public getIsSignIn() {
+    return useAppSelector(state => state.user.data != null, shallowEqual)
   }
 
   public getIsLoading() {
@@ -209,6 +213,17 @@ class AuthenticationService {
 
     this.update({data: null, isLoading: false, error: null})
     return {success: true, data: null, error: null}
+  }
+
+  public async upsertFcmToken(userId: string) {
+    const fcmToken = await getFCMToken()
+    const {error} = await supabase
+      .from('user_fcm_tokens')
+      .upsert(
+        {user_id: userId, token: fcmToken, updated_at: new Date()},
+        {onConflict: 'token'},
+      )
+    return error == null
   }
 
   public async deleteFcmToken() {
