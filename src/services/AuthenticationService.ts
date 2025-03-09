@@ -50,13 +50,20 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async signupWithEmail(email: string, password: string): Promise<Response> {
+  public async signupWithEmail(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
         emailRedirectTo: process.env.SUPABASE_CONFIRM_SIGNUP_REDIRECT_URL,
+        data: {
+          name: name,
+        },
       },
     })
 

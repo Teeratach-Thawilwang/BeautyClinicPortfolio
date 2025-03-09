@@ -16,7 +16,11 @@ export default function SignUpForm() {
 
   async function onSubmit(formData: SignUpFormData) {
     Keyboard.dismiss()
-    await AuthenticationService.signupWithEmail(formData.email, formData.password)
+    await AuthenticationService.signupWithEmail(
+      formData.email,
+      formData.password,
+      formData.name,
+    )
     setIsModalVisible(true)
   }
 
