@@ -1,7 +1,11 @@
 import {NavigationContainer, RouteProp} from '@react-navigation/native'
-import {NativeStackNavigationProp, createNativeStackNavigator} from '@react-navigation/native-stack'
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack'
 import React from 'react'
 
+import BackOfficeStack, {BackOfficeRouteProp} from '@navigation/BackOfficeStack'
 import LinkingConfiguration from '@navigation/LinkingConfiguration'
 import TabScreens, {TabNavigatorRouteProp} from '@navigation/TabScreens'
 import ConfirmSignupScreen from '@screens/ConfirmSignupScreen'
@@ -9,19 +13,31 @@ import ForgotPasswordScreen from '@screens/ForgotPasswordScreen'
 import ResetPasswordScreen from '@screens/ResetPasswordScreen'
 import SignInScreen from '@screens/SignInScreen'
 import SignUpScreen from '@screens/SignUpScreen'
+import AdminService from '@services/AdminService'
+import AuthenticationService from '@services/AuthenticationService'
 
-const {Navigator, Screen} = createNativeStackNavigator<RootStackParamList>()
+const {Navigator, Screen, Group} = createNativeStackNavigator<RootStackParamList>()
 
 export default function AppNavigator() {
+  const isSignIn = AuthenticationService.getIsSignIn()
+  const isAdmin = AdminService.getIsAdmin()
+
   return (
     <NavigationContainer linking={LinkingConfiguration}>
       <Navigator screenOptions={{headerShown: false}} initialRouteName='TabScreen'>
         <Screen name='TabScreen' component={TabScreens} />
-        <Screen name='SignUpScreen' component={SignUpScreen} />
-        <Screen name='SignInScreen' component={SignInScreen} />
-        <Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} />
-        <Screen name='ResetPasswordScreen' component={ResetPasswordScreen} />
-        <Screen name='ConfirmSignupScreen' component={ConfirmSignupScreen} />
+
+        {!isSignIn ? (
+          <Group>
+            <Screen name='SignUpScreen' component={SignUpScreen} />
+            <Screen name='SignInScreen' component={SignInScreen} />
+            <Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} />
+            <Screen name='ConfirmSignupScreen' component={ConfirmSignupScreen} />
+            <Screen name='ResetPasswordScreen' component={ResetPasswordScreen} />
+          </Group>
+        ) : null}
+
+        {isAdmin ? <Screen name='BackOffice' component={BackOfficeStack} /> : null}
       </Navigator>
     </NavigationContainer>
   )
@@ -34,11 +50,21 @@ export type RootStackParamList = {
   ForgotPasswordScreen: undefined
   ResetPasswordScreen: {token_hash: string}
   ConfirmSignupScreen: {token_hash: string}
+  BackOffice: BackOfficeRouteProp
 }
 
 export type RootScreenNavigationProps = NativeStackNavigationProp<RootStackParamList>
 export type SignUpScreenRouteProp = RouteProp<RootStackParamList, 'SignUpScreen'>
 export type SignInScreenRouteProp = RouteProp<RootStackParamList, 'SignInScreen'>
-export type ForgotPasswordScreenRouteProp = RouteProp<RootStackParamList, 'ForgotPasswordScreen'>
-export type ResetPasswordScreenRouteProp = RouteProp<RootStackParamList, 'ResetPasswordScreen'>
-export type ConfirmSignupScreenRouteProp = RouteProp<RootStackParamList, 'ConfirmSignupScreen'>
+export type ForgotPasswordScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'ForgotPasswordScreen'
+>
+export type ResetPasswordScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'ResetPasswordScreen'
+>
+export type ConfirmSignupScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'ConfirmSignupScreen'
+>
