@@ -1,8 +1,8 @@
 import {NavigationContainer, RouteProp} from '@react-navigation/native'
 import {
-  NativeStackNavigationProp,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack'
+  StackNavigationProp,
+  createStackNavigator,
+} from '@react-navigation/stack'
 import React from 'react'
 
 import BackOfficeNavigator, {
@@ -20,10 +20,9 @@ import SignUpScreen from '@screens/SignUpScreen'
 import AdminService from '@services/AdminService'
 import AuthenticationService from '@services/AuthenticationService'
 
-const {Navigator, Screen, Group} =
-  createNativeStackNavigator<RootStackParamList>()
+const {Navigator, Screen, Group} = createStackNavigator<RootStackParamList>()
 
-export default function AppNavigator() {
+export default function AppNavigatorMock() {
   const isSignIn = AuthenticationService.getIsSignIn()
   const isAdmin = AdminService.getIsAdmin()
 
@@ -69,8 +68,7 @@ export type RootStackParamList = {
   ConfirmSignupScreen: {token_hash: string}
 }
 
-export type RootScreenNavigationProps =
-  NativeStackNavigationProp<RootStackParamList>
+export type RootScreenNavigationProps = StackNavigationProp<RootStackParamList>
 export type SignUpScreenRouteProp = RouteProp<
   RootStackParamList,
   'SignUpScreen'

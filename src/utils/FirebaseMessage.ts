@@ -31,7 +31,9 @@ export async function getFCMToken() {
   return await messaging().getToken()
 }
 
-export function subScribeForegroundFirebaseMessage(handlers: ((message: any) => void)[]) {
+export function subScribeForegroundFirebaseMessage(
+  handlers: ((message: any) => void)[],
+) {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       handlers.forEach(handler => handler(remoteMessage))

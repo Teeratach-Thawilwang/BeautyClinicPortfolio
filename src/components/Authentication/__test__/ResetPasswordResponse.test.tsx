@@ -48,14 +48,18 @@ describe('ResetPasswordResponse', () => {
     expect(button).toBeTruthy()
 
     fireEvent.press(button)
-    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
+    expect(mockReplace).toHaveBeenCalledWith('BottomTabScreens', {
+      screen: 'Home',
+    })
   })
 
   it('should replace screen to ForgotPasswordScreen when there is an error and onButtonPress is Pressed', () => {
     const mockReplace = jest.fn()
     ;(useNavigate as jest.Mock).mockReturnValue({replace: mockReplace})
 
-    jest.spyOn(AuthenticationService, 'getError').mockReturnValue('some error text')
+    jest
+      .spyOn(AuthenticationService, 'getError')
+      .mockReturnValue('some error text')
 
     const {getByText} = render(<ResetPasswordResponse isVisible={true} />)
 

@@ -5,7 +5,11 @@ import {ActivityIndicator, MD3Theme} from 'react-native-paper'
 import LogoHeader from '@components/LogoHeader'
 import ResponseModal from '@components/ResponseModal'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {disableBackSwipe, useEffectScreen, useNavigate} from '@hooks/CommonHooks'
+import {
+  disableBackSwipe,
+  useEffectScreen,
+  useNavigate,
+} from '@hooks/CommonHooks'
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
 
@@ -26,13 +30,13 @@ export default function ConfirmSignupScreen({
   useEffectScreen(() => {
     setIsModalShow(false)
     if (user) {
-      navigation.replace('TabScreen', {screen: 'Home'})
+      navigation.replace('BottomTabScreens', {screen: 'Home'})
     } else if (route.params.token_hash) {
-      AuthenticationService.verifyConfirmSingupToken(route.params.token_hash).finally(
-        () => {
-          setIsModalShow(true)
-        },
-      )
+      AuthenticationService.verifyConfirmSingupToken(
+        route.params.token_hash,
+      ).finally(() => {
+        setIsModalShow(true)
+      })
     }
   }, [])
 
@@ -43,7 +47,11 @@ export default function ConfirmSignupScreen({
       keyboardShouldPersistTaps='handled'>
       <LogoHeader allowBack={false} />
       <View style={styles.containerLoading}>
-        <ActivityIndicator animating={true} color={theme.colors.primary} size='small' />
+        <ActivityIndicator
+          animating={true}
+          color={theme.colors.primary}
+          size='small'
+        />
       </View>
       {error ? (
         <ResponseModal
@@ -52,7 +60,9 @@ export default function ConfirmSignupScreen({
           title='Confirm Signup Failed.'
           text={error}
           buttonText='Continue'
-          onButtonPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
+          onButtonPress={() =>
+            navigation.replace('BottomTabScreens', {screen: 'Home'})
+          }
         />
       ) : (
         <ResponseModal
@@ -61,7 +71,9 @@ export default function ConfirmSignupScreen({
           title='Confirm Signup Successfully.'
           text="Signup successful! You're ready to get started."
           buttonText='Continue'
-          onButtonPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
+          onButtonPress={() =>
+            navigation.replace('BottomTabScreens', {screen: 'Home'})
+          }
         />
       )}
     </ScrollView>

@@ -8,10 +8,10 @@ import TextInputForm from '@components/TextInputForm'
 import {useNavigate} from '@hooks/CommonHooks'
 import useSignInForm, {SignInFormData} from '@hooks/useSignInForm'
 import AuthenticationService from '@services/AuthenticationService'
-import AuthFormStyle from '@styles/AuthFormStyle'
+import getStyles from '@styles/AuthForm.style'
 
 export default function SignInForm() {
-  const styles = AuthFormStyle()
+  const styles = getStyles()
   const navigation = useNavigate()
   const {control, handleSubmit, errors} = useSignInForm()
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -23,7 +23,7 @@ export default function SignInForm() {
       formData.password,
     )
     if (success) {
-      navigation.navigate('TabScreen', {screen: 'Home'})
+      navigation.navigate('BottomTabScreens', {screen: 'Home'})
     } else {
       setIsModalVisible(true)
     }

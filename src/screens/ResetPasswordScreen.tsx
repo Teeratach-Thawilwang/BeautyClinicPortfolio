@@ -3,10 +3,14 @@ import {ScrollView} from 'react-native'
 
 import ResetPasswordRender from '@components/Authentication/ResetPasswordRender'
 import LogoHeader from '@components/LogoHeader'
-import {disableBackSwipe, useEffectScreen, useNavigate} from '@hooks/CommonHooks'
+import {
+  disableBackSwipe,
+  useEffectScreen,
+  useNavigate,
+} from '@hooks/CommonHooks'
 import {ResetPasswordScreenRouteProp} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
-import ScreenStyle from '@styles/ScreenStyle'
+import getStyles from '@styles/Screen.style'
 
 export default function ResetPasswordScreen({
   route,
@@ -26,7 +30,7 @@ export default function ResetPasswordScreen({
     isPasswordUpdated.current = false
 
     if (user) {
-      navigation.replace('TabScreen', {screen: 'Home'})
+      navigation.replace('BottomTabScreens', {screen: 'Home'})
       return
     }
     if (route.params.token_hash) {
@@ -40,7 +44,7 @@ export default function ResetPasswordScreen({
 
   return (
     <ScrollView
-      style={ScreenStyle().container}
+      style={getStyles().container}
       contentContainerStyle={{flexGrow: 1}}
       keyboardShouldPersistTaps='handled'>
       <LogoHeader allowBack={false} />

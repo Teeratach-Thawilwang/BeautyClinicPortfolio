@@ -10,7 +10,9 @@ describe('useSignInForm', () => {
   })
 
   it('should error when email invalid format', async () => {
-    const {result} = renderHook(() => useSignInForm('invalid-email', 'valid password'))
+    const {result} = renderHook(() =>
+      useSignInForm('invalid-email', 'valid password'),
+    )
 
     await act(async () => {
       result.current.handleSubmit(() => {})()

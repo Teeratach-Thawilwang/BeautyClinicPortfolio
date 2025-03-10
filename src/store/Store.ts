@@ -26,7 +26,9 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: persistReducer(persistConfig, rootReducer),
   enhancers: getDefaultEnhancers => {
-    const reactotronEnhancer = isStaggingValid ? [Reactotron.createEnhancer!()] : []
+    const reactotronEnhancer = isStaggingValid
+      ? [Reactotron.createEnhancer!()]
+      : []
     return getDefaultEnhancers().concat(reactotronEnhancer)
   },
   middleware: getDefaultMiddleware =>

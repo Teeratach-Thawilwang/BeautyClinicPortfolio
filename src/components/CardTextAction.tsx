@@ -23,7 +23,11 @@ export default function CardTextAction({
       <>
         {icon ? (
           <View style={styles.iconLeft}>
-            <Icon source={icon} size={20} color={iconColor ?? theme.colors.secondary} />
+            <Icon
+              source={icon}
+              size={20}
+              color={iconColor ?? theme.colors.secondary}
+            />
           </View>
         ) : null}
         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.text}>

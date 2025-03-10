@@ -17,7 +17,9 @@ function Warpper(ui: React.ReactElement, options?: any) {
 
 function RenderHookWrapper<T>(hook: () => T) {
   return renderHook(hook, {
-    wrapper: ({children}) => <NavigationContainer>{children}</NavigationContainer>,
+    wrapper: ({children}) => (
+      <NavigationContainer>{children}</NavigationContainer>
+    ),
   })
 }
 

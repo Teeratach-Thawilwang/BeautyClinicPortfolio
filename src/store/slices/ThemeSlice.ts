@@ -14,7 +14,8 @@ const slice = createSlice({
       return {...state, ...action.payload}
     },
     toggle: state => {
-      const theme = state.theme == ThemeEnum.Dark ? ThemeEnum.Light : ThemeEnum.Dark
+      const theme =
+        state.theme == ThemeEnum.Dark ? ThemeEnum.Light : ThemeEnum.Dark
       return {...state, theme: theme}
     },
   },

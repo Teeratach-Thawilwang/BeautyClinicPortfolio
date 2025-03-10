@@ -37,12 +37,18 @@ describe('useResetPasswordForm', () => {
 
   it('should error when password and confirm-password is not equal', async () => {
     const {result} = renderHook(() =>
-      useResetPasswordForm('test@email.com', 'valid password 1', 'valid password 2'),
+      useResetPasswordForm(
+        'test@email.com',
+        'valid password 1',
+        'valid password 2',
+      ),
     )
     await act(async () => {
       result.current.handleSubmit(() => {})()
     })
 
-    expect(result.current.errors.confirmPassword?.message).toBe('Passwords do not match')
+    expect(result.current.errors.confirmPassword?.message).toBe(
+      'Passwords do not match',
+    )
   })
 })

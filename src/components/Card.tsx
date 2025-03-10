@@ -25,7 +25,9 @@ export default function Card({
             return (
               <View key={index}>
                 {item}
-                {isNotLastIndex ? <Divider bold style={styles.devider} /> : null}
+                {isNotLastIndex ? (
+                  <Divider bold style={styles.devider} />
+                ) : null}
               </View>
             )
           })

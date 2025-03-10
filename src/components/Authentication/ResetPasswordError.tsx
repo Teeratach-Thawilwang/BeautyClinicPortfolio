@@ -27,7 +27,7 @@ export default function ResetPasswordError({error}: {error: string}) {
         onPress={() => navigation.replace('ForgotPasswordScreen')}
       />
       <Button
-        onPress={() => navigation.replace('TabScreen', {screen: 'Home'})}
+        onPress={() => navigation.replace('BottomTabScreens', {screen: 'Home'})}
         styles={{container: styles.buttonContainer, label: styles.buttonLabel}}>
         Home
       </Button>

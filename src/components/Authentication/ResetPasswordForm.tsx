@@ -6,17 +6,22 @@ import ResetPasswordResponse from '@components/Authentication/ResetPasswordRespo
 import Button from '@components/Button'
 import TextInputForm from '@components/TextInputForm'
 import {useEffectScreen} from '@hooks/CommonHooks'
-import useResetPasswordForm, {ResetPasswordFormData} from '@hooks/useResetPasswordForm'
+import useResetPasswordForm, {
+  ResetPasswordFormData,
+} from '@hooks/useResetPasswordForm'
 import AuthenticationService from '@services/AuthenticationService'
-import AuthFormStyle from '@styles/AuthFormStyle'
+import getStyles from '@styles/AuthForm.style'
 
 type ResetPasswordFormProps = {
   email: string
   onSuccess: () => void
 }
 
-export default function ResetPasswordForm({email, onSuccess}: ResetPasswordFormProps) {
-  const styles = AuthFormStyle()
+export default function ResetPasswordForm({
+  email,
+  onSuccess,
+}: ResetPasswordFormProps) {
+  const styles = getStyles()
   const {control, handleSubmit, errors} = useResetPasswordForm(email)
   const [isModalVisible, setIsModalVisible] = useState(false)
 

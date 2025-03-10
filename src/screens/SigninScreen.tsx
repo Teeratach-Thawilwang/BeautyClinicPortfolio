@@ -8,15 +8,17 @@ import LogoHeader from '@components/LogoHeader'
 import TextDivider from '@components/TextDivider'
 import {googleSignInHandler} from '@hooks/CommonHooks'
 import {useNavigate} from '@hooks/CommonHooks'
-import ForgotPasswordButtonStyle from '@styles/ForgotPasswordButtonStyle'
-import GoogleSignInButtonStyle from '@styles/GoogleSignInButtonStyle'
-import ScreenStyle from '@styles/ScreenStyle'
+import ForgotPasswordButtonStyle from '@styles/ForgotPasswordButton.style'
+import GoogleSignInButtonStyle from '@styles/GoogleSignInButton.style'
+import getStyles from '@styles/Screen.style'
 
 export default function SignInScreen() {
   const navigation = useNavigate()
 
   return (
-    <ScrollView style={ScreenStyle().container} keyboardShouldPersistTaps='handled'>
+    <ScrollView
+      style={getStyles().container}
+      keyboardShouldPersistTaps='handled'>
       <LogoHeader />
       <SignInForm />
       <TextDivider text='or' />

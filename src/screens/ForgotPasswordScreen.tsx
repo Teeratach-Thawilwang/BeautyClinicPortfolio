@@ -3,11 +3,13 @@ import {ScrollView} from 'react-native'
 
 import ForgotPasswordForm from '@components/Authentication/ForgotPasswordForm'
 import LogoHeader from '@components/LogoHeader'
-import ScreenStyle from '@styles/ScreenStyle'
+import getStyles from '@styles/Screen.style'
 
 export default function ForgotPasswordScreen() {
   return (
-    <ScrollView style={ScreenStyle().container} keyboardShouldPersistTaps='handled'>
+    <ScrollView
+      style={getStyles().container}
+      keyboardShouldPersistTaps='handled'>
       <LogoHeader />
       <ForgotPasswordForm />
     </ScrollView>

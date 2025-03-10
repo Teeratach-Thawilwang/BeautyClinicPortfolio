@@ -21,7 +21,9 @@ describe('SignInResponse', () => {
 
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(errorText)
 
-    const {getByText} = render(<SignInResponse isVisible={true} onDismiss={jest.fn()} />)
+    const {getByText} = render(
+      <SignInResponse isVisible={true} onDismiss={jest.fn()} />,
+    )
 
     const title = getByText('Sign In Failed.')
     const text = getByText(errorText)
@@ -31,7 +33,9 @@ describe('SignInResponse', () => {
 
   it('should call onDismiss when backdrop is pressed', async () => {
     const mockOnDismiss = jest.fn()
-    jest.spyOn(AuthenticationService, 'getError').mockReturnValue('some error text')
+    jest
+      .spyOn(AuthenticationService, 'getError')
+      .mockReturnValue('some error text')
 
     const {getByTestId} = render(
       <SignInResponse isVisible={true} onDismiss={mockOnDismiss} />,

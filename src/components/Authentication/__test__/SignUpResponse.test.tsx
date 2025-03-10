@@ -56,7 +56,9 @@ describe('SignUpResponse', () => {
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
     jest
       .spyOn(AuthenticationService, 'resendConfirmSignup')
-      .mockImplementation(() => Promise.resolve({success: true, data: null, error: null}))
+      .mockImplementation(() =>
+        Promise.resolve({success: true, data: null, error: null}),
+      )
 
     const {result} = renderHook(() =>
       useForm({
@@ -91,7 +93,9 @@ describe('SignUpResponse', () => {
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
     jest
       .spyOn(AuthenticationService, 'resendConfirmSignup')
-      .mockImplementation(() => Promise.resolve({success: true, data: null, error: null}))
+      .mockImplementation(() =>
+        Promise.resolve({success: true, data: null, error: null}),
+      )
 
     const {result} = renderHook(() =>
       useForm({

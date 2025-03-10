@@ -77,7 +77,10 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async signinWithEmail(email: string, password: string): Promise<Response> {
+  public async signinWithEmail(
+    email: string,
+    password: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.signInWithPassword({
       email,
@@ -171,7 +174,10 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async updatePassword(email: string, password: string): Promise<Response> {
+  public async updatePassword(
+    email: string,
+    password: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.updateUser({
       email: email,
@@ -235,7 +241,10 @@ class AuthenticationService {
 
   public async deleteFcmToken() {
     const fcmToken = await getFCMToken()
-    const {error} = await supabase.from('user_fcm_tokens').delete().eq('token', fcmToken)
+    const {error} = await supabase
+      .from('user_fcm_tokens')
+      .delete()
+      .eq('token', fcmToken)
     return error == null
   }
 }

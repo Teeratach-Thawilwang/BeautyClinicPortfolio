@@ -28,7 +28,9 @@ class AdminService {
     return useAppSelector(state => state.admin.error, shallowEqual)
   }
 
-  public async fetchIsAdmin(userId: string): Promise<Response<{user_id: string}>> {
+  public async fetchIsAdmin(
+    userId: string,
+  ): Promise<Response<{user_id: string}>> {
     this.update({isLoading: true})
     const {data, error} = await supabase
       .from('admins')

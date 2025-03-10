@@ -13,7 +13,7 @@ import {useNavigate} from '@hooks/CommonHooks'
 import {ThemeEnum} from '@models/ThemeInterface'
 import AdminService from '@services/AdminService'
 import AuthenticationService from '@services/AuthenticationService'
-import getStyles from '@styles/MenuScreenStyle'
+import getStyles from '@styles/MenuScreen.style'
 
 export default function MenuScreen() {
   const {theme, schema, toggleTheme} = useTheme()
@@ -36,10 +36,16 @@ export default function MenuScreen() {
               style={styles.profileImage}
             />
             <View style={styles.profileTextContainer}>
-              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.ProfileName}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode='tail'
+                style={styles.ProfileName}>
                 {user?.user_metadata.name}
               </Text>
-              <Text numberOfLines={1} ellipsizeMode='tail' style={styles.ProfileEmail}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode='tail'
+                style={styles.ProfileEmail}>
                 Email: {user?.email}
               </Text>
             </View>
@@ -58,7 +64,10 @@ export default function MenuScreen() {
           Order History
         </CardLink>
         <CardTextAction icon='ion-color-palette' text='Change Theme'>
-          <Switch value={schema == ThemeEnum.Light} onValueChange={toggleTheme} />
+          <Switch
+            value={schema == ThemeEnum.Light}
+            onValueChange={toggleTheme}
+          />
         </CardTextAction>
       </Card>
 
@@ -66,7 +75,9 @@ export default function MenuScreen() {
         <Card>
           <CardLink
             icon='database-cog'
-            onPress={() => navigation.navigate('BackOffice', {screen: 'Dashboard'})}>
+            onPress={() =>
+              navigation.navigate('BackOfficeScreens', {screen: 'Dashboard'})
+            }>
             Backoffice
           </CardLink>
         </Card>
@@ -79,7 +90,10 @@ export default function MenuScreen() {
           <Button
             mode='text'
             onPress={() => AuthenticationService.signOut()}
-            styles={{container: styles.signOutContainer, label: styles.signOutLabel}}>
+            styles={{
+              container: styles.signOutContainer,
+              label: styles.signOutLabel,
+            }}>
             Sign out
           </Button>
         </Card>

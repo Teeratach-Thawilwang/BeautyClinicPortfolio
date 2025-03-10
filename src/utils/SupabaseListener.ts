@@ -5,7 +5,10 @@ import AuthenticationService from '@services/AuthenticationService'
 export function supabaseListeners() {
   return supabase.auth.onAuthStateChange((event, session) => {
     setTimeout(async () => {
-      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
+      if (
+        (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') &&
+        session?.user
+      ) {
         await AuthenticationService.upsertFcmToken(session.user.id)
         await AdminService.fetchIsAdmin(session.user.id)
       }

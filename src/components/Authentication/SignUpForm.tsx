@@ -7,10 +7,10 @@ import Button from '@components/Button'
 import TextInputForm from '@components/TextInputForm'
 import useSignUpForm, {SignUpFormData} from '@hooks/useSignUpForm'
 import AuthenticationService from '@services/AuthenticationService'
-import AuthFormStyle from '@styles/AuthFormStyle'
+import getStyles from '@styles/AuthForm.style'
 
 export default function SignUpForm() {
-  const styles = AuthFormStyle()
+  const styles = getStyles()
   const {control, handleSubmit, errors} = useSignUpForm()
   const [isModalVisible, setIsModalVisible] = useState(false)
 

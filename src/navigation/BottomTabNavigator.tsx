@@ -1,18 +1,19 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {NavigatorScreenParams} from '@react-navigation/native'
 
-import TabNavigatorOption from '@navigation/TabNavigatorOption'
+import BottomTabNavigatorOption from '@navigation/BottomTabNavigatorOption'
 import AppointmentScreen from '@screens/AppointmentScreen'
 import HomeScreen from '@screens/HomeScreen'
 import MenuScreen from '@screens/MenuScreen'
 
-const {Navigator, Screen} = createBottomTabNavigator<TabScreenParamList>()
+const {Navigator, Screen} =
+  createBottomTabNavigator<BottomTabNavigatorParamList>()
 
-export default function TabScreens() {
+export default function BottomTabNavigator() {
   return (
     <Navigator
-      key='TabScreens'
-      screenOptions={TabNavigatorOption}
+      key='BottomTabNavigator'
+      screenOptions={BottomTabNavigatorOption}
       initialRouteName='Home'>
       <Screen name='Home' component={HomeScreen} />
       <Screen name='Appointment' component={AppointmentScreen} />
@@ -21,10 +22,11 @@ export default function TabScreens() {
   )
 }
 
-export type TabScreenParamList = {
+export type BottomTabNavigatorParamList = {
   Home: undefined
   Appointment: undefined
   Menu: undefined
 }
 
-export type TabNavigatorRouteProp = NavigatorScreenParams<TabScreenParamList>
+export type BottomTabNavigatorParams =
+  NavigatorScreenParams<BottomTabNavigatorParamList>

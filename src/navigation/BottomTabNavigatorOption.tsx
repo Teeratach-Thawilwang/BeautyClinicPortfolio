@@ -3,17 +3,17 @@ import React from 'react'
 import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {TabScreenParamList} from '@navigation/TabScreens'
+import {BottomTabNavigatorParamList} from '@navigation/BottomTabNavigator'
 
-type TabNavigatorOptionProps = {
+type ButtonTabNavigatorOptionProps = {
   route: {
-    name: keyof TabScreenParamList
+    name: keyof BottomTabNavigatorParamList
   }
 }
 
-export default function TabNavigatorOption({
+export default function BottomTabNavigatorOption({
   route,
-}: TabNavigatorOptionProps): BottomTabNavigationOptions {
+}: ButtonTabNavigatorOptionProps): BottomTabNavigationOptions {
   const {theme} = useTheme()
 
   return {
@@ -26,8 +26,12 @@ export default function TabNavigatorOption({
       color: string
       size: number
     }) => {
-      const tabRoute = TabRoutes.filter(val => val.name === route.name)[0]
-      const iconName = focused ? tabRoute.focusedIcon : tabRoute.unfocusedIcon
+      const tabIconRoute = TabIconRoutes.filter(
+        val => val.name === route.name,
+      )[0]
+      const iconName = focused
+        ? tabIconRoute.focusedIcon
+        : tabIconRoute.unfocusedIcon
       return <Icon source={iconName} size={size} color={color} />
     },
     tabBarActiveTintColor: theme.colors.onSurface,
@@ -42,8 +46,12 @@ export default function TabNavigatorOption({
   }
 }
 
-const TabRoutes = [
+const TabIconRoutes = [
   {name: 'Home', focusedIcon: 'ant-home', unfocusedIcon: 'ant-home'},
-  {name: 'Appointment', focusedIcon: 'ant-calendar', unfocusedIcon: 'ant-calendar'},
+  {
+    name: 'Appointment',
+    focusedIcon: 'ant-calendar',
+    unfocusedIcon: 'ant-calendar',
+  },
   {name: 'Menu', focusedIcon: 'text-account', unfocusedIcon: 'text-account'},
 ]

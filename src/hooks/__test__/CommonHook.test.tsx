@@ -45,7 +45,8 @@ describe('CommonHook', () => {
 
     act(() => {
       rerender(
-        <NavigationContext.Provider value={{...navContext, isFocused: () => false}}>
+        <NavigationContext.Provider
+          value={{...navContext, isFocused: () => false}}>
           <Component />
         </NavigationContext.Provider>,
       )
@@ -54,7 +55,8 @@ describe('CommonHook', () => {
 
     act(() => {
       rerender(
-        <NavigationContext.Provider value={{...navContext, isFocused: () => true}}>
+        <NavigationContext.Provider
+          value={{...navContext, isFocused: () => true}}>
           <Component />
         </NavigationContext.Provider>,
       )
@@ -70,7 +72,10 @@ describe('CommonHook', () => {
       .mockReturnValue({remove: removeHandler})
 
     const {unmount} = renderHook(() => disableBackSwipe(handler))
-    expect(addEventListenerSpy).toHaveBeenCalledWith('hardwareBackPress', handler)
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'hardwareBackPress',
+      handler,
+    )
     expect(removeHandler).toHaveBeenCalledTimes(0)
 
     unmount()
@@ -91,7 +96,9 @@ describe('CommonHook', () => {
       await googleSignInHandler(navigation)
     })
 
-    expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'Home'})
+    expect(mockNavigate).toHaveBeenCalledWith('BottomTabScreens', {
+      screen: 'Home',
+    })
   })
 
   it('should not navigate if Google sign-in fails', async () => {
