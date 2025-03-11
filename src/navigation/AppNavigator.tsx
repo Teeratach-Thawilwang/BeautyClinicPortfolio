@@ -71,18 +71,6 @@ export type RootStackParamList = {
 
 export type RootScreenNavigationProps =
   NativeStackNavigationProp<RootStackParamList>
-export type SignUpScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'SignUpScreen'
->
-export type SignInScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'SignInScreen'
->
-export type ForgotPasswordScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'ForgotPasswordScreen'
->
 export type ResetPasswordScreenRouteProp = RouteProp<
   RootStackParamList,
   'ResetPasswordScreen'

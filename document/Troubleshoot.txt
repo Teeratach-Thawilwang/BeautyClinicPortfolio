@@ -30,3 +30,14 @@
         > gradle-wrapper.properties
     - เลือกจากใน distributions นี้
         > https://services.gradle.org/distributions/
+
+5. เปิด Drawer screen เเล้วได้ Error: [Reanimated] Failed to create a worklet.
+    หรือบางอาการคือ App ปิดตัวลงไปเลย
+    - ref: https://github.com/software-mansion/react-native-reanimated/discussions/5504
+    - เพิ่ม resetCache: true ใน config ของ metro.config.js
+    - npm start -- --reset-cache
+
+6. เปิด Drawer screen เเล้ว swipe back หรือ goBack เเล้วได้ error
+    Cannot remove child at index 0 from parent ViewGroup [370], only 1 children in parent. Warning: childCount may be incorrect!
+    - ref: https://github.com/software-mansion/react-native-screens/issues/2339#issuecomment-2692687872
+    - วิธีแก้เบื้องต้น: ถ้าใช้ react-native 0.76.5 ให้ใช้ react-native-screens 4.2.0 เท่านั้น
