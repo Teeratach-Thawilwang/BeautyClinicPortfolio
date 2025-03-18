@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/drawer'
 import {DrawerActions} from '@react-navigation/native'
 import React from 'react'
-import {Image, StyleSheet, View} from 'react-native'
+import {FlatList, Image, StyleSheet, View} from 'react-native'
 import {Divider, Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
@@ -72,13 +72,17 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
             }
             focused={focused}
             activeTintColor={theme.colors.onSurface}
+            activeBackgroundColor={theme.colors.surfaceContainerHigh}
             inactiveTintColor={theme.colors.onSurfaceVariant}
-            activeBackgroundColor={theme.colors.surfaceContainerHighest}
             inactiveBackgroundColor={theme.colors.surface}
             style={
               isLastIndex
-                ? {...styles.drawerItem, ...styles.lastDrawerItem}
-                : styles.drawerItem
+                ? focused
+                  ? {...styles.drawerItemFocused, ...styles.lastDrawerItem}
+                  : {...styles.drawerItem, ...styles.lastDrawerItem}
+                : focused
+                  ? styles.drawerItemFocused
+                  : styles.drawerItem
             }
             icon={() => (
               <Icon
@@ -136,6 +140,12 @@ function getStyles(theme: AdaptiveMD3Theme) {
     drawerItem: {
       borderRadius: 10,
       color: theme.colors.onSurface,
+    },
+    drawerItemFocused: {
+      borderRadius: 10,
+      color: theme.colors.onSurface,
+      borderWidth: 1,
+      borderColor: theme.colors.surfaceVariant,
     },
     lastDrawerItem: {
       marginTop: 'auto',
