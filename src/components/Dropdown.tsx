@@ -113,7 +113,7 @@ function getStyles(theme: AdaptiveMD3Theme, width: number) {
     },
     contentContainer: {
       marginTop: -10,
-      height: 200,
+      maxHeight: 200,
       minWidth: width,
       maxWidth: 2 * width,
       borderWidth: 1,
