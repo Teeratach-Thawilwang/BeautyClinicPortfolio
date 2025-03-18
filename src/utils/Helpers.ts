@@ -5,10 +5,10 @@ export function getPlatFormOS() {
 }
 
 export function getResponsiveScreen(width: number) {
-  if (width < 600) {
+  if (width < 768) {
     return 'MOBILE'
   }
-  if (width >= 600 && width < 900) {
+  if (width >= 768 && width < 992) {
     return 'TABLET'
   }
   return 'DESKTOP'

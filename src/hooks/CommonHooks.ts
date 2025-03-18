@@ -1,9 +1,10 @@
 import {useFocusEffect, useNavigation} from '@react-navigation/native'
 import {useCallback} from 'react'
-import {BackHandler} from 'react-native'
+import {BackHandler, useWindowDimensions} from 'react-native'
 
 import {RootScreenNavigationProps} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
+import {getResponsiveScreen} from '@utils/Helpers'
 
 export function useNavigate() {
   return useNavigation<RootScreenNavigationProps>()
@@ -30,4 +31,9 @@ export async function googleSignInHandler(
   if (success) {
     navigation.navigate('BottomTabScreens', {screen: 'Home'})
   }
+}
+
+export function useResponsiveScreen() {
+  const {width} = useWindowDimensions()
+  return {width: width, responsive: getResponsiveScreen(width)}
 }
