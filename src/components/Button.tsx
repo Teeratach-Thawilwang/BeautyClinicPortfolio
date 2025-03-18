@@ -2,20 +2,16 @@ import React, {useState} from 'react'
 import {Image, ImageSourcePropType} from 'react-native'
 import {Button as RNButton} from 'react-native-paper'
 
-type ButtonStyleProps = {
-  container?: any
-  content?: any
-  label?: any
-  icon?: any
-}
-
 type ButtonProps = {
   children: string
   onPress: (() => void) | (() => Promise<void>)
   icon?: ImageSourcePropType
   mode?: 'contained' | 'text'
   useLoading?: boolean
-  styles?: ButtonStyleProps
+  containerStyle?: any
+  contentStyle?: any
+  labelStyle?: any
+  iconStyle?: any
 }
 
 export default function Button({
@@ -24,11 +20,14 @@ export default function Button({
   icon,
   mode = 'contained',
   useLoading = false,
-  styles,
+  containerStyle,
+  contentStyle,
+  labelStyle,
+  iconStyle,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const iconComponent = icon
-    ? () => <Image source={icon} style={styles?.icon} />
+    ? () => <Image source={icon} style={iconStyle} />
     : () => null
 
   async function onPressHandler() {
@@ -41,9 +40,9 @@ export default function Button({
     <RNButton
       mode={mode}
       loading={useLoading && isLoading}
-      style={styles?.container}
-      labelStyle={styles?.label}
-      contentStyle={styles?.content}
+      style={containerStyle}
+      labelStyle={labelStyle}
+      contentStyle={contentStyle}
       onPress={onPressHandler}
       icon={iconComponent}>
       {children}

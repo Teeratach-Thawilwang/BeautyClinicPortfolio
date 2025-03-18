@@ -14,6 +14,8 @@ import getStyles from '@styles/Screen.style'
 
 export default function SignInScreen() {
   const navigation = useNavigate()
+  const signInButtonStyles = GoogleSignInButtonStyle()
+  const forgotPasswordButtonStyles = ForgotPasswordButtonStyle()
 
   return (
     <ScrollView
@@ -26,13 +28,17 @@ export default function SignInScreen() {
         useLoading={true}
         onPress={() => googleSignInHandler(navigation)}
         icon={require('@assets/google_icon.png')}
-        styles={GoogleSignInButtonStyle()}>
+        containerStyle={signInButtonStyles.container}
+        contentStyle={signInButtonStyles.content}
+        labelStyle={signInButtonStyles.label}
+        iconStyle={signInButtonStyles.icon}>
         Sign In with Google
       </Button>
       <Button
         mode='text'
         onPress={() => navigation.navigate('ForgotPasswordScreen')}
-        styles={ForgotPasswordButtonStyle()}>
+        containerStyle={forgotPasswordButtonStyles.container}
+        labelStyle={forgotPasswordButtonStyles.label}>
         Forgot password ?
       </Button>
       <InlineTextLink

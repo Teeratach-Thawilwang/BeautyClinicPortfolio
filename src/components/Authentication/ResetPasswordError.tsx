@@ -28,7 +28,8 @@ export default function ResetPasswordError({error}: {error: string}) {
       />
       <Button
         onPress={() => navigation.replace('BottomTabScreens', {screen: 'Home'})}
-        styles={{container: styles.buttonContainer, label: styles.buttonLabel}}>
+        containerStyle={styles.buttonContainer}
+        labelStyle={styles.buttonLabel}>
         Home
       </Button>
     </View>

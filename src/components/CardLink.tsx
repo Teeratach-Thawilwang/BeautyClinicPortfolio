@@ -8,29 +8,38 @@ export default function CardLink({
   children,
   icon,
   iconColor,
+  containerStyle = {},
+  textStyle = {},
   onPress = () => {},
 }: {
   children: string
   icon?: string
   iconColor?: string
+  containerStyle?: any
+  textStyle?: any
   onPress?: () => void
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
 
   return (
-    <TouchableRipple onPress={onPress} style={styles.container}>
+    <TouchableRipple
+      onPress={onPress}
+      style={{...styles.container, ...containerStyle}}>
       <>
         {icon ? (
           <View style={styles.iconLeft}>
             <Icon
               source={icon}
               size={20}
-              color={iconColor ?? theme.colors.secondary}
+              color={iconColor ?? theme.colors.primary}
             />
           </View>
         ) : null}
-        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.text}>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode='tail'
+          style={{...styles.text, ...textStyle}}>
           {children}
         </Text>
         <Icon

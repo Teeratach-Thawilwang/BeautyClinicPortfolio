@@ -13,6 +13,7 @@ import getStyles from '@styles/Screen.style'
 
 export default function SignUpScreen() {
   const navigation = useNavigate()
+  const signInButtonStyles = GoogleSignInButtonStyle()
 
   return (
     <ScrollView
@@ -25,7 +26,10 @@ export default function SignUpScreen() {
         useLoading={true}
         onPress={() => googleSignInHandler(navigation)}
         icon={require('@assets/google_icon.png')}
-        styles={GoogleSignInButtonStyle()}>
+        containerStyle={signInButtonStyles.container}
+        contentStyle={signInButtonStyles.content}
+        labelStyle={signInButtonStyles.label}
+        iconStyle={signInButtonStyles.icon}>
         Sign In with Google
       </Button>
       <InlineTextLink
