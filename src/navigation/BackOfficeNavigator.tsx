@@ -1,20 +1,18 @@
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import {NavigatorScreenParams} from '@react-navigation/native'
 import React from 'react'
-import {useWindowDimensions} from 'react-native'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {useResponsiveScreen} from '@hooks/CommonHooks'
 import BackOfficeDrawer from '@navigation/BackOfficeDrawer'
 import CourseListScreen from '@screens/backoffice/CourseListScreen'
 import DashboardScreen from '@screens/backoffice/DashboardScreen'
-import {getResponsiveScreen} from '@utils/Helpers'
 
 const {Navigator, Screen} = createDrawerNavigator<BackOfficeScreenParamList>()
 
 export default function BackOfficeNavigator() {
   const {theme} = useTheme()
-  const {width} = useWindowDimensions()
-  const responsiveScreen = getResponsiveScreen(width)
+  const {width, responsive} = useResponsiveScreen()
 
   return (
     <Navigator
@@ -24,11 +22,11 @@ export default function BackOfficeNavigator() {
         headerShown: false,
         drawerStyle: {
           backgroundColor:
-            responsiveScreen == 'MOBILE' ? 'transparent' : theme.colors.surface,
+            responsive == 'MOBILE' ? 'transparent' : theme.colors.surface,
           borderColor: theme.colors.outline,
-          width: responsiveScreen == 'MOBILE' ? width * 0.7 : width * 0.4,
+          width: responsive == 'MOBILE' ? width * 0.7 : width * 0.2,
         },
-        drawerType: responsiveScreen == 'MOBILE' ? 'front' : 'permanent',
+        drawerType: responsive == 'MOBILE' ? 'front' : 'permanent',
         swipeEdgeWidth: width * 0.8,
         swipeMinDistance: width * 0.1,
       }}
