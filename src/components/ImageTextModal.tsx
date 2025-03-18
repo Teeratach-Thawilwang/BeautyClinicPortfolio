@@ -1,9 +1,10 @@
 import React from 'react'
 import {Image, ImageSourcePropType, StyleSheet, View} from 'react-native'
 import Modal from 'react-native-modal'
-import {MD3Theme, Text} from 'react-native-paper'
+import {Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type ImageTextModalProps = {
   visible: boolean
@@ -49,7 +50,7 @@ export default function ImageTextModal({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     modal: {
       margin: 25,

@@ -1,8 +1,9 @@
 import React, {ReactNode} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Divider, MD3Theme, Surface} from 'react-native-paper'
+import {Divider, Surface} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function Card({
   children,
@@ -38,7 +39,7 @@ export default function Card({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       marginBottom: 20,

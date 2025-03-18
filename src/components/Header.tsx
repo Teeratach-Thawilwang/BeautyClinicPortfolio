@@ -1,9 +1,10 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {IconButton, MD3Theme, Text} from 'react-native-paper'
+import {IconButton, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate} from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function Header({
   name,
@@ -32,7 +33,7 @@ export default function Header({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       marginTop: 10,

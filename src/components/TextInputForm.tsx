@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
 import {Control, Controller, FieldError} from 'react-hook-form'
 import {StyleSheet} from 'react-native'
-import {MD3Theme, Text, TextInput} from 'react-native-paper'
+import {Text, TextInput} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 interface TextInputFormProps {
   label: string
@@ -66,7 +67,7 @@ export default function TextInputForm({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     textInput: {
       marginTop: 8,

@@ -6,9 +6,10 @@ import {
 import {DrawerActions} from '@react-navigation/native'
 import React from 'react'
 import {Image, StyleSheet, View} from 'react-native'
-import {Divider, Icon, MD3Theme} from 'react-native-paper'
+import {Divider, Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type MenuItem = {
   label: string
@@ -104,7 +105,7 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       flexGrow: 1,

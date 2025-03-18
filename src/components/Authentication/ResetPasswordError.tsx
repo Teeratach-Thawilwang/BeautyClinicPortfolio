@@ -1,11 +1,12 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {MD3Theme, Text} from 'react-native-paper'
+import {Text} from 'react-native-paper'
 
 import Button from '@components/Button'
 import InlineTextLink from '@components/InlineTextLink'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate} from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function ResetPasswordError({error}: {error: string}) {
   const {theme} = useTheme()
@@ -36,7 +37,7 @@ export default function ResetPasswordError({error}: {error: string}) {
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       paddingHorizontal: 20,

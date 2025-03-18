@@ -1,9 +1,10 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import {Button, MD3Theme} from 'react-native-paper'
+import {Button} from 'react-native-paper'
 
 import ImageTextModal from '@components/ImageTextModal'
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type ResponseModalProps = {
   isVisible: boolean
@@ -56,7 +57,7 @@ export default function ResponseModal({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     button: {
       borderRadius: 25,

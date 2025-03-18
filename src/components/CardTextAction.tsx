@@ -1,8 +1,9 @@
 import React, {ReactNode} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Icon, MD3Theme, Text, TouchableRipple} from 'react-native-paper'
+import {Icon, Text, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function CardTextAction({
   children,
@@ -48,7 +49,7 @@ export default function CardTextAction({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       paddingVertical: 10,

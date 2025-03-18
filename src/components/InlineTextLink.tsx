@@ -1,8 +1,9 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Button, MD3Theme, Text} from 'react-native-paper'
+import {Button, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type InlineTextLinkProps = {
   text: string
@@ -29,7 +30,7 @@ export default function InlineTextLink({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       marginVertical: 10,

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native'
-import {ActivityIndicator, MD3Theme} from 'react-native-paper'
+import {ActivityIndicator} from 'react-native-paper'
 
 import LogoHeader from '@components/LogoHeader'
 import ResponseModal from '@components/ResponseModal'
@@ -10,6 +10,7 @@ import {
   useEffectScreen,
   useNavigate,
 } from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
 import AuthenticationService from '@services/AuthenticationService'
 
@@ -80,7 +81,7 @@ export default function ConfirmSignupScreen({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   const {width, height} = Dimensions.get('window')
   return StyleSheet.create({
     container: {
