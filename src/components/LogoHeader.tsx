@@ -52,7 +52,7 @@ function getStyles(theme: MD3Theme, allowBack: boolean) {
       width: 115,
       height: 115,
       borderRadius: 100,
-      backgroundColor: '#81f8d0',
+      backgroundColor: '#89D6B9',
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',

@@ -36,7 +36,7 @@ function getStyles(theme: MD3Theme) {
   return StyleSheet.create({
     container: {
       marginTop: 10,
-      marginBottom: 30,
+      marginBottom: 20,
       position: 'relative',
     },
     backIcon: {

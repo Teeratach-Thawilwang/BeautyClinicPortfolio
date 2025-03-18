@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native'
-import {MD3Theme} from 'react-native-paper'
 
-export default (theme: MD3Theme, isSignIn: boolean) => {
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
+
+export default (theme: AdaptiveMD3Theme, isSignIn: boolean) => {
   return StyleSheet.create({
     container: {
       paddingHorizontal: 20,
@@ -12,20 +13,23 @@ export default (theme: MD3Theme, isSignIn: boolean) => {
       flexGrow: 1,
       justifyContent: isSignIn ? 'space-between' : 'flex-start',
     },
+    cardContainer: {
+      backgroundColor: theme.colors.surfaceContainer,
+    },
     flexRowContainer: {
       flex: 1,
       flexDirection: 'row',
+    },
+    profileImage: {
+      width: 60,
+      height: 60,
+      borderRadius: 100,
     },
     profileTextContainer: {
       marginLeft: 10,
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'space-around',
-    },
-    profileImage: {
-      width: 60,
-      height: 60,
-      borderRadius: 100,
     },
     ProfileName: {
       fontWeight: 'bold',
@@ -44,9 +48,10 @@ export default (theme: MD3Theme, isSignIn: boolean) => {
     },
     signOutContainer: {
       borderRadius: 0,
+      backgroundColor: theme.colors.surfaceContainer,
     },
     signOutLabel: {
-      color: theme.colors.error,
+      color: theme.colors.onSurface,
     },
   })
 }

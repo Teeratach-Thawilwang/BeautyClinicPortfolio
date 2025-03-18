@@ -64,10 +64,15 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
           <DrawerItem
             key={item.route}
             label={item.label}
+            labelStyle={
+              focused
+                ? styles.drawerItemLabelBold
+                : styles.drawerItemLabelNormal
+            }
             focused={focused}
-            activeTintColor={theme.colors.onPrimary}
-            inactiveTintColor={theme.colors.onSurface}
-            activeBackgroundColor={theme.colors.primary}
+            activeTintColor={theme.colors.onSurface}
+            inactiveTintColor={theme.colors.onSurfaceVariant}
+            activeBackgroundColor={theme.colors.surfaceContainerHighest}
             inactiveBackgroundColor={theme.colors.surface}
             style={
               isLastIndex
@@ -78,7 +83,7 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
               <Icon
                 color={
                   focused
-                    ? theme.colors.onPrimary
+                    ? theme.colors.onSurface
                     : theme.colors.onSurfaceVariant
                 }
                 size={20}
@@ -88,7 +93,7 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
             onPress={() => {
               isLastIndex
                 ? props.navigation.navigate('BottomTabScreens', {
-                    screen: 'Home',
+                    screen: 'Menu',
                   })
                 : props.navigation.dispatch(DrawerActions.jumpTo(item.route))
             }}
@@ -104,14 +109,14 @@ function getStyles(theme: MD3Theme) {
     container: {
       flexGrow: 1,
       backgroundColor: theme.colors.surface,
-      borderTopRightRadius: 30,
-      borderBottomRightRadius: 30,
+      borderTopRightRadius: 20,
+      borderBottomRightRadius: 20,
     },
     logoContainer: {
       width: 50,
       height: 50,
       borderRadius: 100,
-      backgroundColor: '#81f8d0',
+      backgroundColor: '#89D6B9',
       justifyContent: 'center',
       alignItems: 'center',
       alignSelf: 'center',
@@ -135,8 +140,11 @@ function getStyles(theme: MD3Theme) {
       marginTop: 'auto',
       marginBottom: 20,
     },
-    drawerItemLabel: {
+    drawerItemLabelBold: {
       fontWeight: 'bold',
+    },
+    drawerItemLabelNormal: {
+      fontWeight: 'normal',
     },
   })
 }
