@@ -16,8 +16,9 @@ export default function Dropdown({
   data,
   placeholder,
   onChange,
+  multiple = false,
+  defaultValueByIndex = [],
   width = 200,
-  defaultValueByIndex = -1,
   containerStyle,
   contentContainerStyle,
   placeholderStyle,
@@ -27,9 +28,10 @@ export default function Dropdown({
 }: {
   data: DropdownItemProps[]
   placeholder: string
-  onChange: (value: string) => void
+  onChange: (value: string[]) => void
+  multiple?: boolean
+  defaultValueByIndex?: number[]
   width?: number
-  defaultValueByIndex?: number
   containerStyle?: any
   contentContainerStyle?: any
   placeholderStyle?: any
@@ -41,9 +43,13 @@ export default function Dropdown({
   const styles = getStyles(theme, width)
   const [visible, setVisible] = useState(false)
 
-  const initailIndex =
-    defaultValueByIndex > data.length ? -1 : defaultValueByIndex
-  const [indexSelected, setIndexSelected] = useState<number>(initailIndex)
+  const filterDefaultValues = defaultValueByIndex.filter(
+    item => item < data.length && item >= 0,
+  )
+  const initialIndexes =
+    filterDefaultValues.length > 0 ? filterDefaultValues : []
+  const [indexesSelected, setIndexesSelected] =
+    useState<number[]>(initialIndexes)
 
   return (
     <Menu
@@ -60,7 +66,11 @@ export default function Dropdown({
               numberOfLines={1}
               ellipsizeMode='tail'
               style={{...styles.placeholder, ...placeholderStyle}}>
-              {indexSelected != -1 ? data[indexSelected].label : placeholder}
+              {indexesSelected.length == 0
+                ? placeholder
+                : multiple
+                  ? `${placeholder} (${indexesSelected.length})`
+                  : data[indexesSelected[0]].label}
             </Text>
             <Icon
               source={visible ? 'close' : 'chevron-down'}
@@ -75,7 +85,7 @@ export default function Dropdown({
         renderItem={({item, index}) => (
           <Menu.Item
             style={
-              indexSelected == index
+              indexesSelected.some(i => i == index)
                 ? {...styles.itemSelected, ...itemSelectedStlye}
                 : {...styles.item, ...itemStyle}
             }
@@ -84,8 +94,25 @@ export default function Dropdown({
             leadingIcon={item.icon}
             disabled={item.disabled}
             onPress={() => {
-              onChange(item.value)
-              setIndexSelected(index)
+              setIndexesSelected(indexList => {
+                if (indexList.includes(index)) {
+                  if (multiple) {
+                    const newList = indexList.filter(i => i != index)
+                    onChange(newList.map(val => data[val].value))
+                    return newList
+                  }
+                  onChange([])
+                  return []
+                } else {
+                  if (multiple) {
+                    const newList = [...indexList, index]
+                    onChange(newList.map(val => data[val].value))
+                    return newList
+                  }
+                  onChange([item.value])
+                  return [index]
+                }
+              })
               setVisible(false)
             }}
           />
