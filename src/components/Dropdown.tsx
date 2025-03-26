@@ -23,7 +23,7 @@ export default function Dropdown({
   contentContainerStyle,
   placeholderStyle,
   itemStyle,
-  itemSelectedStlye,
+  itemSelectedStyle,
   placeholderIconColor,
 }: {
   data: DropdownItemProps[]
@@ -36,7 +36,7 @@ export default function Dropdown({
   contentContainerStyle?: any
   placeholderStyle?: any
   itemStyle?: any
-  itemSelectedStlye?: any
+  itemSelectedStyle?: any
   placeholderIconColor?: any
 }) {
   const {theme} = useTheme()
@@ -53,6 +53,7 @@ export default function Dropdown({
 
   return (
     <Menu
+      elevation={0}
       contentStyle={{...styles.contentContainer, ...contentContainerStyle}}
       visible={visible}
       onDismiss={() => setVisible(false)}
@@ -86,7 +87,7 @@ export default function Dropdown({
           <Menu.Item
             style={
               indexesSelected.some(i => i == index)
-                ? {...styles.itemSelected, ...itemSelectedStlye}
+                ? {...styles.itemSelected, ...itemSelectedStyle}
                 : {...styles.item, ...itemStyle}
             }
             contentStyle={styles.itemContent}
