@@ -128,7 +128,7 @@ function getStyles(theme: AdaptiveMD3Theme) {
       alignItems: 'center',
     },
     skeleton: {
-      paddingVertical: 10,
+      paddingVertical: 16,
       flexDirection: 'row',
       alignItems: 'center',
     },
