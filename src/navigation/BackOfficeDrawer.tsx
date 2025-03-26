@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/drawer'
 import {DrawerActions} from '@react-navigation/native'
 import React from 'react'
-import {FlatList, Image, StyleSheet, View} from 'react-native'
+import {Image, StyleSheet, View} from 'react-native'
 import {Divider, Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
