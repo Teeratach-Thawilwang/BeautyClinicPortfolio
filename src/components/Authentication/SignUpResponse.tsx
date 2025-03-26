@@ -52,10 +52,8 @@ export default function SignUpResponse({
             <Button
               mode='text'
               useLoading={true}
-              styles={{
-                container: styles.resendButton,
-                label: styles.resendLabelButton,
-              }}
+              containerStyle={styles.resendButton}
+              labelStyle={styles.resendLabelButton}
               onPress={async () =>
                 await AuthenticationService.resendConfirmSignup(value)
               }>
