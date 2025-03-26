@@ -27,11 +27,11 @@ export default function SignInScreen() {
       <Button
         useLoading={true}
         onPress={() => googleSignInHandler(navigation)}
-        icon={require('@assets/google_icon.png')}
+        imageIcon={require('@assets/google_icon.png')}
         containerStyle={signInButtonStyles.container}
         contentStyle={signInButtonStyles.content}
         labelStyle={signInButtonStyles.label}
-        iconStyle={signInButtonStyles.icon}>
+        imageIconStyle={signInButtonStyles.icon}>
         Sign In with Google
       </Button>
       <Button
