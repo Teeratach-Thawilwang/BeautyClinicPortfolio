@@ -1,0 +1,11 @@
+สำหรับเลือกวัน + เวลา (single)
+    ref: https://www.npmjs.com/package/react-native-date-picker
+    - custom color ได้แค่ theme light หรือ dark ปรับแต่ง font color ไม่ได้
+    - ปรับได้แค่ background color
+
+
+สำหรับเลือกวันที่ (single, multiple, range) + เวลา ได้ด้วย
+    ref: https://github.com/farhoudshapouran/react-native-ui-datepicker
+    - version 3.0.7 (ล่าสุด) เจอปัญหา type declaration ไม่เจอ
+        วิธีแก้ => ต้องใช้ version 3.0.5
+    - ปรับแต่ง style ได้หมด (แต่รายละเอียดเยอะมาก)
