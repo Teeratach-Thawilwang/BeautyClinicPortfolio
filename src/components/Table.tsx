@@ -55,37 +55,35 @@ export default function Table({
       {data.map((item, index) => {
         const isLastChild = index == data.length - 1
         return (
-          <>
-            <TouchableRipple
-              key={'row-' + index}
-              style={
-                isLastChild
-                  ? {...styles.rowLastChild, ...rowStyle}
-                  : {...styles.row, ...rowStyle}
+          <TouchableRipple
+            key={'row-' + index}
+            style={
+              isLastChild
+                ? {...styles.rowLastChild, ...rowStyle}
+                : {...styles.row, ...rowStyle}
+            }
+            onPress={() => {
+              if (onRowPress) {
+                onRowPress(item)
               }
-              onPress={() => {
-                if (onRowPress) {
-                  onRowPress(item)
-                }
-              }}>
-              <Skeleton
-                skeletonHooks={skeletonHooks}
-                useView={!isLoading}
-                style={styles.skeleton}>
-                {(Object.values(item) as string[]).map(
-                  (text: string, cellIndex: number) => {
-                    return (
-                      <Text
-                        key={'row-cell-' + cellIndex}
-                        style={{...styles.rowCell, ...rowCellStyle}}>
-                        {text}
-                      </Text>
-                    )
-                  },
-                )}
-              </Skeleton>
-            </TouchableRipple>
-          </>
+            }}>
+            <Skeleton
+              skeletonHooks={skeletonHooks}
+              useView={!isLoading}
+              style={styles.skeleton}>
+              {(Object.values(item) as string[]).map(
+                (text: string, cellIndex: number) => {
+                  return (
+                    <Text
+                      key={`row-${index}-cell-${cellIndex}`}
+                      style={{...styles.rowCell, ...rowCellStyle}}>
+                      {text}
+                    </Text>
+                  )
+                },
+              )}
+            </Skeleton>
+          </TouchableRipple>
         )
       })}
     </Surface>
