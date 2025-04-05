@@ -1,5 +1,7 @@
 import 'react-native-gesture-handler'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
 import React, {useEffect} from 'react'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 
@@ -33,7 +35,11 @@ export default function App() {
     <SafeAreaProvider>
       <ReduxProvider>
         <ThemeProvider>
-          <AppNavigator />
+          <GestureHandlerRootView>
+            <BottomSheetModalProvider>
+              <AppNavigator />
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
         </ThemeProvider>
       </ReduxProvider>
     </SafeAreaProvider>

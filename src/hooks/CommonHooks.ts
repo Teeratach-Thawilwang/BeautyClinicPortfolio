@@ -1,5 +1,6 @@
+import {BottomSheetModal} from '@gorhom/bottom-sheet'
 import {useFocusEffect, useNavigation} from '@react-navigation/native'
-import {useCallback} from 'react'
+import {useCallback, useRef} from 'react'
 import {BackHandler, useWindowDimensions} from 'react-native'
 
 import {RootScreenNavigationProps} from '@navigation/AppNavigator'
@@ -36,4 +37,8 @@ export async function googleSignInHandler(
 export function useResponsiveScreen() {
   const {width} = useWindowDimensions()
   return {width: width, responsive: getResponsiveScreen(width)}
+}
+
+export function createBottomSheetRef() {
+  return useRef<BottomSheetModal>(null)
 }

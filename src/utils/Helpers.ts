@@ -28,3 +28,15 @@ export function adjustColorBrightness(color: string, percent: number): string {
 
   return adjustedColor.hex()
 }
+
+export function createArrayRange(
+  start: number,
+  stop: number,
+  step: number,
+  useStopPoint?: boolean,
+) {
+  return Array.from(
+    {length: Math.ceil((stop - start) / step) + (useStopPoint ? 1 : 0)},
+    (_, i) => start + i * step,
+  )
+}
