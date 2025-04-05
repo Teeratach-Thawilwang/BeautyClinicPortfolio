@@ -53,9 +53,6 @@ function BottomSheet(
       snapPoints={snapPointsUse}
       enablePanDownToClose={true}
       backgroundStyle={{...styles.background, ...backgroundStyle}}
-      onChange={index => {
-        console.log('handleSheetChanges', index)
-      }}
       handleIndicatorStyle={{...styles.indicator, ...indicatorStyle}}
       backdropComponent={props => (
         <BottomSheetBackdrop
