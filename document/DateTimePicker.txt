@@ -8,4 +8,5 @@
     ref: https://github.com/farhoudshapouran/react-native-ui-datepicker
     - version 3.0.7 (ล่าสุด) เจอปัญหา type declaration ไม่เจอ
         วิธีแก้ => ต้องใช้ version 3.0.5
+        ล่าสุด 3.1.2 แก้ปัญหา type declaration แเล้ว แต่ยังไม่ลองอัพเดท เพราะมี change ที่กระทบต้องแก้โค้ดเล็กน้อย
     - ปรับแต่ง style ได้หมด (แต่รายละเอียดเยอะมาก)
