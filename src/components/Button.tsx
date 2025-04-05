@@ -5,7 +5,7 @@ import {Icon, Button as RNButton} from 'react-native-paper'
 type ButtonProps = {
   children: string
   onPress: (() => void) | (() => Promise<void>)
-  mode?: 'contained' | 'text'
+  mode?: 'contained' | 'text' | 'outlined'
   icon?: string
   imageIcon?: ImageSourcePropType
   useLoading?: boolean
