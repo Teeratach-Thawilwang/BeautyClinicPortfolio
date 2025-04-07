@@ -12,11 +12,11 @@ export async function requestNotificationPermission() {
 }
 
 export async function requestAndroidNotificationPermission() {
-  const isNotificationGranted = await PermissionsAndroid.request(
+  const permissionStatus = await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
   )
 
-  return isNotificationGranted === PermissionsAndroid.RESULTS.GRANTED
+  return permissionStatus === PermissionsAndroid.RESULTS.GRANTED
 }
 
 export async function requestIOSNotificationPermission() {
