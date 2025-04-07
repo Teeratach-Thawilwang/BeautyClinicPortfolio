@@ -5,6 +5,10 @@ export function getPlatFormOS() {
   return Platform.OS
 }
 
+export function getAndroidVersion() {
+  return Number(Platform.Version)
+}
+
 export function getResponsiveScreen(width: number) {
   if (width < 768) {
     return 'MOBILE'
