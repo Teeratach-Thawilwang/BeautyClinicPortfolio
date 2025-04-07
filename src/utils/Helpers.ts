@@ -1,5 +1,5 @@
 import Color from 'color'
-import {Platform} from 'react-native'
+import {Alert, Platform} from 'react-native'
 
 export function getPlatFormOS() {
   return Platform.OS
@@ -43,4 +43,15 @@ export function createArrayRange(
     {length: Math.ceil((stop - start) / step) + (useStopPoint ? 1 : 0)},
     (_, i) => start + i * step,
   )
+}
+
+export function alertFileSizeExceed(
+  fileSize: number,
+  maxSize: number,
+  message?: string,
+) {
+  if (fileSize > maxSize) {
+    Alert.alert(message ?? 'Image size is above the file size limit')
+    return
+  }
 }

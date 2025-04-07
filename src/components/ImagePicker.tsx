@@ -6,12 +6,11 @@ import {Icon, IconButton, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {AdaptiveMD3Theme} from '@models/ThemeInterface'
-import {adjustColorBrightness} from '@utils/Helpers'
+import {adjustColorBrightness, alertFileSizeExceed} from '@utils/Helpers'
 import {
-  alertFileSizeExceedHandler,
   requestCameraPermission,
-  requestStoragePermission,
-} from '@utils/ImagePickerHelpers'
+  requestReadImagePermission,
+} from '@utils/Permissions'
 
 export default function ImageMultiPicker({
   onChange,
@@ -63,7 +62,7 @@ export default function ImageMultiPicker({
   }
 
   async function pickupImageHandler() {
-    const permission = await requestStoragePermission()
+    const permission = await requestReadImagePermission()
     if (!permission) return
     const result = await launchImageLibrary({
       mediaType: 'photo',
@@ -73,7 +72,7 @@ export default function ImageMultiPicker({
     if (result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri
       const fileSize = result.assets[0].fileSize ?? 0
-      alertFileSizeExceedHandler(fileSize, maxSize)
+      alertFileSizeExceed(fileSize, maxSize)
       appendImage(uri)
     }
   }
@@ -89,7 +88,7 @@ export default function ImageMultiPicker({
     if (result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri
       const fileSize = result.assets[0].fileSize ?? 0
-      alertFileSizeExceedHandler(fileSize, maxSize)
+      alertFileSizeExceed(fileSize, maxSize)
       appendImage(uri)
     }
   }
