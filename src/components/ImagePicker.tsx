@@ -5,6 +5,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
 import {Icon, IconButton, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {ImageFileAsset} from '@models/ImagePickerTypes'
 import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 import {adjustColorBrightness, alertFileSizeExceed} from '@utils/Helpers'
 import {
@@ -29,8 +30,8 @@ export default function ImageMultiPicker({
   buttonIconStyle,
   buttonTextStyle,
 }: {
-  onChange: (uris: string[]) => void
-  initialUris?: string[]
+  onChange: (fileAssets: ImageFileAsset[]) => void
+  initialUris?: ImageFileAsset[]
   maxPhoto?: number
   maxSize?: number
   title?: string
@@ -47,17 +48,17 @@ export default function ImageMultiPicker({
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const [imageUris, setImageUris] = useState<string[]>(initialUris)
+  const [imageUris, setImageUris] = useState<ImageFileAsset[]>(initialUris)
 
   const rippleColor = adjustColorBrightness(
     buttonStyle?.backgroundColor ?? styles.button.backgroundColor,
     -12,
   )
 
-  function appendImage(uri: string | undefined) {
-    if (uri) {
-      setImageUris(val => [...val, uri])
-      onChange([...imageUris, uri])
+  function appendImage(uri: string | undefined, type: string | undefined) {
+    if (uri && type) {
+      setImageUris(val => [...val, {uri: uri, type: type}])
+      onChange([...imageUris, {uri: uri, type: type}])
     }
   }
 
@@ -71,9 +72,10 @@ export default function ImageMultiPicker({
     })
     if (result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri
+      const fileType = result.assets[0].type
       const fileSize = result.assets[0].fileSize ?? 0
       alertFileSizeExceed(fileSize, maxSize)
-      appendImage(uri)
+      appendImage(uri, fileType)
     }
   }
 
@@ -87,9 +89,10 @@ export default function ImageMultiPicker({
     })
     if (result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri
+      const fileType = result.assets[0].type
       const fileSize = result.assets[0].fileSize ?? 0
       alertFileSizeExceed(fileSize, maxSize)
-      appendImage(uri)
+      appendImage(uri, fileType)
     }
   }
 
@@ -105,7 +108,7 @@ export default function ImageMultiPicker({
         Note: Format SVG, PNG or JPG (Max size 4MB)
       </Text>
       <View style={[styles.imageContainer, imageContainerStyle]}>
-        {imageUris.map((uri, index) => (
+        {imageUris.map(({uri}, index) => (
           <View key={index} style={[styles.imageBox, imageStyle]}>
             <Image source={{uri}} style={styles.image} />
             <IconButton
