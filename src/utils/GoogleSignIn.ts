@@ -6,8 +6,3 @@ export function configureGoogleSignIn() {
     offlineAccess: false,
   })
 }
-
-export async function signInOnGoogle() {
-  await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true})
-  return await GoogleSignin.signIn()
-}

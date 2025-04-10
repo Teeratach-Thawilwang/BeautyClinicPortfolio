@@ -1,7 +1,7 @@
 import {shallowEqual} from 'react-redux'
 
 import {AdminSliceInterface} from '@models/AdminInterface'
-import supabase from '@repositories/supabase/SupabaseClient'
+import supabase from '@services/SupabaseClient'
 import {store, useAppSelector} from '@store/Store'
 import {update} from '@store/slices/AdminSlice'
 

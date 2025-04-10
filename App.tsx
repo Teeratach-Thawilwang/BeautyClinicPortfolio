@@ -8,8 +8,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context'
 import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
 import AppNavigator from '@navigation/AppNavigator'
-import {configureGoogleSignIn} from '@repositories/GoogleSignIn'
 import {requestNotificationPermission} from '@utils/FirebaseMessage'
+import {configureGoogleSignIn} from '@utils/GoogleSignIn'
 import {configureSplashScreen} from '@utils/SplashScreenConfig'
 import {supabaseListeners} from '@utils/SupabaseListener'
 
@@ -24,10 +24,10 @@ export default function App() {
     configureSplashScreen()
     configureGoogleSignIn()
     requestNotificationPermission()
-    const supabaseListener = supabaseListeners()
+    const supabaseUnSubscribe = supabaseListeners()
 
     return () => {
-      supabaseListener.data.subscription.unsubscribe()
+      supabaseUnSubscribe()
     }
   }, [])
 
