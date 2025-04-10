@@ -2,18 +2,13 @@ import RNFS from 'react-native-fs'
 import {toByteArray} from 'react-native-quick-base64'
 
 import {ImageFileAsset} from '@models/ImagePickerTypes'
+import {Response} from '@models/ServiceResponseTypes'
 import {FileObject} from '@models/SupabaseInterface'
-import supabase from '@repositories/supabase/SupabaseClient'
+import supabase from '@services/SupabaseClient'
 import {getPlatFormOS} from '@utils/Helpers'
 
-type Response<T> = {
-  success: boolean | null
-  data: T | null
-  error: string | null
-}
-
 class FileService {
-  public async getListFile(
+  public async getList(
     search?: string,
     page?: number,
     perPage?: number,
@@ -32,11 +27,10 @@ class FileService {
     })
 
     if (error) {
-      return {success: false, data: null, error: error.message}
+      return {data: null, error: error.message}
     }
 
     return {
-      success: true,
       data: data,
       error: null,
     }
@@ -70,27 +64,28 @@ class FileService {
       })
 
     if (error) {
-      return {success: false, data: null, error: error.message}
+      return {data: null, error: error.message}
     }
 
     const object = supabase.storage.from(bucketName).getPublicUrl(data.path)
     return {
-      success: true,
       data: object.data.publicUrl,
       error: null,
     }
   }
 
-  public async delete(filePath: string, bucket?: string) {
+  public async delete(
+    filePath: string,
+    bucket?: string,
+  ): Promise<Response<null>> {
     const bucketName = bucket ?? process.env.SUPABASE_MEDIA_BUCKET!
     const {error} = await supabase.storage.from(bucketName).remove([filePath])
 
     if (error) {
-      return {success: false, data: null, error: error.message}
+      return {data: null, error: error.message}
     }
 
     return {
-      success: true,
       data: null,
       error: null,
     }
