@@ -1,0 +1,20 @@
+Golbal State
+    จะใช้ในเงื่อนไขดังนี้
+    - ต้องการเเชร์ state ระหว่าง screen หรือ component
+    - ไม่ต้องการให้ state หายไปเมื่อออกจาก screen นั้น
+    - อยากให้ state คงอยู่แม้ปิดแอพไป (ใช้ redux persist)
+
+    โดยทั่วไปจะใช้กับ
+    - Auth, User profile
+    - Theme, Language
+    - Cart
+
+State management
+    - เลือก local state ก่อน ถ้าไม่เข้าเงื่อนไข global state
+    - ใช้การเเชร์แบบ parent -> child component
+    - หาก state มีความซับซ้อน แต่สามารถใช้ local state ได้ ให้สร้างเป็น custom hook แทน
+
+State APIs
+    - ให้ service ที่เรียก API ส่งค่ากลับมาเป็น data, error
+        ดูว่า request error มั้ยจาก error
+    - ถ้าต้องการใช้งาน isLoading ให้ใช้ useState + useEffect => หรืออาจทำเป็น custom hook
