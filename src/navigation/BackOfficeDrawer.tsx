@@ -6,7 +6,7 @@ import {
 import {DrawerActions} from '@react-navigation/native'
 import React from 'react'
 import {Image, StyleSheet, View} from 'react-native'
-import {Divider, Icon} from 'react-native-paper'
+import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {AdaptiveMD3Theme} from '@models/ThemeInterface'
@@ -54,9 +54,13 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
       {...props}
       contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('@assets/logo.png')} style={styles.logoImage} />
+        <View style={styles.logoImageContainer}>
+          <Image
+            source={require('@assets/logo.png')}
+            style={styles.logoImage}
+          />
+        </View>
       </View>
-      <Divider style={styles.divider} />
 
       {menuItems.map((item, ItemIndex) => {
         const focused = item.activeOn.some(name => name == routeNames[index])
@@ -113,11 +117,20 @@ function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       flexGrow: 1,
+      paddingTop: 0,
       backgroundColor: theme.colors.surface,
       borderTopRightRadius: 20,
       borderBottomRightRadius: 20,
     },
     logoContainer: {
+      width: '100%',
+      height: 70,
+      paddingVertical: 10,
+      marginBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.outlineVariant,
+    },
+    logoImageContainer: {
       width: 50,
       height: 50,
       borderRadius: 100,
@@ -130,12 +143,6 @@ function getStyles(theme: AdaptiveMD3Theme) {
     logoImage: {
       width: 40,
       height: 40,
-    },
-    divider: {
-      marginVertical: 10,
-      borderColor: theme.colors.outlineVariant,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.outlineVariant,
     },
     drawerItem: {
       borderRadius: 10,
