@@ -52,7 +52,7 @@ export default function Button({
     <RNButton
       mode={mode}
       loading={useLoading && isLoading}
-      style={containerStyle}
+      style={[{justifyContent: 'center'}, containerStyle]}
       labelStyle={labelStyle}
       contentStyle={contentStyle}
       onPress={onPressHandler}

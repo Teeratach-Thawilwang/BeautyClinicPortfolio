@@ -127,8 +127,7 @@ function getStyles(theme: AdaptiveMD3Theme, width: number) {
   return StyleSheet.create({
     container: {
       width: width,
-      marginVertical: 20,
-      paddingVertical: 10,
+      height: 45,
       paddingLeft: 20,
       paddingRight: 10,
       borderWidth: 1,
@@ -138,9 +137,10 @@ function getStyles(theme: AdaptiveMD3Theme, width: number) {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
     contentContainer: {
-      marginTop: -10,
+      marginTop: 5,
       maxHeight: 200,
       minWidth: width,
       maxWidth: 2 * width,
@@ -161,7 +161,7 @@ function getStyles(theme: AdaptiveMD3Theme, width: number) {
     itemSelected: {
       minWidth: width,
       maxWidth: 2 * width,
-      backgroundColor: theme.colors.surfaceContainerLowest,
+      backgroundColor: theme.colors.surfaceContainerLow,
     },
     itemContent: {
       minWidth: width,
