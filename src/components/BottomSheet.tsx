@@ -43,7 +43,7 @@ function BottomSheet(
         return {indexUse: index, snapPointsUse: points}
       }
     }
-    return {indexUse: undefined, snapPointsUse: points}
+    return {indexUse: undefined, snapPointsUse: undefined}
   }, [index, snapPoints])
 
   return (
