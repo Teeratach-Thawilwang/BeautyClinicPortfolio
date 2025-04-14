@@ -1,6 +1,6 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet'
 import {useFocusEffect, useNavigation} from '@react-navigation/native'
-import {useCallback, useRef} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import {BackHandler, useWindowDimensions} from 'react-native'
 
 import {RootScreenNavigationProps} from '@navigation/AppNavigator'
@@ -41,4 +41,34 @@ export function useResponsiveScreen() {
 
 export function createBottomSheetRef() {
   return useRef<BottomSheetModal>(null)
+}
+
+export function useDebounce<T>(
+  initialValue: T,
+  callback: (val: T) => void,
+  delay = 800,
+): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [val, set] = useState<T>(initialValue)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      callback(val)
+    }, delay)
+
+    return () => clearTimeout(timeout)
+  }, [val, delay])
+
+  return [val, set]
+}
+
+export function useRefresh(callback: () => void) {
+  const [refreshing, setRefreshing] = useState(false)
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    callback()
+    setRefreshing(false)
+  }, [])
+
+  return {refreshing, onRefresh}
 }
