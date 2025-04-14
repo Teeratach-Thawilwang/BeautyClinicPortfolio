@@ -55,3 +55,10 @@ export function alertFileSizeExceed(
     return
   }
 }
+
+export function getFirstOrValue(value: string | string[]) {
+  if (Array.isArray(value)) {
+    return value[0]
+  }
+  return value
+}
