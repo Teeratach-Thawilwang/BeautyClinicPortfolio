@@ -37,7 +37,7 @@ export type CourseListItem = {
 
 export type CourseList = {
   data: CourseListItem[]
-  last: number | null
+  last: number
 }
 
 export type CourseCreateProps = Omit<Course, 'id' | 'created_at' | 'updated_at'>

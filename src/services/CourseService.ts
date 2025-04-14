@@ -1,10 +1,12 @@
+import dayjs from 'dayjs'
+
+import {CourseStatus} from '@enums/ModelStatus'
 import {
   CourseCreateProps,
   CourseList,
   CourseListItem,
   CourseUpdateProps,
 } from '@models/CourseInterface'
-import {Response} from '@models/ServiceResponseTypes'
 import supabase from '@services/SupabaseClient'
 
 class CourseService {
@@ -16,7 +18,10 @@ class CourseService {
     perPage: number = 15,
     sortBy: string = 'id',
     orderBy: 'ASC' | 'DESC' = 'DESC',
-  ): Promise<Response<CourseList | null>> {
+    status?: CourseStatus,
+    startCreatedAt?: Date,
+    stopCreatedAt?: Date,
+  ): Promise<CourseList> {
     const from = (page - 1) * perPage
     const to = from + perPage - 1
 
@@ -26,65 +31,56 @@ class CourseService {
       .order(sortBy, {ascending: orderBy == 'ASC'})
 
     if (search) {
-      query = query.or(`id.eq.${search}, name.ilike.%${search}%`)
+      if (isNaN(Number(search))) {
+        query = query.or(`name.ilike.%${search}%`)
+      } else {
+        query = query.or(`id.eq.${search}`)
+      }
+    }
+    if (status) {
+      query = query.eq('status', status)
+    }
+    if (startCreatedAt) {
+      query = query.gte('created_at', startCreatedAt)
+    }
+    if (startCreatedAt) {
+      query = query.lte('created_at', stopCreatedAt)
     }
 
-    query = query.range(from, to)
+    const {data, error, count} = await query.range(from, to)
+    if (error) throw error
 
-    const {data, error, count} = await query
-
-    if (error) {
-      return {data: null, error: error.message}
-    }
-
-    const last = Math.ceil(count! / perPage)
-    const paginate = {
-      data: data as CourseListItem[],
-      last: last,
-    }
+    const transformData = data.map(item => {
+      const createdAt = dayjs(item.created_at).format('DD/MMM/YYYY HH:mm')
+      return {...item, created_at: createdAt}
+    })
 
     return {
-      data: paginate,
-      error: null,
+      data: transformData as CourseListItem[],
+      last: count ? Math.ceil(count / perPage) : 1,
     }
   }
 
-  public async create(course: CourseCreateProps): Promise<Response<null>> {
+  public async create(course: CourseCreateProps): Promise<null> {
     const {error} = await supabase.from(this.tableName).insert(course)
-    console.log(error)
-    if (error) {
-      return {data: null, error: error.message}
-    }
-    return {
-      data: null,
-      error: null,
-    }
+    if (error) throw error
+    return null
   }
 
-  public async update(course: CourseUpdateProps): Promise<Response<null>> {
+  public async update(course: CourseUpdateProps): Promise<null> {
     const {id, ...updateParams} = {...course}
     const {error} = await supabase
       .from(this.tableName)
       .update(updateParams)
       .eq('id', id)
-    if (error) {
-      return {data: null, error: error.message}
-    }
-    return {
-      data: null,
-      error: null,
-    }
+    if (error) throw error
+    return null
   }
 
-  public async delete(id: number): Promise<Response<null>> {
+  public async delete(id: number): Promise<null> {
     const {error} = await supabase.from(this.tableName).delete().eq('id', id)
-    if (error) {
-      return {data: null, error: error.message}
-    }
-    return {
-      data: null,
-      error: null,
-    }
+    if (error) throw error
+    return null
   }
 }
 

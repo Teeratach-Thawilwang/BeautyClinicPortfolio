@@ -2,7 +2,6 @@ import RNFS from 'react-native-fs'
 import {toByteArray} from 'react-native-quick-base64'
 
 import {ImageFileAsset} from '@models/ImagePickerTypes'
-import {Response} from '@models/ServiceResponseTypes'
 import {FileObject} from '@models/SupabaseInterface'
 import supabase from '@services/SupabaseClient'
 import {getPlatFormOS} from '@utils/Helpers'
@@ -15,7 +14,7 @@ class FileService {
     sortBy?: {column?: string; order?: string},
     folder: string = 'public',
     bucket?: string,
-  ): Promise<Response<FileObject[] | null>> {
+  ): Promise<FileObject[] | null> {
     const bucketName = bucket ?? process.env.SUPABASE_MEDIA_BUCKET!
     const offset = page && perPage ? (page - 1) * perPage : 0
 
@@ -26,14 +25,8 @@ class FileService {
       search: search,
     })
 
-    if (error) {
-      return {data: null, error: error.message}
-    }
-
-    return {
-      data: data,
-      error: null,
-    }
+    if (error) throw error
+    return data
   }
 
   public async uploadImage(
@@ -41,7 +34,7 @@ class FileService {
     folder: string = 'public',
     bucket?: string,
     upsert?: boolean,
-  ): Promise<Response<string>> {
+  ): Promise<string> {
     const uriPath =
       getPlatFormOS() === 'ios'
         ? fileAsset.uri.replace('file://', '')
@@ -63,32 +56,18 @@ class FileService {
         upsert: upsert,
       })
 
-    if (error) {
-      return {data: null, error: error.message}
-    }
+    if (error) throw error
 
     const object = supabase.storage.from(bucketName).getPublicUrl(data.path)
-    return {
-      data: object.data.publicUrl,
-      error: null,
-    }
+    return object.data.publicUrl
   }
 
-  public async delete(
-    filePath: string,
-    bucket?: string,
-  ): Promise<Response<null>> {
+  public async delete(filePath: string, bucket?: string): Promise<null> {
     const bucketName = bucket ?? process.env.SUPABASE_MEDIA_BUCKET!
     const {error} = await supabase.storage.from(bucketName).remove([filePath])
 
-    if (error) {
-      return {data: null, error: error.message}
-    }
-
-    return {
-      data: null,
-      error: null,
-    }
+    if (error) throw error
+    return null
   }
 }
 
