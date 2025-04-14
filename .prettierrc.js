@@ -4,7 +4,7 @@ module.exports = {
     "<THIRD_PARTY_MODULES>",
     "^(react|redux)/(.*)$",
     "^styled(.*)$",
-    "^@(assets|components|context-providers|enums|hooks|models|navigation|repositories|screens|services|src|store|styles|utils)/(.*)$",
+    "^@(assets|components|context-providers|enums|hooks|models|navigation|screens|services|src|store|styles|utils)/(.*)$",
     "^[./]"
   ],
   plugins: [require.resolve("@trivago/prettier-plugin-sort-imports")],
