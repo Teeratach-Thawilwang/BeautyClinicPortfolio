@@ -7,7 +7,7 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useSkeleton} from '@hooks/useSkeleton'
 import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
-export default function Table({
+export default function Table<T extends object>({
   headers,
   data,
   onRowPress,
@@ -20,8 +20,8 @@ export default function Table({
   skeletonColor,
 }: {
   headers: string[]
-  data: any[]
-  onRowPress?: (row: any) => void
+  data: T[]
+  onRowPress?: (row: T) => void
   isLoading?: boolean
   containerStyle?: any
   headerStyle?: any

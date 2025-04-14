@@ -7,7 +7,7 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useSkeleton} from '@hooks/useSkeleton'
 import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
-export default function TableCard({
+export default function TableCard<T extends object>({
   headers,
   data,
   onRowPress,
@@ -22,8 +22,8 @@ export default function TableCard({
   skeletonColor,
 }: {
   headers: string[]
-  data: any[]
-  onRowPress?: (row: any) => void
+  data: T[]
+  onRowPress?: (row: T) => void
   isLoading?: boolean
   containerStyle?: any
   rowStyle?: any
@@ -39,6 +39,15 @@ export default function TableCard({
   const skeletonHooks = useSkeleton(
     skeletonColor ?? theme.colors.surfaceContainerHigh,
   )
+
+  if (data.length == 0) {
+    return (
+      <View style={[styles.container, containerStyle]}>
+        <Text style={styles.noData}>No Data</Text>
+      </View>
+    )
+  }
+
   return (
     <Surface elevation={0} style={[styles.container, containerStyle]}>
       {data.map((item, rowIndex) => {
@@ -117,6 +126,14 @@ function getStyles(theme: AdaptiveMD3Theme) {
       borderWidth: 1,
       borderColor: theme.colors.outlineVariant,
       overflow: 'hidden',
+    },
+    noData: {
+      height: 50,
+      textAlign: 'center',
+      lineHeight: 50,
+      color: theme.colors.onSurfaceVariant,
+      fontSize: theme.fonts.titleMedium.fontSize,
+      fontWeight: 'bold',
     },
     row: {
       ...row,
