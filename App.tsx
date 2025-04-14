@@ -5,6 +5,7 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
 import React, {useEffect} from 'react'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 
+import QueryClientProvider from '@context-providers/QueryClientProvider'
 import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
 import AppNavigator from '@navigation/AppNavigator'
@@ -34,13 +35,15 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ReduxProvider>
-        <ThemeProvider>
-          <GestureHandlerRootView>
-            <BottomSheetModalProvider>
-              <AppNavigator />
-            </BottomSheetModalProvider>
-          </GestureHandlerRootView>
-        </ThemeProvider>
+        <QueryClientProvider>
+          <ThemeProvider>
+            <GestureHandlerRootView>
+              <BottomSheetModalProvider>
+                <AppNavigator />
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
+          </ThemeProvider>
+        </QueryClientProvider>
       </ReduxProvider>
     </SafeAreaProvider>
   )
