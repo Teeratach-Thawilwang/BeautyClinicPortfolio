@@ -1,15 +1,13 @@
+import {AuthSlice} from '@models/AuthTypes'
 import {createSlice} from '@reduxjs/toolkit'
 
-import {AdminSliceInterface} from '@models/AdminInterface'
-
-const initialState: AdminSliceInterface = {
+const initialState: AuthSlice = {
   isAdmin: false,
-  isLoading: false,
-  error: null,
+  user: null,
 }
 
 const slice = createSlice({
-  name: 'AdminSlice',
+  name: 'AuthSlice',
   initialState: initialState,
   reducers: {
     update: (state, action) => {
