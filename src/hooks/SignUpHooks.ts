@@ -1,6 +1,10 @@
 import {zodResolver} from '@hookform/resolvers/zod'
+import {useMutation} from '@tanstack/react-query'
+import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
+
+import AuthService from '@services/AuthService'
 
 export const signupSchema = z
   .object({
@@ -16,7 +20,7 @@ export const signupSchema = z
 
 export type SignUpFormData = z.infer<typeof signupSchema>
 
-export default function useSignUpForm(
+export function useSignUpForm(
   name?: string,
   email?: string,
   password?: string,
@@ -41,4 +45,23 @@ export default function useSignUpForm(
     handleSubmit,
     errors,
   }
+}
+
+export function useSignUpMutation() {
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const mutation = useMutation({
+    mutationFn: (formData: SignUpFormData) =>
+      AuthService.signUpWithEmail(
+        formData.email,
+        formData.password,
+        formData.name,
+      ),
+    onSuccess: () => {
+      setIsModalVisible(true)
+    },
+    onError: () => {
+      setIsModalVisible(true)
+    },
+  })
+  return {...mutation, isModalVisible, setIsModalVisible}
 }
