@@ -1,4 +1,4 @@
-export interface Bucket {
+export type Bucket = {
   id: string
   name: string
   owner: string
@@ -9,7 +9,7 @@ export interface Bucket {
   public: boolean
 }
 
-export interface FileObject {
+export type FileObject = {
   name: string
   bucket_id: string
   owner: string

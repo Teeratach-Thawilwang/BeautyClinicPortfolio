@@ -1,4 +1,4 @@
-import {CourseStatus} from '@enums/ModelStatus'
+import {CourseStatus} from '@enums/StatusEnums'
 
 export type WorkingTime = {
   start_at: string

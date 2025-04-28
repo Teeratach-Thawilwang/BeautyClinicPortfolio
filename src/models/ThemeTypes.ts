@@ -1,7 +1,7 @@
 import {MD3Theme} from 'react-native-paper'
 
 // State Interface
-export interface ThemeSliceInterface {
+export type ThemeSlice = {
   theme: ThemeEnum | null
 }
 
@@ -22,6 +22,17 @@ export type AdaptiveMD3Theme = {
     surfaceContainerHigh: string
     surfaceContainerHighest: string
   } & MD3Theme['colors']
+  fontSize: {
+    displayLarge: number
+    displayMedium: number
+    displaySmall: number
+    headline: number
+    title: number
+    subtitle: number
+    label: number
+    body: number
+    note: number
+  }
 } & MD3Theme
 
 export type ThemeType = {
