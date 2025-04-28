@@ -1,18 +1,16 @@
-import React, {useState} from 'react'
-import {Dimensions, ScrollView, StyleSheet, View} from 'react-native'
+import React from 'react'
+import {ScrollView, View} from 'react-native'
 import {ActivityIndicator} from 'react-native-paper'
 
 import LogoHeader from '@components/LogoHeader'
 import ResponseModal from '@components/ResponseModal'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {
-  disableBackSwipe,
-  useEffectScreen,
-  useNavigate,
-} from '@hooks/CommonHooks'
-import {AdaptiveMD3Theme} from '@models/ThemeInterface'
+import {disableBackSwipe, useFocusEffect, useNavigate} from '@hooks/CommonHooks'
+import {useVerifyConfirmSingupTokenMutation} from '@hooks/ResetPasswordHooks'
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
-import AuthenticationService from '@services/AuthenticationService'
+import AuthService from '@services/AuthService'
+
+import {getStyles} from './styles'
 
 export default function ConfirmSignupScreen({
   route,
@@ -22,29 +20,25 @@ export default function ConfirmSignupScreen({
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
-  const user = AuthenticationService.getUser()
-  const error = AuthenticationService.getError()
-  const [isModalShow, setIsModalShow] = useState(false)
+  const isSignIn = AuthService.getIsSignIn()
+  const {mutate, error, isModalVisible, setIsModalVisible} =
+    useVerifyConfirmSingupTokenMutation()
 
   disableBackSwipe(() => true)
 
-  useEffectScreen(() => {
-    setIsModalShow(false)
-    if (user) {
+  useFocusEffect(() => {
+    setIsModalVisible(false)
+    if (isSignIn) {
       navigation.replace('BottomTabScreens', {screen: 'Home'})
     } else if (route.params.token_hash) {
-      AuthenticationService.verifyConfirmSingupToken(
-        route.params.token_hash,
-      ).finally(() => {
-        setIsModalShow(true)
-      })
+      mutate(route.params.token_hash)
     }
   }, [])
 
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps='handled'>
       <LogoHeader allowBack={false} />
       <View style={styles.containerLoading}>
@@ -54,12 +48,12 @@ export default function ConfirmSignupScreen({
           size='small'
         />
       </View>
-      {error ? (
+      {error?.message ? (
         <ResponseModal
-          isVisible={isModalShow}
-          isSuccess={false}
+          visible={isModalVisible}
           title='Confirm Signup Failed.'
-          text={error}
+          text={error.message}
+          imageSource={require('@assets/images/failed_icon.png')}
           buttonText='Continue'
           onButtonPress={() =>
             navigation.replace('BottomTabScreens', {screen: 'Home'})
@@ -67,10 +61,10 @@ export default function ConfirmSignupScreen({
         />
       ) : (
         <ResponseModal
-          isVisible={isModalShow}
-          isSuccess={true}
+          visible={isModalVisible}
           title='Confirm Signup Successfully.'
           text="Signup successful! You're ready to get started."
+          imageSource={require('@assets/images/successfully_icon.png')}
           buttonText='Continue'
           onButtonPress={() =>
             navigation.replace('BottomTabScreens', {screen: 'Home'})
@@ -79,25 +73,4 @@ export default function ConfirmSignupScreen({
       )}
     </ScrollView>
   )
-}
-
-function getStyles(theme: AdaptiveMD3Theme) {
-  const {width, height} = Dimensions.get('window')
-  return StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: theme.colors.background,
-      flex: 1,
-    },
-    containerLoading: {
-      width: width - 40,
-      height: height,
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-    },
-  })
 }

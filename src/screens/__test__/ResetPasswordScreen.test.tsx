@@ -3,7 +3,7 @@ import React from 'react'
 
 import {useNavigate} from '@hooks/CommonHooks'
 import ResetPasswordScreen from '@screens/ResetPasswordScreen'
-import AuthenticationService from '@services/AuthenticationService'
+import AuthService from '@services/AuthService'
 import {act, fireEvent, render} from '@utils/TestUtil'
 
 jest.mock(
@@ -23,7 +23,7 @@ jest.mock(
 describe('ResetPasswordScreen', () => {
   it('should render ActivityIndicator at first time render', async () => {
     jest
-      .spyOn(require('@hooks/CommonHooks'), 'useEffectScreen')
+      .spyOn(require('@hooks/CommonHooks'), 'useFocusEffect')
       .mockImplementation(() => null)
 
     const {getByText, getByRole} = render(
@@ -41,11 +41,11 @@ describe('ResetPasswordScreen', () => {
   })
 
   it('should navigate to HomeScreen when isFirstRender is true, user is not null, error is null', async () => {
-    jest.spyOn(AuthenticationService, 'getUser').mockReturnValue({} as User)
-    jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
+    jest.spyOn(AuthService, 'getUser').mockReturnValue({} as User)
+    jest.spyOn(AuthService, 'getError').mockReturnValue(null)
 
     const signOutSpy = jest
-      .spyOn(AuthenticationService, 'signOut')
+      .spyOn(AuthService, 'signOut')
       .mockResolvedValue({success: true, data: null, error: null})
 
     const mockReplace = jest.fn()
@@ -69,17 +69,17 @@ describe('ResetPasswordScreen', () => {
 
   it('should render ResetPasswordForm when isFirstRender is false, user is not null, error is null', async () => {
     jest
-      .spyOn(AuthenticationService, 'getUser')
+      .spyOn(AuthService, 'getUser')
       .mockReturnValueOnce(null)
       .mockReturnValue({} as User)
-    jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
+    jest.spyOn(AuthService, 'getError').mockReturnValue(null)
 
     const signOutSpy = jest
-      .spyOn(AuthenticationService, 'signOut')
+      .spyOn(AuthService, 'signOut')
       .mockResolvedValue({success: true, data: null, error: null})
 
     const verifyRecoveryTokenSpy = jest
-      .spyOn(AuthenticationService, 'verifyRecoveryToken')
+      .spyOn(AuthService, 'verifyRecoveryToken')
       .mockImplementation(() =>
         Promise.resolve({success: true, data: null, error: null}),
       )
@@ -107,18 +107,18 @@ describe('ResetPasswordScreen', () => {
   })
 
   it('should render ResetPasswordError when isFirstRender is false, user is null, error is not null', async () => {
-    jest.spyOn(AuthenticationService, 'getUser').mockReturnValue(null)
+    jest.spyOn(AuthService, 'getUser').mockReturnValue(null)
     jest
-      .spyOn(AuthenticationService, 'getError')
+      .spyOn(AuthService, 'getError')
       .mockReturnValueOnce(null)
       .mockReturnValue('some error text')
 
     const signOutSpy = jest
-      .spyOn(AuthenticationService, 'signOut')
+      .spyOn(AuthService, 'signOut')
       .mockResolvedValue({success: true, data: null, error: null})
 
     const verifyRecoveryTokenSpy = jest
-      .spyOn(AuthenticationService, 'verifyRecoveryToken')
+      .spyOn(AuthService, 'verifyRecoveryToken')
       .mockImplementation(() =>
         Promise.resolve({success: false, data: null, error: 'some error text'}),
       )
@@ -147,17 +147,17 @@ describe('ResetPasswordScreen', () => {
 
   it('should not call signOut on unmount when isFirstRender is false, user is not null, error is null, reset-password button is pressed', async () => {
     jest
-      .spyOn(AuthenticationService, 'getUser')
+      .spyOn(AuthService, 'getUser')
       .mockReturnValueOnce(null)
       .mockReturnValue({} as User)
-    jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
+    jest.spyOn(AuthService, 'getError').mockReturnValue(null)
 
     const signOutSpy = jest
-      .spyOn(AuthenticationService, 'signOut')
+      .spyOn(AuthService, 'signOut')
       .mockResolvedValue({success: true, data: null, error: null})
 
     const verifyRecoveryTokenSpy = jest
-      .spyOn(AuthenticationService, 'verifyRecoveryToken')
+      .spyOn(AuthService, 'verifyRecoveryToken')
       .mockImplementation(() =>
         Promise.resolve({success: true, data: null, error: null}),
       )

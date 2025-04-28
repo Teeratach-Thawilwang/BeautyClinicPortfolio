@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ForgotPasswordScreen from '@screens/ForgotPasswordScreen'
+import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
 import {render} from '@utils/TestUtil'
 
 describe('ForgotPasswordScreen', () => {

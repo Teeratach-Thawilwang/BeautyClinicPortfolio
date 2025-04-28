@@ -1,19 +1,13 @@
 import React, {useState} from 'react'
-import {Keyboard, RefreshControl, ScrollView, StyleSheet} from 'react-native'
+import {Keyboard, RefreshControl, ScrollView} from 'react-native'
 
-import CourseListFilter from '@components/CourseListFilter'
-import ResponsiveSwitcher from '@components/ResponsiveSwitcher'
-import Table from '@components/Table'
-import TableCard from '@components/TableCard'
-import TableCardPagination from '@components/TableCardPagination'
-import TablePagination from '@components/TablePagination'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useCourses} from '@hooks/BackofficeCourseHook'
 import {useNavigate, useRefresh} from '@hooks/CommonHooks'
-import {CourseListItem} from '@models/CourseInterface'
-import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
-const tableHeaders = ['id', 'name', 'status', 'price', 'create at']
+import Filter from './Components/Filter'
+import TableResponsive from './Components/TableResponsive'
+import {getStyles} from './styles'
 
 export default function CourseListScreen() {
   const {theme} = useTheme()
@@ -26,11 +20,13 @@ export default function CourseListScreen() {
   const [orderBy, setOrderBy] = useState<'ASC' | 'DESC'>('DESC')
   const [startCreatedAt, setStartCreatedAt] = useState(undefined)
   const [stopCreatedAt, setStopCreatedAt] = useState(undefined)
+
   const {
     data: courses,
     isFetching: isLoading,
     refetch,
   } = useCourses(search, page, orderBy, status, startCreatedAt, stopCreatedAt)
+
   const {refreshing, onRefresh} = useRefresh(() => {
     setSearch('')
     setPage(1)
@@ -41,8 +37,10 @@ export default function CourseListScreen() {
     refetch()
   })
 
+  const tableHeaders = ['id', 'name', 'status', 'price', 'created at']
   const searchEmpty = search.length != 0
   const courseNotEmpty = courses?.data.length != 0
+
   if (!isLoading && searchEmpty && courseNotEmpty) Keyboard.dismiss()
 
   return (
@@ -52,9 +50,10 @@ export default function CourseListScreen() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <CourseListFilter
-        status={status}
-        orderBy={orderBy}
+      <Filter
+        refreshing={refreshing}
+        initialStatus={status}
+        initialOrderBy={orderBy}
         onChange={(type, value) => {
           switch (type) {
             case 'Search':
@@ -72,40 +71,20 @@ export default function CourseListScreen() {
           }
         }}
       />
-      <ResponsiveSwitcher
-        commonProps={{
-          headers: tableHeaders,
-          data: courses.data,
-          isLoading: isLoading,
-          onRowPress: row =>
-            navigation.push('BackOfficeScreens', {
-              screen: 'CourseDetail',
-              params: {courseId: row.id},
-            }),
-          containerStyle: {marginTop: 20},
-        }}
-        mobile={TableCard<CourseListItem>}
-        tablet={Table<CourseListItem>}
-      />
-      <ResponsiveSwitcher
-        commonProps={{
-          current: page,
-          last: courses.last,
-          onPress: page => setPage(page),
-        }}
-        mobile={TableCardPagination}
-        tablet={TablePagination}
+      <TableResponsive
+        headers={tableHeaders}
+        data={courses.data}
+        isLoading={isLoading}
+        onRowPress={row =>
+          navigation.push('BackOfficeScreens', {
+            screen: 'CourseDetail',
+            params: {courseId: row.id},
+          })
+        }
+        current={page}
+        last={courses.last}
+        onPaginatePress={page => setPage(page)}
       />
     </ScrollView>
   )
-}
-
-function getStyles(theme: AdaptiveMD3Theme) {
-  return StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: theme.colors.background,
-      flex: 1,
-    },
-  })
 }
