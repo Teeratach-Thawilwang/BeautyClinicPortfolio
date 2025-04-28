@@ -1,3 +1,4 @@
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,7 +10,6 @@ import {Image, StyleSheet, View} from 'react-native'
 import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type MenuItem = {
   label: string
@@ -56,7 +56,7 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
       <View style={styles.logoContainer}>
         <View style={styles.logoImageContainer}>
           <Image
-            source={require('@assets/logo.png')}
+            source={require('@assets/images/logo.png')}
             style={styles.logoImage}
           />
         </View>

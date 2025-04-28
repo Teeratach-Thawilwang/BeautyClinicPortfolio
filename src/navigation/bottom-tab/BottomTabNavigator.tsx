@@ -1,10 +1,10 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {NavigatorScreenParams} from '@react-navigation/native'
 
-import BottomTabNavigatorOption from '@navigation/BottomTabNavigatorOption'
-import AppointmentScreen from '@screens/AppointmentScreen'
-import HomeScreen from '@screens/HomeScreen'
-import MenuScreen from '@screens/MenuScreen'
+import BottomTabNavigatorOption from '@navigation/bottom-tab/BottomTabNavigatorOption'
+import AppointmentScreen from '@screens/store/AppointmentScreen'
+import HomeScreen from '@screens/store/HomeScreen'
+import MenuScreen from '@screens/store/MenuScreen'
 
 const {Navigator, Screen} =
   createBottomTabNavigator<BottomTabNavigatorParamList>()

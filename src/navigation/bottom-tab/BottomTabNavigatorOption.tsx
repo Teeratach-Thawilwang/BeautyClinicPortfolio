@@ -3,7 +3,7 @@ import React from 'react'
 import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {BottomTabNavigatorParamList} from '@navigation/BottomTabNavigator'
+import {BottomTabNavigatorParamList} from '@navigation/bottom-tab/BottomTabNavigator'
 
 type ButtonTabNavigatorOptionProps = {
   route: {

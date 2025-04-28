@@ -1,3 +1,4 @@
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {
   DrawerNavigationOptions,
   createDrawerNavigator,
@@ -7,8 +8,7 @@ import React from 'react'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
-import {AdaptiveMD3Theme} from '@models/ThemeInterface'
-import BackOfficeDrawer from '@navigation/BackOfficeDrawer'
+import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
 import CourseCreateScreen from '@screens/backoffice/CourseCreateScreen'
 import CourseDetailScreen from '@screens/backoffice/CourseDetailScreen'
 import CourseListScreen from '@screens/backoffice/CourseListScreen'
@@ -40,12 +40,12 @@ export default function BackOfficeNavigator() {
       <Screen
         name='CourseCreate'
         component={CourseCreateScreen}
-        options={{title: 'Course Create'}}
+        options={{title: 'Course create'}}
       />
       <Screen
         name='CourseDetail'
         component={CourseDetailScreen}
-        options={{title: 'Course Details'}}
+        options={{title: 'Course details'}}
       />
     </Navigator>
   )
@@ -92,6 +92,11 @@ export type BackOfficeScreenParamList = {
 
 export type BackOfficeNavigatorParams =
   NavigatorScreenParams<BackOfficeScreenParamList>
+
+export type CourseCreateRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'CourseCreate'
+>
 
 export type CourseDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
