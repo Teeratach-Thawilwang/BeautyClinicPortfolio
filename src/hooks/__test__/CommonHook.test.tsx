@@ -4,10 +4,10 @@ import {BackHandler} from 'react-native'
 import {
   disableBackSwipe,
   googleSignInHandler,
-  useEffectScreen,
+  useFocusEffect,
   useNavigate,
 } from '@hooks/CommonHooks'
-import AuthenticationService from '@services/AuthenticationService'
+import AuthService from '@services/AuthService'
 import {act, render, renderHook} from '@utils/TestUtil'
 
 jest.mock('@hooks/CommonHooks', () => {
@@ -17,7 +17,7 @@ jest.mock('@hooks/CommonHooks', () => {
 })
 
 describe('CommonHook', () => {
-  it('useEffectScreen should call handler on focus and call cleanup on blur', async () => {
+  it('useFocusEffect should call handler on focus and call cleanup on blur', async () => {
     const handler = jest.fn()
     const cleanup = jest.fn()
 
@@ -29,7 +29,7 @@ describe('CommonHook', () => {
     }
 
     const Component = () => {
-      useEffectScreen(() => {
+      useFocusEffect(() => {
         handler()
         return () => cleanup()
       }, [])
@@ -84,8 +84,8 @@ describe('CommonHook', () => {
 
   it('should navigate to HomeScreen if Google sign-in is successful', async () => {
     jest
-      .spyOn(AuthenticationService, 'signinWithGoogle')
-      .mockResolvedValue({success: true, data: null, error: null})
+      .spyOn(AuthService, 'signInWithGoogle')
+      .mockResolvedValue({success: true, error: null})
     const mockNavigate = jest.fn()
     jest
       .spyOn(require('@hooks/CommonHooks'), 'useNavigate')
@@ -103,8 +103,8 @@ describe('CommonHook', () => {
 
   it('should not navigate if Google sign-in fails', async () => {
     jest
-      .spyOn(AuthenticationService, 'signinWithGoogle')
-      .mockResolvedValue({success: false, data: null, error: null})
+      .spyOn(AuthService, 'signInWithGoogle')
+      .mockResolvedValue({success: false, error: null})
     const mockNavigate = jest.fn()
     jest
       .spyOn(require('@hooks/CommonHooks'), 'useNavigate')
