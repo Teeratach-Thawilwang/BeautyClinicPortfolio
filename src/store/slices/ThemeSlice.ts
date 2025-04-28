@@ -1,8 +1,7 @@
+import {ThemeEnum, ThemeSlice} from '@models/ThemeTypes'
 import {createSlice} from '@reduxjs/toolkit'
 
-import {ThemeEnum, ThemeSliceInterface} from '@models/ThemeInterface'
-
-const initialState: ThemeSliceInterface = {
+const initialState: ThemeSlice = {
   theme: null,
 }
 

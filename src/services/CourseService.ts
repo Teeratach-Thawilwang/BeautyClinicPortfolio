@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
 
-import {CourseStatus} from '@enums/ModelStatus'
+import {CourseStatus} from '@enums/StatusEnums'
 import {
+  Course,
   CourseCreateProps,
   CourseList,
   CourseListItem,
   CourseUpdateProps,
-} from '@models/CourseInterface'
+} from '@models/CourseTypes'
 import supabase from '@services/SupabaseClient'
 
 class CourseService {
@@ -51,7 +52,7 @@ class CourseService {
     if (error) throw error
 
     const transformData = data.map(item => {
-      const createdAt = dayjs(item.created_at).format('DD/MMM/YYYY HH:mm')
+      const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
       return {...item, created_at: createdAt}
     })
 
@@ -59,6 +60,17 @@ class CourseService {
       data: transformData as CourseListItem[],
       last: count ? Math.ceil(count / perPage) : 1,
     }
+  }
+
+  public async getById(courseId: number): Promise<Course> {
+    const {data, error} = await supabase
+      .from(this.tableName)
+      .select('*')
+      .eq('id', courseId)
+      .single()
+
+    if (error) throw error
+    return data as Course
   }
 
   public async create(course: CourseCreateProps): Promise<null> {

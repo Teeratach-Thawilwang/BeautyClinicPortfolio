@@ -1,8 +1,8 @@
+import {FileObject} from '@models/SupabaseTypes'
 import RNFS from 'react-native-fs'
 import {toByteArray} from 'react-native-quick-base64'
 
-import {ImageFileAsset} from '@models/ImagePickerTypes'
-import {FileObject} from '@models/SupabaseInterface'
+import {ImageFileAsset} from '@components/ImagePicker/types'
 import supabase from '@services/SupabaseClient'
 import {getPlatFormOS} from '@utils/Helpers'
 
