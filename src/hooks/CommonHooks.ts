@@ -1,22 +1,25 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet'
-import {useFocusEffect, useNavigation} from '@react-navigation/native'
+import {
+  useFocusEffect as useFocusEffectRN,
+  useNavigation,
+} from '@react-navigation/native'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {BackHandler, useWindowDimensions} from 'react-native'
 
 import {RootScreenNavigationProps} from '@navigation/AppNavigator'
-import AuthenticationService from '@services/AuthenticationService'
+import AuthService from '@services/AuthService'
 import {getResponsiveScreen} from '@utils/Helpers'
 
 export function useNavigate() {
   return useNavigation<RootScreenNavigationProps>()
 }
 
-export function useEffectScreen(handler: () => void, dependencies: []) {
-  useFocusEffect(useCallback(handler, dependencies))
+export function useFocusEffect(handler: () => void, dependencies: any[]) {
+  useFocusEffectRN(useCallback(handler, dependencies))
 }
 
 export function disableBackSwipe(handler: () => boolean) {
-  useEffectScreen(() => {
+  useFocusEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       handler,
@@ -28,13 +31,16 @@ export function disableBackSwipe(handler: () => boolean) {
 export async function googleSignInHandler(
   navigation: RootScreenNavigationProps,
 ) {
-  const {success} = await AuthenticationService.signinWithGoogle()
+  const {success} = await AuthService.signInWithGoogle()
   if (success) {
     navigation.navigate('BottomTabScreens', {screen: 'Home'})
   }
 }
 
-export function useResponsiveScreen() {
+export function useResponsiveScreen(): {
+  width: number
+  responsive: 'MOBILE' | 'TABLET' | 'DESKTOP'
+} {
   const {width} = useWindowDimensions()
   return {width: width, responsive: getResponsiveScreen(width)}
 }
@@ -67,7 +73,10 @@ export function useRefresh(callback: () => void) {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     callback()
-    setRefreshing(false)
+    const timeout = setTimeout(() => {
+      setRefreshing(false)
+    }, 10)
+    return () => clearTimeout(timeout)
   }, [])
 
   return {refreshing, onRefresh}
