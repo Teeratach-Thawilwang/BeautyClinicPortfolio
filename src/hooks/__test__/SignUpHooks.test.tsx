@@ -1,4 +1,4 @@
-import useSignUpForm from '@hooks/useSignUpForm'
+import {useSignUpForm} from '@hooks/SignUpHooks'
 import {act, renderHook} from '@utils/TestUtil'
 
 describe('useSignUpForm', () => {

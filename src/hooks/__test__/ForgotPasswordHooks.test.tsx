@@ -1,4 +1,4 @@
-import useForgotPasswordForm from '@hooks/useForgotPasswordForm'
+import {useForgotPasswordForm} from '@hooks/ForgotPasswordHooks'
 import {act, renderHook} from '@utils/TestUtil'
 
 describe('useForgotPasswordForm', () => {

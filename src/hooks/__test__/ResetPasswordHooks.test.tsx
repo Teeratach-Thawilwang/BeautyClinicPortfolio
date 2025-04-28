@@ -1,4 +1,4 @@
-import useResetPasswordForm from '@hooks/useResetPasswordForm'
+import {useResetPasswordForm} from '@hooks/ResetPasswordHooks'
 import {act, renderHook} from '@utils/TestUtil'
 
 describe('useResetPasswordForm', () => {
