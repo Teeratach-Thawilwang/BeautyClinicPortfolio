@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {Keyboard, RefreshControl, ScrollView} from 'react-native'
 
 import {useTheme} from '@context-providers/ThemeProvider'
@@ -37,6 +37,43 @@ export default function CourseListScreen() {
     refetch()
   })
 
+  const onChangeFilter = useCallback((type: string, value: any) => {
+    switch (type) {
+      case 'Search':
+        setSearch(value)
+        setPage(1)
+        break
+      case 'Status':
+        setStatus(value)
+        setPage(1)
+        break
+      case 'OrderBy':
+        setOrderBy(value)
+        setPage(1)
+        break
+      case 'StartCreatedAt':
+        setStartCreatedAt(value)
+        setPage(1)
+        break
+      case 'StopCreatedAt':
+        setStopCreatedAt(value)
+        setPage(1)
+        break
+      case 'SetRangeCreatedAt':
+        setStartCreatedAt(value.startCreatedAt)
+        setStopCreatedAt(value.stopCreatedAt)
+        setPage(1)
+        break
+      case 'SetAll':
+        setStatus(value.status)
+        setOrderBy(value.orderBy)
+        setStartCreatedAt(value.startCreatedAt)
+        setStopCreatedAt(value.stopCreatedAt)
+        setPage(1)
+        break
+    }
+  }, [])
+
   const tableHeaders = ['id', 'name', 'status', 'price', 'created at']
   const searchEmpty = search.length != 0
   const courseNotEmpty = courses?.data.length != 0
@@ -54,22 +91,9 @@ export default function CourseListScreen() {
         refreshing={refreshing}
         initialStatus={status}
         initialOrderBy={orderBy}
-        onChange={(type, value) => {
-          switch (type) {
-            case 'Search':
-              setSearch(value)
-              setPage(1)
-              break
-            case 'Status':
-              setStatus(value)
-              setPage(1)
-              break
-            case 'OrderBy':
-              setOrderBy(value)
-              setPage(1)
-              break
-          }
-        }}
+        initialStartCreatedAt={startCreatedAt}
+        initialStopCreatedAt={stopCreatedAt}
+        onChange={onChangeFilter}
       />
       <TableResponsive
         headers={tableHeaders}
