@@ -45,5 +45,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     bottomSheetSpaceBotton: {
       height: 20,
     },
+    datePickerContainer: {
+      alignItems: 'center',
+    },
   })
 }
