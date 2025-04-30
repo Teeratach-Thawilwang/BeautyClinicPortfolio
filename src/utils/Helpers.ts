@@ -62,3 +62,15 @@ export function getFirstOrValue(value: string | string[]) {
   }
   return value
 }
+
+export function floorHalfHourDate(date: Date) {
+  const minutes = date.getMinutes()
+  if (minutes < 30) {
+    date.setMinutes(0)
+  } else {
+    date.setMinutes(30)
+  }
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+  return date
+}
