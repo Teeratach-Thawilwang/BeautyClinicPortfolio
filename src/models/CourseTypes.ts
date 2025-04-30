@@ -15,7 +15,7 @@ export type Course = {
   treatment_rounds: number
   duration_per_round: number
   booking_limit_per_round: number
-  customer_update_booking_before: number
+  appointment_editable_before: number
   working_time_monday: WorkingTime
   working_time_tuesday: WorkingTime
   working_time_wednesday: WorkingTime
