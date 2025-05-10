@@ -1,4 +1,3 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -10,6 +9,7 @@ import {Image, StyleSheet, View} from 'react-native'
 import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 type MenuItem = {
   label: string
@@ -145,11 +145,11 @@ function getStyles(theme: AdaptiveMD3Theme) {
       height: 40,
     },
     drawerItem: {
-      borderRadius: 10,
+      borderRadius: 5,
       color: theme.colors.onSurface,
     },
     drawerItemFocused: {
-      borderRadius: 10,
+      borderRadius: 5,
       color: theme.colors.onSurface,
       borderWidth: 1,
       borderColor: theme.colors.surfaceVariant,

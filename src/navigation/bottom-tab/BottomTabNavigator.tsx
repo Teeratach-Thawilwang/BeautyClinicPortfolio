@@ -10,13 +10,18 @@ const {Navigator, Screen} =
   createBottomTabNavigator<BottomTabNavigatorParamList>()
 
 export default function BottomTabNavigator() {
+  const appoinmentBadge = undefined
   return (
     <Navigator
       key='BottomTabNavigator'
       screenOptions={BottomTabNavigatorOption}
       initialRouteName='Home'>
       <Screen name='Home' component={HomeScreen} />
-      <Screen name='Appointment' component={AppointmentScreen} />
+      <Screen
+        name='Appointment'
+        component={AppointmentScreen}
+        options={{tabBarBadge: appoinmentBadge}}
+      />
       <Screen name='Menu' component={MenuScreen} />
     </Navigator>
   )
