@@ -1,8 +1,9 @@
-import {TextStyle, ViewStyle} from 'react-native'
+import {KeyboardTypeOptions, TextStyle, ViewStyle} from 'react-native'
 
 export type LabelStyle = {
   fontSize?: number
   fontWeight?: TextStyle['fontWeight']
+  marginLeft?: number
 }
 
 export type ColorStyle = {
@@ -17,6 +18,8 @@ export type Props = {
   value: string | number
   onChange: (value: string) => void
   mode?: 'flat' | 'outlined' | 'labelTop'
+  multiline?: boolean
+  keyboardType?: KeyboardTypeOptions
   placeholder?: string
   icon?: string
   error?: string
