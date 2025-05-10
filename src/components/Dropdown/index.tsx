@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {FlatList} from 'react-native'
+import React, {useRef, useState} from 'react'
+import {FlatList, View} from 'react-native'
 import {Icon, Menu, Text, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
@@ -22,7 +22,10 @@ export default function Dropdown({
   placeholderIconColor,
 }: Props) {
   const {theme} = useTheme()
-  const styles = getStyles(theme, width)
+  const anchorRef = useRef<View>(null)
+  const widthRef = useRef<number>(width)
+  anchorRef.current?.measure((_x, _y, width) => (widthRef.current = width))
+  const styles = getStyles(theme, widthRef.current)
   const [visible, setVisible] = useState(false)
 
   const filterDefaultValues = defaultValueByIndex.filter(
@@ -42,6 +45,7 @@ export default function Dropdown({
       anchorPosition='bottom'
       anchor={
         <TouchableRipple
+          ref={anchorRef}
           style={{...styles.container, ...containerStyle}}
           onPress={() => setVisible(val => !val)}>
           <>

@@ -1,16 +1,17 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme, width: number) {
   return StyleSheet.create({
     container: {
-      width: width,
-      height: 50,
-      paddingLeft: 20,
+      minWidth: 200,
+      height: 40,
+      paddingLeft: 16,
       paddingRight: 10,
       borderWidth: 1,
-      borderRadius: 10,
-      borderColor: theme.colors.surfaceVariant,
+      borderRadius: 5,
+      borderColor: theme.colors.outlineVariant,
       backgroundColor: theme.colors.surfaceContainerHigh,
       flex: 1,
       flexDirection: 'row',
@@ -19,34 +20,32 @@ export function getStyles(theme: AdaptiveMD3Theme, width: number) {
     },
     contentContainer: {
       marginTop: 5,
-      maxHeight: 200,
-      minWidth: width,
-      maxWidth: 2 * width,
-      padding: 0,
+      width: width,
+      maxWidth: width,
+      paddingVertical: 0,
       borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.colors.surfaceVariant,
       backgroundColor: theme.colors.surfaceContainerHigh,
+      overflow: 'hidden',
     },
     placeholder: {
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.label,
+      flex: 1,
     },
     item: {
       height: 50,
-      minWidth: width,
-      maxWidth: 2 * width,
+      maxWidth: width,
       backgroundColor: theme.colors.surfaceContainerHigh,
     },
     itemSelected: {
       height: 50,
-      minWidth: width,
-      maxWidth: 2 * width,
+      maxWidth: width,
       backgroundColor: theme.colors.surfaceContainerLow,
     },
     itemContent: {
-      minWidth: width,
-      maxWidth: 2 * width,
+      maxWidth: width,
     },
   })
 }
