@@ -1,8 +1,8 @@
 import {TextStyle, ViewStyle} from 'react-native'
 
 export type TimeRange = {
-  startTime: string
-  endTime: string
+  start: string
+  end: string
 }
 
 export type Props = {

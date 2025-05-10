@@ -6,6 +6,7 @@ import {IconButton} from 'react-native-paper'
 
 import Button from '@components/Button'
 import SingleDateTimePicker from '@components/SingleDateTimePicker'
+import TimeRangePicker from '@components/TimeRangePickerCustom'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {floorHalfHourDate} from '@utils/Helpers'
 
@@ -67,8 +68,8 @@ export default function index({
     }
 
     const timeRange: TimeRange = {
-      startTime: dayjs(startDateRef.current).format('HH:mm'),
-      endTime: dayjs(stopDateRef.current).format('HH:mm'),
+      start: dayjs(startDateRef.current).format('HH:mm'),
+      end: dayjs(stopDateRef.current).format('HH:mm'),
     }
 
     if (isTimeOverlaping(times, timeRange)) {
@@ -76,7 +77,9 @@ export default function index({
       return
     }
 
-    setTimes(val => sortTimeRanges([...val, timeRange]))
+    const newTimes = sortTimeRanges([...times, timeRange])
+    onChange(newTimes)
+    setTimes(newTimes)
     setIsvisible(false)
     setError('')
     startDateRef.current = null
@@ -90,7 +93,7 @@ export default function index({
         {times.map((time, index) => (
           <View key={index} style={[styles.timeBox, timeBoxStyle]}>
             <Text style={[styles.timeLabel, timeLabelStyle]}>
-              {time.startTime} - {time.endTime}
+              {time.start} - {time.end}
             </Text>
             <IconButton
               icon='ion-trash-outline'
@@ -117,12 +120,22 @@ export default function index({
         onBackdropPress={onDismiss}
         animationIn='fadeIn'
         animationOut='fadeOut'
-        animationInTiming={500}
-        animationOutTiming={500}
+        animationInTiming={1}
+        animationOutTiming={1}
         backdropColor={theme.colors.backdrop}>
         <View style={styles.modal}>
           <Text style={styles.modalTitle}>Select time range</Text>
-          <View style={styles.timePickerFlex}>
+          <View style={styles.timeLabelContainer}>
+            <View style={styles.timeLabelItem}>
+              <Text style={styles.timeLabelText}>Hour</Text>
+              <Text style={styles.timeLabelText}>Minute</Text>
+            </View>
+            <View style={styles.timeLabelItem}>
+              <Text style={styles.timeLabelText}>Hour</Text>
+              <Text style={styles.timeLabelText}>Minute</Text>
+            </View>
+          </View>
+          <View style={styles.flexRow}>
             <SingleDateTimePicker
               initialDate={startDateRef.current ?? undefined}
               onChange={date => {
@@ -131,7 +144,7 @@ export default function index({
                   setError('')
                 }
               }}
-              backgroundColor={theme.colors.surface}
+              backgroundColor={theme.colors.surfaceContainer}
               dividerColor={theme.colors.surfaceVariant}
               width={150}
               minuteInterval={30}
@@ -145,17 +158,24 @@ export default function index({
                   setError('')
                 }
               }}
-              backgroundColor={theme.colors.surface}
+              backgroundColor={theme.colors.surfaceContainer}
               dividerColor={theme.colors.surfaceVariant}
               width={150}
               minuteInterval={30}
             />
           </View>
           <View style={styles.modalButtonFlex}>
-            <Button mode='text' onPress={onDismiss}>
+            <Button
+              mode='text'
+              onPress={onDismiss}
+              containerStyle={styles.modalButtonContainer}
+              labelStyle={styles.modalButtonCancelLabel}>
               Cancel
             </Button>
-            <Button mode='text' onPress={addTimeRangeHandler}>
+            <Button
+              mode='text'
+              onPress={addTimeRangeHandler}
+              containerStyle={styles.modalButtonContainer}>
               Confirm
             </Button>
           </View>
@@ -167,10 +187,10 @@ export default function index({
 }
 
 function isOverlapping(a: TimeRange, b: TimeRange): boolean {
-  const aStart = dayjs(`2000-01-01T${a.startTime}`)
-  const aEnd = dayjs(`2000-01-01T${a.endTime}`)
-  const bStart = dayjs(`2000-01-01T${b.startTime}`)
-  const bEnd = dayjs(`2000-01-01T${b.endTime}`)
+  const aStart = dayjs(`2000-01-01T${a.start}`)
+  const aEnd = dayjs(`2000-01-01T${a.end}`)
+  const bStart = dayjs(`2000-01-01T${b.start}`)
+  const bEnd = dayjs(`2000-01-01T${b.end}`)
 
   return aStart.isBefore(bEnd) && aEnd.isAfter(bStart)
 }
@@ -184,8 +204,8 @@ function isTimeOverlaping(
 
 function sortTimeRanges(ranges: TimeRange[]): TimeRange[] {
   return [...ranges].sort((a, b) => {
-    const aStart = dayjs(`2000-01-01T${a.startTime}`)
-    const bStart = dayjs(`2000-01-01T${b.startTime}`)
+    const aStart = dayjs(`2000-01-01T${a.start}`)
+    const bStart = dayjs(`2000-01-01T${b.start}`)
     return aStart.diff(bStart)
   })
 }
