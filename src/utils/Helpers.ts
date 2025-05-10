@@ -1,5 +1,5 @@
 import Color from 'color'
-import {Alert, Platform} from 'react-native'
+import {Platform} from 'react-native'
 
 export function getPlatFormOS() {
   return Platform.OS
@@ -45,18 +45,7 @@ export function createArrayRange(
   )
 }
 
-export function alertFileSizeExceed(
-  fileSize: number,
-  maxSize: number,
-  message?: string,
-) {
-  if (fileSize > maxSize) {
-    Alert.alert(message ?? 'Image size is above the file size limit')
-    return
-  }
-}
-
-export function getFirstOrValue(value: string | string[]) {
+export function getFirstOrValue<T>(value: T | T[]): T {
   if (Array.isArray(value)) {
     return value[0]
   }
@@ -73,4 +62,12 @@ export function floorHalfHourDate(date: Date) {
   date.setSeconds(0)
   date.setMilliseconds(0)
   return date
+}
+
+export function floorNumberToNearestMultiple(
+  val: number,
+  multiple: number,
+): number {
+  const multiply = Math.floor(val / multiple)
+  return multiple * multiply
 }
