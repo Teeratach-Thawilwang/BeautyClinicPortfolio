@@ -28,8 +28,8 @@ export default function ResponseModal({
       onBackdropPress={onDismiss}
       animationIn='fadeIn'
       animationOut='fadeOut'
-      animationInTiming={500}
-      animationOutTiming={500}
+      animationInTiming={200}
+      animationOutTiming={100}
       backdropColor={theme.colors.backdrop}>
       <View style={styles.modal}>
         <Image source={imageSource} style={styles.icon} />
