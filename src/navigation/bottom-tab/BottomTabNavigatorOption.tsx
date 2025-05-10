@@ -35,11 +35,13 @@ export default function BottomTabNavigatorOption({
       return <Icon source={iconName} size={size} color={color} />
     },
     tabBarActiveTintColor: theme.colors.onSurface,
-    tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
+    tabBarInactiveTintColor: theme.colors.onSurfaceDisabled,
     tabBarStyle: {
-      backgroundColor: theme.colors.background,
+      height: 60,
       borderColor: theme.colors.outlineVariant,
+      backgroundColor: theme.colors.surface,
     },
+    tabBarLabelPosition: 'below-icon',
     headerShown: false,
     tabBarPosition: 'bottom',
     tabBarHideOnKeyboard: true,

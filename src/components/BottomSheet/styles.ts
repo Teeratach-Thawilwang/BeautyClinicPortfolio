@@ -6,7 +6,6 @@ export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       backgroundColor: theme.colors.surfaceContainerHigh,
-      paddingHorizontal: 20,
     },
     background: {
       backgroundColor: theme.colors.surfaceContainerHigh,

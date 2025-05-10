@@ -6,11 +6,11 @@ export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       width: 200,
-      height: 50,
+      height: 40,
       paddingLeft: 20,
       paddingRight: 10,
       borderWidth: 1,
-      borderRadius: 10,
+      borderRadius: 5,
       borderColor: theme.colors.surfaceVariant,
       backgroundColor: theme.colors.surfaceContainerHigh,
       flex: 1,
