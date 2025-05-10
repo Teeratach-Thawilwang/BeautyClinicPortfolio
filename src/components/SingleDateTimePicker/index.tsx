@@ -48,6 +48,8 @@ export default function SingleDateTimePicker({
       onCancel={onCancel}
       onConfirm={onConfirm}
       minuteInterval={minuteInterval}
+      is24hourSource='locale'
+      locale={process.env.LOCALE}
     />
   )
 }
