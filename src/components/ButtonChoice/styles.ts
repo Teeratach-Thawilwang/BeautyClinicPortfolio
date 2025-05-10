@@ -1,36 +1,31 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: theme.colors.outline,
       flexDirection: 'row',
-      overflow: 'hidden',
+      flexWrap: 'wrap',
+      gap: 10,
     },
-    button: {
-      flexGrow: 1,
-      borderWidth: 0,
-      borderRadius: 0,
-      borderLeftWidth: 1,
-      borderColor: theme.colors.outline,
+    buttonContainer: {
+      height: 40,
+      minWidth: 80,
+      backgroundColor: theme.colors.surfaceContainerHigh,
     },
-    buttonLeft: {
-      borderLeftWidth: 0,
+    buttonLabel: {
+      color: theme.colors.onSurfaceVariant,
+      fontSize: theme.fontSize.body,
     },
-    buttonColorActive: {
+    activeButtonContainer: {
+      height: 40,
+      minWidth: 80,
       backgroundColor: theme.colors.primary,
     },
-    label: {
-      color: theme.colors.primary,
-    },
-    labelActive: {
+    activeButtonLabel: {
       color: theme.colors.onPrimary,
-    },
-    labelDisabled: {
-      color: theme.colors.onSurfaceDisabled,
+      fontSize: theme.fontSize.body,
     },
   })
 }

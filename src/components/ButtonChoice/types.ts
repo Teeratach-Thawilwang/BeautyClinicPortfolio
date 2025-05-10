@@ -1,17 +1,18 @@
+import {TextStyle, ViewStyle} from 'react-native'
+
 export type Choice = {
   label: string
-  value: string
-  icon?: string
-  disabled?: boolean
+  value: string | number
 }
 
 export type Props = {
-  choices: Choice[]
-  onChange: (value: string) => void
-  initialValue?: string
-  containerStyle?: any
-  buttonGroupStyle?: any
-  activeButtonColor?: string
-  activeLabelColor?: string
-  disabledColor?: string
+  data: Choice[]
+  onChange: (values: Choice['value'][]) => void
+  initialValue?: Choice['value'][]
+  multiple?: boolean
+  containerStyle?: ViewStyle
+  buttonContainerStyle?: ViewStyle
+  buttonLabelStyle?: TextStyle
+  activeButtonContainerStyle?: ViewStyle
+  activeButtonLabelStyle?: TextStyle
 }
