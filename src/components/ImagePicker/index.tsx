@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import {Text, View} from 'react-native'
+import {Alert, Text, View} from 'react-native'
 import {Image} from 'react-native'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
 import {Icon, IconButton, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {adjustColorBrightness, alertFileSizeExceed} from '@utils/Helpers'
+import {adjustColorBrightness} from '@utils/Helpers'
 import {
   requestCameraPermission,
   requestReadImagePermission,
@@ -18,8 +18,9 @@ export default function ImagePicker({
   onChange,
   initialUris = [],
   maxPhoto = 5,
-  maxSize = 4 * 10 ** 6,
+  maxSize = 10 * 10 ** 6,
   title,
+  note,
   saveToPhotos = true,
   containerStyle,
   titleStyle,
@@ -33,7 +34,8 @@ export default function ImagePicker({
 }: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const [imageUris, setImageUris] = useState<ImageFileAsset[]>(initialUris)
+  const [images, setImages] = useState<ImageFileAsset[]>(initialUris)
+  const warningFileExceedMessage = 'Image size is above the file size limit'
 
   const rippleColor = adjustColorBrightness(
     buttonStyle?.backgroundColor ?? styles.button.backgroundColor,
@@ -42,8 +44,8 @@ export default function ImagePicker({
 
   function appendImage(uri: string | undefined, type: string | undefined) {
     if (uri && type) {
-      setImageUris(val => [...val, {uri: uri, type: type}])
-      onChange([...imageUris, {uri: uri, type: type}])
+      setImages(val => [...val, {uri: uri, type: type}])
+      onChange([...images, {uri: uri, type: type}])
     }
   }
 
@@ -59,7 +61,10 @@ export default function ImagePicker({
       const uri = result.assets[0].uri
       const fileType = result.assets[0].type
       const fileSize = result.assets[0].fileSize ?? 0
-      alertFileSizeExceed(fileSize, maxSize)
+      if (fileSize > maxSize) {
+        Alert.alert(warningFileExceedMessage)
+        return
+      }
       appendImage(uri, fileType)
     }
   }
@@ -76,14 +81,17 @@ export default function ImagePicker({
       const uri = result.assets[0].uri
       const fileType = result.assets[0].type
       const fileSize = result.assets[0].fileSize ?? 0
-      alertFileSizeExceed(fileSize, maxSize)
+      if (fileSize > maxSize) {
+        Alert.alert(warningFileExceedMessage)
+        return
+      }
       appendImage(uri, fileType)
     }
   }
 
   function removeImageHandler(index: number) {
-    setImageUris(val => val.filter((_, i) => i !== index))
-    onChange(imageUris.filter((_, i) => i !== index))
+    setImages(val => val.filter((_, i) => i !== index))
+    onChange(images.filter((_, i) => i !== index))
   }
 
   return (
@@ -92,14 +100,15 @@ export default function ImagePicker({
         <>
           <Text style={[styles.title, titleStyle]}>{title}</Text>
           <Text style={[styles.note, noteStyle]}>
-            Note: Format SVG, PNG or JPG (Max size 4MB)
+            {note ?? 'Note: Format SVG, PNG or JPG (Max size 10MB)'}
           </Text>
         </>
       ) : null}
+
       <View style={[styles.imageContainer, imageContainerStyle]}>
-        {imageUris.map(({uri}, index) => (
+        {images.map((image, index) => (
           <View key={index} style={[styles.imageBox, imageStyle]}>
-            <Image source={{uri}} style={styles.image} />
+            <Image source={{uri: image.uri}} style={styles.image} />
             <IconButton
               icon='ion-trash-outline'
               iconColor={removeIconStyle?.color ?? styles.removeIcon.color}
@@ -109,7 +118,8 @@ export default function ImagePicker({
             />
           </View>
         ))}
-        {imageUris.length < maxPhoto ? (
+
+        {images.length < maxPhoto ? (
           <>
             <View style={[styles.buttonContainer, buttonStyle]}>
               <TouchableRipple

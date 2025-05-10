@@ -9,6 +9,7 @@ export type Props = {
   maxPhoto?: number
   maxSize?: number
   title?: string
+  note?: string
   saveToPhotos?: boolean
   containerStyle?: any
   titleStyle?: any
