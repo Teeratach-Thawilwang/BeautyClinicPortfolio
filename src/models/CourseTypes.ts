@@ -1,17 +1,19 @@
+import {ImageFileAsset} from '@components/ImagePicker/types'
 import {CourseStatus} from '@enums/StatusEnums'
 
 export type WorkingTime = {
-  start_at: string
-  end_at: string
+  start: string
+  end: string
 }[]
 
 export type Course = {
   id: number
+  category_id: number
   name: string
   description: string
   status: CourseStatus
   price: number
-  images: string[]
+  images: ImageFileAsset[]
   treatment_rounds: number
   duration_per_round: number
   booking_limit_per_round: number
