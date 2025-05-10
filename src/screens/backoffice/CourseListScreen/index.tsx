@@ -2,8 +2,8 @@ import React, {useCallback, useState} from 'react'
 import {Keyboard, RefreshControl, ScrollView} from 'react-native'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useCourses} from '@hooks/BackofficeCourseHook'
 import {useNavigate, useRefresh} from '@hooks/CommonHooks'
+import {useQueryCourses} from '@hooks/backoffice/CourseHooks'
 
 import Filter from './Components/Filter'
 import TableResponsive from './Components/TableResponsive'
@@ -18,14 +18,25 @@ export default function CourseListScreen() {
   const [page, setPage] = useState(1)
   const [status, setStatus] = useState(undefined)
   const [orderBy, setOrderBy] = useState<'ASC' | 'DESC'>('DESC')
-  const [startCreatedAt, setStartCreatedAt] = useState(undefined)
-  const [stopCreatedAt, setStopCreatedAt] = useState(undefined)
+  const [startCreatedAt, setStartCreatedAt] = useState<Date | undefined>(
+    undefined,
+  )
+  const [stopCreatedAt, setStopCreatedAt] = useState<Date | undefined>(
+    undefined,
+  )
 
   const {
     data: courses,
     isFetching: isLoading,
     refetch,
-  } = useCourses(search, page, orderBy, status, startCreatedAt, stopCreatedAt)
+  } = useQueryCourses(
+    search,
+    page,
+    orderBy,
+    status,
+    startCreatedAt,
+    stopCreatedAt,
+  )
 
   const {refreshing, onRefresh} = useRefresh(() => {
     setSearch('')
@@ -84,6 +95,7 @@ export default function CourseListScreen() {
     <ScrollView
       style={styles.container}
       keyboardShouldPersistTaps='handled'
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
@@ -100,7 +112,7 @@ export default function CourseListScreen() {
         data={courses.data}
         isLoading={isLoading}
         onRowPress={row =>
-          navigation.push('BackOfficeScreens', {
+          navigation.navigate('BackOfficeScreens', {
             screen: 'CourseDetail',
             params: {courseId: row.id},
           })
