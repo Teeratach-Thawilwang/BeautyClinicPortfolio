@@ -91,3 +91,25 @@ export function partition<T>(
     [[], []],
   )
 }
+
+export function swapArrayItem<T>(
+  array: T[],
+  fromIndex: number,
+  toIndex: number,
+): T[] {
+  if (
+    fromIndex < 0 ||
+    fromIndex >= array.length ||
+    toIndex < 0 ||
+    toIndex >= array.length ||
+    fromIndex === toIndex
+  ) {
+    return array
+  }
+
+  const newArray = [...array]
+  const temp = newArray[fromIndex]
+  newArray[fromIndex] = newArray[toIndex]
+  newArray[toIndex] = temp
+  return newArray
+}
