@@ -1,14 +1,11 @@
-import React, {useCallback, useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
+import {set} from 'react-hook-form'
 import {Alert, Text, View} from 'react-native'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
 import Animated, {useAnimatedRef} from 'react-native-reanimated'
-import Sortable, {
-  SortableGridDragEndParams,
-  SortableGridRenderItem,
-} from 'react-native-sortables'
+import Sortable, {SortableFlexDragEndParams} from 'react-native-sortables'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {
   requestCameraPermission,
   requestReadImagePermission,
@@ -53,9 +50,9 @@ export default function ImagePicker({
   }))
   const initialSortItems: SortableItem[] = [...transfromImages, ...buttonItems]
   const [sortItems, setSortItems] = useState<SortableItem[]>(initialSortItems)
+  const [triggerReOrder, setTriggerReOrder] = useState(false)
   const scrollableRef = useAnimatedRef<Animated.ScrollView>()
-  const {width} = useResponsiveScreen()
-  const columns = Math.floor(width / Number(imageStyle?.width ?? 100))
+  const sortableFlexKey = `${keyRef.current} - ${sortItems.map(i => i.key).join(' - ')} - ${triggerReOrder}`
 
   function appendImage(uri: string | undefined, type: string | undefined) {
     if (uri && type) {
@@ -92,17 +89,29 @@ export default function ImagePicker({
     onChange(images)
   }
 
-  function onDragEnd(items: SortableGridDragEndParams<SortableItem>) {
-    const isItemsChange = isOrderKeyChanged(sortItems, items.data)
-    if (!isItemsChange) return
-    setSortItems(items.data)
-    const images = items.data
-      .filter(item => item.itemType === 'image')
-      .map(item => ({
-        uri: item.uri,
-        type: item.type,
-      }))
-    onChange(images)
+  function onDragEnd(items: SortableFlexDragEndParams) {
+    const newSortItems = items.order(sortItems)
+    const isOrderChanged = isOrderKeyChanged(sortItems, newSortItems)
+    if (!isOrderChanged) return
+
+    const length = newSortItems.length
+    const isAbleToSwap =
+      newSortItems[length - 2].itemType === 'add' &&
+      newSortItems[length - 1].itemType === 'camera'
+
+    if (isAbleToSwap) {
+      setSortItems(newSortItems)
+      const images = newSortItems
+        .filter(item => item.itemType === 'image')
+        .map(item => ({
+          uri: item.uri,
+          type: item.type,
+        }))
+      onChange(images)
+    } else {
+      setTriggerReOrder(val => !val)
+      setSortItems(sortItems)
+    }
   }
 
   async function pickupImageHandler() {
@@ -145,38 +154,6 @@ export default function ImagePicker({
     }
   }
 
-  const renderItem = useCallback<SortableGridRenderItem<SortableItem>>(
-    ({item}) => {
-      if (item.itemType === 'image') {
-        return (
-          <Sortable.Handle mode='draggable'>
-            <ImageItem
-              uri={item.uri}
-              imageStyle={imageStyle}
-              removeIconStyle={removeIconStyle}
-              onRemove={() => removeImageHandler(item.key)}
-            />
-          </Sortable.Handle>
-        )
-      }
-      return (
-        <Sortable.Handle mode='fixed'>
-          <ButtonItem
-            title={item.itemType === 'add' ? 'Image' : 'Camera'}
-            icon={item.itemType === 'add' ? 'mat-add-box' : 'camera'}
-            onPress={
-              item.itemType === 'add' ? pickupImageHandler : takerPhotoHandler
-            }
-            containerStyle={buttonStyle}
-            titleStyle={buttonTextStyle}
-            iconStyle={buttonIconStyle}
-          />
-        </Sortable.Handle>
-      )
-    },
-    [sortItems],
-  )
-
   return (
     <View style={[styles.container, containerStyle]}>
       {title ? (
@@ -188,22 +165,44 @@ export default function ImagePicker({
         </>
       ) : null}
       <Animated.ScrollView ref={scrollableRef}>
-        <Sortable.Grid
-          key={`${keyRef.current} - ${sortItems.length}`}
-          customHandle={true}
-          rowGap={gap}
-          columnGap={gap}
-          columns={columns}
-          data={sortItems}
-          renderItem={renderItem}
-          keyExtractor={item => item.key}
+        <Sortable.Flex
+          key={sortableFlexKey}
+          gap={gap}
           scrollableRef={scrollableRef}
-          dragActivationDelay={80}
+          dragActivationDelay={150}
           autoScrollActivationOffset={200}
           autoScrollSpeed={1}
           autoScrollEnabled={true}
-          onDragEnd={onDragEnd}
-        />
+          onDragEnd={onDragEnd}>
+          {sortItems.map((item, index) => {
+            if (item.itemType === 'image') {
+              return (
+                <ImageItem
+                  key={index}
+                  uri={item.uri}
+                  imageStyle={imageStyle}
+                  removeIconStyle={removeIconStyle}
+                  onRemove={() => removeImageHandler(item.key)}
+                />
+              )
+            }
+            return (
+              <ButtonItem
+                key={index}
+                title={item.itemType === 'add' ? 'Image' : 'Camera'}
+                icon={item.itemType === 'add' ? 'mat-add-box' : 'camera'}
+                onPress={
+                  item.itemType === 'add'
+                    ? pickupImageHandler
+                    : takerPhotoHandler
+                }
+                containerStyle={buttonStyle}
+                titleStyle={buttonTextStyle}
+                iconStyle={buttonIconStyle}
+              />
+            )
+          })}
+        </Sortable.Flex>
       </Animated.ScrollView>
     </View>
   )
