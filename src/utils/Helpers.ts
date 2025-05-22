@@ -1,5 +1,5 @@
 import Color from 'color'
-import {Platform} from 'react-native'
+import {ColorValue, Platform} from 'react-native'
 
 export function getPlatFormOS() {
   return Platform.OS
@@ -23,7 +23,10 @@ export function getDeviceTimezone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
 
-export function adjustColorBrightness(color: string, percent: number): string {
+export function adjustColorBrightness(
+  color: string | ColorValue,
+  percent: number,
+): string {
   const colorInstance = Color(color)
   const adjustedColor =
     percent > 0
@@ -70,4 +73,21 @@ export function floorNumberToNearestMultiple(
 ): number {
   const multiply = Math.floor(val / multiple)
   return multiple * multiply
+}
+
+export function partition<T>(
+  array: T[],
+  predicate: (value: T, index: number, array: T[]) => boolean,
+): [T[], T[]] {
+  return array.reduce<[T[], T[]]>(
+    (acc, item, index, arr) => {
+      if (predicate(item, index, arr)) {
+        acc[0].push(item)
+      } else {
+        acc[1].push(item)
+      }
+      return acc
+    },
+    [[], []],
+  )
 }
