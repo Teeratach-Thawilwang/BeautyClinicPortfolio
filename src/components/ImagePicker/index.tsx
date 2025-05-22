@@ -1,18 +1,23 @@
-import React, {useState} from 'react'
+import React, {useCallback, useRef, useState} from 'react'
 import {Alert, Text, View} from 'react-native'
-import {Image} from 'react-native'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
-import {Icon, IconButton, TouchableRipple} from 'react-native-paper'
+import Animated, {useAnimatedRef} from 'react-native-reanimated'
+import Sortable, {
+  SortableGridDragEndParams,
+  SortableGridRenderItem,
+} from 'react-native-sortables'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {adjustColorBrightness} from '@utils/Helpers'
+import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {
   requestCameraPermission,
   requestReadImagePermission,
 } from '@utils/Permissions'
 
+import ButtonItem from './Components/ButtonItem'
+import ImageItem from './Components/ImageItem'
 import {getStyles} from './styles'
-import {ImageFileAsset, Props} from './types'
+import {Props, SortableItem} from './types'
 
 export default function ImagePicker({
   onChange,
@@ -22,11 +27,11 @@ export default function ImagePicker({
   title,
   note,
   saveToPhotos = true,
+  gap = 10,
   containerStyle,
   titleStyle,
   noteStyle,
   removeIconStyle,
-  imageContainerStyle,
   imageStyle,
   buttonStyle,
   buttonIconStyle,
@@ -34,19 +39,70 @@ export default function ImagePicker({
 }: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const [images, setImages] = useState<ImageFileAsset[]>(initialUris)
+  const keyRef = useRef(initialUris.length)
   const warningFileExceedMessage = 'Image size is above the file size limit'
-
-  const rippleColor = adjustColorBrightness(
-    buttonStyle?.backgroundColor ?? styles.button.backgroundColor,
-    -12,
-  )
+  const buttonItems: SortableItem[] = [
+    {itemType: 'add', uri: '', type: '', key: 'add'},
+    {itemType: 'camera', uri: '', type: '', key: 'camera'},
+  ]
+  const transfromImages: SortableItem[] = initialUris.map((item, index) => ({
+    itemType: 'image',
+    uri: item.uri,
+    type: item.type,
+    key: index.toString(),
+  }))
+  const initialSortItems: SortableItem[] = [...transfromImages, ...buttonItems]
+  const [sortItems, setSortItems] = useState<SortableItem[]>(initialSortItems)
+  const scrollableRef = useAnimatedRef<Animated.ScrollView>()
+  const {width} = useResponsiveScreen()
+  const columns = Math.floor(width / Number(imageStyle?.width ?? 100))
 
   function appendImage(uri: string | undefined, type: string | undefined) {
     if (uri && type) {
-      setImages(val => [...val, {uri: uri, type: type}])
-      onChange([...images, {uri: uri, type: type}])
+      keyRef.current += 1
+      const images = sortItems.filter(item => item.itemType === 'image')
+      const newItem: SortableItem = {
+        itemType: 'image',
+        uri: uri,
+        type: type,
+        key: keyRef.current.toString(),
+      }
+      const newImages = [...images, newItem]
+      const newSortItems =
+        newImages.length >= maxPhoto
+          ? newImages
+          : [...newImages, ...buttonItems]
+
+      setSortItems(newSortItems)
+      const onChangeImages = newImages.map(item => ({
+        uri: item.uri,
+        type: item.type,
+      }))
+      onChange(onChangeImages)
     }
+  }
+
+  function removeImageHandler(key: string) {
+    const images = sortItems.filter(
+      item => item.itemType === 'image' && item.key !== key,
+    )
+    const newSortItems =
+      images.length >= maxPhoto ? images : [...images, ...buttonItems]
+    setSortItems(newSortItems)
+    onChange(images)
+  }
+
+  function onDragEnd(items: SortableGridDragEndParams<SortableItem>) {
+    const isItemsChange = isOrderKeyChanged(sortItems, items.data)
+    if (!isItemsChange) return
+    setSortItems(items.data)
+    const images = items.data
+      .filter(item => item.itemType === 'image')
+      .map(item => ({
+        uri: item.uri,
+        type: item.type,
+      }))
+    onChange(images)
   }
 
   async function pickupImageHandler() {
@@ -89,10 +145,37 @@ export default function ImagePicker({
     }
   }
 
-  function removeImageHandler(index: number) {
-    setImages(val => val.filter((_, i) => i !== index))
-    onChange(images.filter((_, i) => i !== index))
-  }
+  const renderItem = useCallback<SortableGridRenderItem<SortableItem>>(
+    ({item}) => {
+      if (item.itemType === 'image') {
+        return (
+          <Sortable.Handle mode='draggable'>
+            <ImageItem
+              uri={item.uri}
+              imageStyle={imageStyle}
+              removeIconStyle={removeIconStyle}
+              onRemove={() => removeImageHandler(item.key)}
+            />
+          </Sortable.Handle>
+        )
+      }
+      return (
+        <Sortable.Handle mode='fixed'>
+          <ButtonItem
+            title={item.itemType === 'add' ? 'Image' : 'Camera'}
+            icon={item.itemType === 'add' ? 'mat-add-box' : 'camera'}
+            onPress={
+              item.itemType === 'add' ? pickupImageHandler : takerPhotoHandler
+            }
+            containerStyle={buttonStyle}
+            titleStyle={buttonTextStyle}
+            iconStyle={buttonIconStyle}
+          />
+        </Sortable.Handle>
+      )
+    },
+    [sortItems],
+  )
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -104,70 +187,35 @@ export default function ImagePicker({
           </Text>
         </>
       ) : null}
-
-      <View style={[styles.imageContainer, imageContainerStyle]}>
-        {images.map((image, index) => (
-          <View key={index} style={[styles.imageBox, imageStyle]}>
-            <Image source={{uri: image.uri}} style={styles.image} />
-            <IconButton
-              icon='ion-trash-outline'
-              iconColor={removeIconStyle?.color ?? styles.removeIcon.color}
-              style={styles.removeIcon}
-              size={removeIconStyle?.width ?? styles.removeIcon.width}
-              onPress={() => removeImageHandler(index)}
-            />
-          </View>
-        ))}
-
-        {images.length < maxPhoto ? (
-          <>
-            <View style={[styles.buttonContainer, buttonStyle]}>
-              <TouchableRipple
-                style={{
-                  ...styles.button,
-                  backgroundColor:
-                    buttonStyle?.backgroundColor ??
-                    styles.button.backgroundColor,
-                }}
-                onPress={pickupImageHandler}
-                rippleColor={rippleColor}>
-                <>
-                  <Icon
-                    source='mat-add-box'
-                    color={buttonIconStyle?.color ?? styles.buttonIcon.color}
-                    size={buttonIconStyle?.width ?? styles.buttonIcon.width}
-                  />
-                  <Text style={[styles.buttonText, buttonTextStyle]}>
-                    Image
-                  </Text>
-                </>
-              </TouchableRipple>
-            </View>
-            <View style={[styles.buttonContainer, buttonStyle]}>
-              <TouchableRipple
-                style={{
-                  ...styles.button,
-                  backgroundColor:
-                    buttonStyle?.backgroundColor ??
-                    styles.button.backgroundColor,
-                }}
-                onPress={takerPhotoHandler}
-                rippleColor={rippleColor}>
-                <>
-                  <Icon
-                    source='camera'
-                    color={buttonIconStyle?.color ?? styles.buttonIcon.color}
-                    size={buttonIconStyle?.width ?? styles.buttonIcon.width}
-                  />
-                  <Text style={[styles.buttonText, buttonTextStyle]}>
-                    Camera
-                  </Text>
-                </>
-              </TouchableRipple>
-            </View>
-          </>
-        ) : null}
-      </View>
+      <Animated.ScrollView ref={scrollableRef}>
+        <Sortable.Grid
+          key={`${keyRef.current} - ${sortItems.length}`}
+          customHandle={true}
+          rowGap={gap}
+          columnGap={gap}
+          columns={columns}
+          data={sortItems}
+          renderItem={renderItem}
+          keyExtractor={item => item.key}
+          scrollableRef={scrollableRef}
+          dragActivationDelay={80}
+          autoScrollActivationOffset={200}
+          autoScrollSpeed={1}
+          autoScrollEnabled={true}
+          onDragEnd={onDragEnd}
+        />
+      </Animated.ScrollView>
     </View>
   )
+}
+
+function isOrderKeyChanged(
+  oldItems: SortableItem[],
+  newItems: SortableItem[],
+): boolean {
+  if (oldItems.length !== newItems.length) return true
+  for (let i = 0; i < oldItems.length; i++) {
+    if (oldItems[i].key !== newItems[i].key) return true
+  }
+  return false
 }
