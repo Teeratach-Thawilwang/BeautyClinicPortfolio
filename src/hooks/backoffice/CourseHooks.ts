@@ -1,6 +1,7 @@
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useMutation, useQuery} from '@tanstack/react-query'
 import {useForm} from 'react-hook-form'
+import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
 import {CourseStatus} from '@enums/StatusEnums'
@@ -131,6 +132,17 @@ export function useCourseCreateMutation() {
     mutationFn: (course: CourseCreateProps) => CourseService.create(course),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'CourseList'})
+      Toast.show({
+        type: 'success',
+        text1: 'Create successfully.',
+      })
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
     },
   })
   return mutation
@@ -142,11 +154,17 @@ export function useCourseUpdateMutation() {
     mutationFn: (course: CourseUpdateProps) => CourseService.update(course),
     onSuccess: () => {
       navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
-      // toast Update successfully.
+      Toast.show({
+        type: 'success',
+        text1: 'Update successfully.',
+      })
     },
     onError: error => {
-      console.log(error)
-      // toast Error message
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
     },
   })
   return mutation
@@ -158,6 +176,17 @@ export function useCourseDeleteMutation() {
     mutationFn: (id: number) => CourseService.delete(id),
     onSuccess: () => {
       navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
+      Toast.show({
+        type: 'Delete',
+        text1: 'Create successfully.',
+      })
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
     },
   })
   return mutation
