@@ -149,7 +149,9 @@ export default function CourseForm({onSubmit, categories, course}: Props) {
                     onChange={value => {
                       onChange(getFirstOrValue(value))
                     }}
-                    defaultValueByIndex={[value == 'active' ? 0 : 1]}
+                    defaultValueByIndex={
+                      value ? [value == 'active' ? 0 : 1] : undefined
+                    }
                     containerStyle={dropdownContainerStyle}
                   />
                   {errors.status?.message ? (

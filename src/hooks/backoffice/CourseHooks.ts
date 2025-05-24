@@ -72,22 +72,26 @@ export function useQueryCourseById(
   })
 }
 
-export const workingTimeSchema = z.array(
-  z.object({
-    start: z.string(),
-    end: z.string(),
-  }),
-)
+export const workingTimeSchema = z
+  .array(
+    z.object({
+      start: z.string(),
+      end: z.string(),
+    }),
+  )
+  .default([])
 
-export const courseImageSchema = z.array(
-  z.object({
-    uri: z.string(),
-    type: z.string(),
-  }),
-)
+export const courseImageSchema = z
+  .array(
+    z.object({
+      uri: z.string(),
+      type: z.string(),
+    }),
+  )
+  .default([])
 
 export const courseSchema = z.object({
-  id: z.number(),
+  id: z.number().default(0),
   name: z.string().min(2),
   description: z.string().min(2),
   status: z.enum([CourseStatus.Active, CourseStatus.Inactive]),
