@@ -1,5 +1,6 @@
 module.exports = {
   importOrder: [
+    "react-native-gesture-handler",
     "<THIRD_PARTY_MODULES>",
     "^(react|redux)/(.*)$",
     "^styled(.*)$",
@@ -17,5 +18,5 @@ module.exports = {
   semi: false,
   jsxSingleQuote: true,
   jsxBracketSameLine: true,
-  printWidth: 90,
+  printWidth: 80,
 };

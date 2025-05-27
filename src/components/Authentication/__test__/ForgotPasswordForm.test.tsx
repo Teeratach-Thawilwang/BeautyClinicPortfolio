@@ -11,7 +11,9 @@ describe('ForgotPasswordForm', () => {
 
     const textInputs = getAllByTestId('text-input')
     const title = getByText('Forgot Password ?')
-    const text = getByText('Enter your email. We will send you a link to reset password.')
+    const text = getByText(
+      'Enter your email. We will send you a link to reset password.',
+    )
     const button = getByText('Reset Password')
 
     expect(title).toBeTruthy()

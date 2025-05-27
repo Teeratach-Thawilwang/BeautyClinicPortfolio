@@ -5,12 +5,14 @@ import {Text} from 'react-native-paper'
 import ForgotPasswordResponse from '@components/Authentication/ForgotPasswordResponse'
 import Button from '@components/Button'
 import TextInputForm from '@components/TextInputForm'
-import useForgotPasswordForm, {ForgotPasswordFormData} from '@hooks/useForgotPasswordForm'
+import useForgotPasswordForm, {
+  ForgotPasswordFormData,
+} from '@hooks/useForgotPasswordForm'
 import AuthenticationService from '@services/AuthenticationService'
-import AuthFormStyle from '@styles/AuthFormStyle'
+import getStyles from '@styles/AuthForm.style'
 
 export default function ForgotPasswordForm() {
-  const styles = AuthFormStyle()
+  const styles = getStyles()
   const {control, handleSubmit, errors} = useForgotPasswordForm()
   const [isModalVisible, setIsModalVisible] = useState(false)
 

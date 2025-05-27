@@ -25,7 +25,12 @@ describe('useSignUpForm', () => {
 
   it('should error when email invalid format', async () => {
     const {result} = renderHook(() =>
-      useSignUpForm('Steve', 'invalid email', 'valid password', 'valid password'),
+      useSignUpForm(
+        'Steve',
+        'invalid email',
+        'valid password',
+        'valid password',
+      ),
     )
     await act(async () => {
       result.current.handleSubmit(() => {})()
@@ -35,7 +40,9 @@ describe('useSignUpForm', () => {
   })
 
   it('should error when password invalid format', async () => {
-    const {result} = renderHook(() => useSignUpForm('H', 'test@email.com', '123', '123'))
+    const {result} = renderHook(() =>
+      useSignUpForm('H', 'test@email.com', '123', '123'),
+    )
     await act(async () => {
       result.current.handleSubmit(() => {})()
     })
@@ -47,12 +54,19 @@ describe('useSignUpForm', () => {
 
   it('should error when password and confirm-password is not equal', async () => {
     const {result} = renderHook(() =>
-      useSignUpForm('H', 'test@email.com', 'valid password 1', 'valid password 2'),
+      useSignUpForm(
+        'H',
+        'test@email.com',
+        'valid password 1',
+        'valid password 2',
+      ),
     )
     await act(async () => {
       result.current.handleSubmit(() => {})()
     })
 
-    expect(result.current.errors.confirmPassword?.message).toBe('Passwords do not match')
+    expect(result.current.errors.confirmPassword?.message).toBe(
+      'Passwords do not match',
+    )
   })
 })

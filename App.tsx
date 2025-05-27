@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler'
+
 import React, {useEffect} from 'react'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 
@@ -7,7 +9,9 @@ import AppNavigator from '@navigation/AppNavigator'
 import {configureGoogleSignIn} from '@repositories/GoogleSignIn'
 import {requestNotificationPermission} from '@utils/FirebaseMessage'
 import {configureSplashScreen} from '@utils/SplashScreenConfig'
-import {supabaseFcmListener} from '@utils/SupabaseFcmListener'
+import {supabaseListeners} from '@utils/SupabaseListener'
+
+;(globalThis as any).RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true
 
 if (process.env.STAGING !== 'production' && process.env.STAGING !== 'test') {
   require('./ReactotronConfig')
@@ -18,10 +22,10 @@ export default function App() {
     configureSplashScreen()
     configureGoogleSignIn()
     requestNotificationPermission()
-    const fcmListener = supabaseFcmListener()
+    const supabaseListener = supabaseListeners()
 
     return () => {
-      fcmListener.data.subscription.unsubscribe()
+      supabaseListener.data.subscription.unsubscribe()
     }
   }, [])
 

@@ -8,7 +8,10 @@ type ResponseProps = {
   onDismiss: () => void
 }
 
-export default function ForgotPasswordResponse({isVisible, onDismiss}: ResponseProps) {
+export default function ForgotPasswordResponse({
+  isVisible,
+  onDismiss,
+}: ResponseProps) {
   const error = AuthenticationService.getError()
 
   if (error) {

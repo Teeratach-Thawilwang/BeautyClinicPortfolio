@@ -10,7 +10,9 @@ jest.unmock('@utils/SplashScreenConfig')
 
 describe('SplashScreenConfig', () => {
   it('should call SplashScreen.hide when platform is Android', () => {
-    jest.spyOn(require('@utils/Helpers'), 'getPlatFormOS').mockReturnValue('android')
+    jest
+      .spyOn(require('@utils/Helpers'), 'getPlatFormOS')
+      .mockReturnValue('android')
 
     configureSplashScreen()
 
@@ -18,7 +20,9 @@ describe('SplashScreenConfig', () => {
   })
 
   it('should not call SplashScreen.hide when platform is iOS', () => {
-    jest.spyOn(require('@utils/Helpers'), 'getPlatFormOS').mockReturnValue('ios')
+    jest
+      .spyOn(require('@utils/Helpers'), 'getPlatFormOS')
+      .mockReturnValue('ios')
 
     configureSplashScreen()
 

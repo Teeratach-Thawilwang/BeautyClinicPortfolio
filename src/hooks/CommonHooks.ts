@@ -15,14 +15,19 @@ export function useEffectScreen(handler: () => void, dependencies: []) {
 
 export function disableBackSwipe(handler: () => boolean) {
   useEffectScreen(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handler)
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handler,
+    )
     return () => backHandler.remove()
   }, [])
 }
 
-export async function googleSignInHandler(navigation: RootScreenNavigationProps) {
+export async function googleSignInHandler(
+  navigation: RootScreenNavigationProps,
+) {
   const {success} = await AuthenticationService.signinWithGoogle()
   if (success) {
-    navigation.navigate('TabScreen', {screen: 'HomeScreen'})
+    navigation.navigate('BottomTabScreens', {screen: 'Home'})
   }
 }

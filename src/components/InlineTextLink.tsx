@@ -10,7 +10,11 @@ type InlineTextLinkProps = {
   onPress: (() => void) | (() => Promise<void>)
 }
 
-export default function InlineTextLink({text, linkText, onPress}: InlineTextLinkProps) {
+export default function InlineTextLink({
+  text,
+  linkText,
+  onPress,
+}: InlineTextLinkProps) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   return (

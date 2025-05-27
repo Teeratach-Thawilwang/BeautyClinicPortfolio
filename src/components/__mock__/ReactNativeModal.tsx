@@ -32,5 +32,7 @@ export default function ReactNativeModal({
     }
   }, [isVisible, onModalShow, onModalHide])
 
-  return <View testID='react-native-modal-mock'>{visible ? children : null}</View>
+  return (
+    <View testID='react-native-modal-mock'>{visible ? children : null}</View>
+  )
 }

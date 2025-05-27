@@ -44,7 +44,9 @@ describe('SignInForm', () => {
 
     await waitFor(() => {
       expect(keyboardInstanct).toHaveBeenCalledTimes(1)
-      expect(mockNavigate).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+      expect(mockNavigate).toHaveBeenCalledWith('BottomTabScreens', {
+        screen: 'Home',
+      })
     })
   })
 
@@ -56,13 +58,18 @@ describe('SignInForm', () => {
       .mockResolvedValue({success: false, data: null, error: errorText})
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(errorText)
 
-    const {findByTestId, queryByText, getByText, getAllByTestId} = render(<SignInForm />)
+    const {findByTestId, queryByText, getByText, getAllByTestId} = render(
+      <SignInForm />,
+    )
     const button = getByText('Sign In')
     const textInputs = getAllByTestId('text-input')
 
     await act(async () => {
       fireEvent.changeText(textInputs[0], 'test@example.com')
-      fireEvent.changeText(textInputs[1], 'password is invalid to make failed request')
+      fireEvent.changeText(
+        textInputs[1],
+        'password is invalid to make failed request',
+      )
       fireEvent.press(button)
     })
 

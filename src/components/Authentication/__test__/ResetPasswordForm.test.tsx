@@ -29,9 +29,10 @@ describe('ResetPasswordForm', () => {
       .mockResolvedValue({success: true, data: null, error: null})
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
 
-    const {getByText, getByTestId, getAllByTestId, findByTestId, queryByText} = render(
-      <ResetPasswordForm email='test@email.com' onSuccess={mockOnSuccess} />,
-    )
+    const {getByText, getByTestId, getAllByTestId, findByTestId, queryByText} =
+      render(
+        <ResetPasswordForm email='test@email.com' onSuccess={mockOnSuccess} />,
+      )
 
     const view = getByTestId('reset-password-form')
     const textInputs = getAllByTestId('text-input')
@@ -76,9 +77,10 @@ describe('ResetPasswordForm', () => {
       .mockResolvedValue({success: false, data: null, error: errorText})
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(errorText)
 
-    const {getByText, getByTestId, getAllByTestId, findByTestId, queryByText} = render(
-      <ResetPasswordForm email='test@email.com' onSuccess={mockOnSuccess} />,
-    )
+    const {getByText, getByTestId, getAllByTestId, findByTestId, queryByText} =
+      render(
+        <ResetPasswordForm email='test@email.com' onSuccess={mockOnSuccess} />,
+      )
 
     const view = getByTestId('reset-password-form')
     const textInputs = getAllByTestId('text-input')

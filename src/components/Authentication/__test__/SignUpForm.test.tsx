@@ -24,9 +24,13 @@ describe('SignUpForm', () => {
       .mockResolvedValue({success: true, data: null, error: null})
     jest.spyOn(AuthenticationService, 'getError').mockReturnValue(null)
 
-    const {getAllByText, getAllByTestId, getByTestId, findByTestId, queryByText} = render(
-      <SignUpForm />,
-    )
+    const {
+      getAllByText,
+      getAllByTestId,
+      getByTestId,
+      findByTestId,
+      queryByText,
+    } = render(<SignUpForm />)
 
     const view = getByTestId('sign-up-form')
     const textInputs = getAllByTestId('text-input')

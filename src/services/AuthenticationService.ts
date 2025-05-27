@@ -16,12 +16,16 @@ type Response = {
 }
 
 class AuthenticationService {
-  public async update(data: Partial<UserSliceInterface>) {
+  public update(data: Partial<UserSliceInterface>) {
     store.dispatch(update(data))
   }
 
   public getUser() {
     return useAppSelector(state => state.user.data, shallowEqual)
+  }
+
+  public getIsSignIn() {
+    return useAppSelector(state => state.user.data != null, shallowEqual)
   }
 
   public getIsLoading() {
@@ -46,13 +50,20 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async signupWithEmail(email: string, password: string): Promise<Response> {
+  public async signupWithEmail(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
         emailRedirectTo: process.env.SUPABASE_CONFIRM_SIGNUP_REDIRECT_URL,
+        data: {
+          name: name,
+        },
       },
     })
 
@@ -66,7 +77,10 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async signinWithEmail(email: string, password: string): Promise<Response> {
+  public async signinWithEmail(
+    email: string,
+    password: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.signInWithPassword({
       email,
@@ -160,7 +174,10 @@ class AuthenticationService {
     return {success: true, data: user, error: null}
   }
 
-  public async updatePassword(email: string, password: string): Promise<Response> {
+  public async updatePassword(
+    email: string,
+    password: string,
+  ): Promise<Response> {
     this.update({isLoading: true})
     const {data, error} = await supabase.auth.updateUser({
       email: email,
@@ -211,9 +228,23 @@ class AuthenticationService {
     return {success: true, data: null, error: null}
   }
 
+  public async upsertFcmToken(userId: string) {
+    const fcmToken = await getFCMToken()
+    const {error} = await supabase
+      .from('user_fcm_tokens')
+      .upsert(
+        {user_id: userId, token: fcmToken, updated_at: new Date()},
+        {onConflict: 'token'},
+      )
+    return error == null
+  }
+
   public async deleteFcmToken() {
     const fcmToken = await getFCMToken()
-    const {error} = await supabase.from('user_fcm_tokens').delete().eq('token', fcmToken)
+    const {error} = await supabase
+      .from('user_fcm_tokens')
+      .delete()
+      .eq('token', fcmToken)
     return error == null
   }
 }

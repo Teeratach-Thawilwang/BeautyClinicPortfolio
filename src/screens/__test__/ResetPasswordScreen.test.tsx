@@ -61,7 +61,9 @@ describe('ResetPasswordScreen', () => {
       />,
     )
 
-    expect(mockReplace).toHaveBeenCalledWith('TabScreen', {screen: 'HomeScreen'})
+    expect(mockReplace).toHaveBeenCalledWith('BottomTabScreens', {
+      screen: 'Home',
+    })
     expect(signOutSpy).toHaveBeenCalledTimes(0)
   })
 
@@ -78,7 +80,9 @@ describe('ResetPasswordScreen', () => {
 
     const verifyRecoveryTokenSpy = jest
       .spyOn(AuthenticationService, 'verifyRecoveryToken')
-      .mockImplementation(() => Promise.resolve({success: true, data: null, error: null}))
+      .mockImplementation(() =>
+        Promise.resolve({success: true, data: null, error: null}),
+      )
 
     const {getByText, unmount} = render(
       <ResetPasswordScreen
@@ -154,7 +158,9 @@ describe('ResetPasswordScreen', () => {
 
     const verifyRecoveryTokenSpy = jest
       .spyOn(AuthenticationService, 'verifyRecoveryToken')
-      .mockImplementation(() => Promise.resolve({success: true, data: null, error: null}))
+      .mockImplementation(() =>
+        Promise.resolve({success: true, data: null, error: null}),
+      )
 
     const {getByText, unmount} = render(
       <ResetPasswordScreen

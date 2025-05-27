@@ -4,7 +4,11 @@ import ResponseModal from '@components/ResponseModal'
 import {useNavigate} from '@hooks/CommonHooks'
 import AuthenticationService from '@services/AuthenticationService'
 
-export default function ResetPasswordResponse({isVisible}: {isVisible: boolean}) {
+export default function ResetPasswordResponse({
+  isVisible,
+}: {
+  isVisible: boolean
+}) {
   const navigation = useNavigate()
   const error = AuthenticationService.getError()
 
@@ -28,7 +32,9 @@ export default function ResetPasswordResponse({isVisible}: {isVisible: boolean})
       title='Successfully.'
       text='Your password has been updated.'
       buttonText='Continue'
-      onButtonPress={() => navigation.replace('TabScreen', {screen: 'HomeScreen'})}
+      onButtonPress={() =>
+        navigation.replace('BottomTabScreens', {screen: 'Home'})
+      }
     />
   )
 }

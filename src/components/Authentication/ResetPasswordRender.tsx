@@ -26,7 +26,11 @@ export default function ResetPasswordRender({
   if (isFirstRender) {
     return (
       <View style={styles.containerLoading}>
-        <ActivityIndicator animating={true} color={theme.colors.primary} size='small' />
+        <ActivityIndicator
+          animating={true}
+          color={theme.colors.primary}
+          size='small'
+        />
       </View>
     )
   }

@@ -36,7 +36,9 @@ jest.mock('redux-persist', () => ({
 
 // Use @react-navigation/stack when running tests.
 // Use @react-navigation/native-stack to maintain performance when not running tests.
-jest.mock('@navigation/AppNavigator', () => require('@navigation/__mock__/AppNavigator'))
+jest.mock('@navigation/AppNavigator', () =>
+  require('@navigation/__mock__/AppNavigatorMock'),
+)
 
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
