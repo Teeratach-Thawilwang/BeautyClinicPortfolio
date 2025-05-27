@@ -13,7 +13,7 @@ export default function TableCardPagination({
   last,
   onPress,
   containerStyle,
-  height = 50,
+  height = 40,
   iconStyle,
   iconDisableStyle,
   buttonContainerStyle,

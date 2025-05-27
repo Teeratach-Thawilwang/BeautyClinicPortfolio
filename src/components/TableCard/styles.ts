@@ -1,5 +1,6 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet, ViewStyle} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme, isLoading?: boolean) {
   const row: ViewStyle = {
@@ -12,8 +13,7 @@ export function getStyles(theme: AdaptiveMD3Theme, isLoading?: boolean) {
 
   return StyleSheet.create({
     container: {
-      marginBottom: 20,
-      borderRadius: 8,
+      borderRadius: 5,
       borderWidth: 1,
       borderColor: theme.colors.outlineVariant,
       overflow: 'hidden',

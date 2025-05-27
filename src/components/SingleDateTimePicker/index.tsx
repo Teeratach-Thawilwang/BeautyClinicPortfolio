@@ -16,6 +16,13 @@ export default function SingleDateTimePicker({
   height = 150,
   backgroundColor,
   dividerColor,
+  modal,
+  title,
+  cancelText,
+  confirmText,
+  onCancel,
+  onConfirm,
+  minuteInterval,
 }: Props) {
   const {theme, schema} = useTheme()
   const defaultWidth = width ?? (mode == 'datetime' ? 280 : 220)
@@ -34,6 +41,15 @@ export default function SingleDateTimePicker({
       minimumDate={minimumDate}
       maximumDate={maximumDate}
       onDateChange={onChange}
+      modal={modal}
+      title={title}
+      cancelText={cancelText}
+      confirmText={confirmText}
+      onCancel={onCancel}
+      onConfirm={onConfirm}
+      minuteInterval={minuteInterval}
+      is24hourSource='locale'
+      locale={process.env.LOCALE}
     />
   )
 }

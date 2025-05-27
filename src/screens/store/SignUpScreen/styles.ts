@@ -6,7 +6,7 @@ export function getStyles() {
   const {theme} = useTheme()
   return StyleSheet.create({
     container: {
-      paddingHorizontal: 20,
+      paddingHorizontal: 10,
       backgroundColor: theme.colors.background,
       flex: 1,
     },

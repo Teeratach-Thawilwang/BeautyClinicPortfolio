@@ -1,3 +1,5 @@
+import {ImageStyle, TextStyle, ViewStyle} from 'react-native'
+
 export type ImageFileAsset = {
   uri: string
   type: string
@@ -9,14 +11,22 @@ export type Props = {
   maxPhoto?: number
   maxSize?: number
   title?: string
+  note?: string
   saveToPhotos?: boolean
-  containerStyle?: any
-  titleStyle?: any
-  noteStyle?: any
+  gap?: number
+  containerStyle?: ViewStyle
+  titleStyle?: TextStyle
+  noteStyle?: TextStyle
   removeIconStyle?: {width: number; color: string}
-  imageContainerStyle?: any
-  imageStyle?: any
-  buttonStyle?: any
+  imageStyle?: ImageStyle
+  buttonStyle?: ViewStyle
   buttonIconStyle?: {width: number; color: string}
-  buttonTextStyle?: any
+  buttonTextStyle?: TextStyle
+}
+
+export type SortableItem = {
+  itemType: 'image' | 'add' | 'camera'
+  uri: string
+  type: string
+  key: string
 }

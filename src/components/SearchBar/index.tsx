@@ -26,7 +26,7 @@ export default function SearchBar({
       style={[styles.style, style]}
       contentStyle={styles.content}
       outlineStyle={{
-        borderRadius: style?.borderRadius ?? 10,
+        borderRadius: style?.borderRadius ?? 5,
       }}
       outlineColor={theme.colors.surfaceVariant}
       activeOutlineColor={style?.borderColor ?? theme.colors.primary}

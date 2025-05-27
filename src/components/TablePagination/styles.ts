@@ -1,5 +1,6 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet, ViewStyle} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(
   theme: AdaptiveMD3Theme,
@@ -28,11 +29,12 @@ export function getStyles(
   return StyleSheet.create({
     container: {
       height: height,
-      marginBottom: 20,
+      marginTop: 10,
+      marginBottom: 10,
       overflow: 'hidden',
       flexDirection: 'row',
       justifyContent: 'flex-end',
-      gap: 20,
+      gap: 10,
       ...containerStyle,
     },
     icon: {

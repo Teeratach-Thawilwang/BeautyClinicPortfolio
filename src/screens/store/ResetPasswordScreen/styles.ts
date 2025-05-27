@@ -1,11 +1,12 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet, useWindowDimensions} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   const {width, height} = useWindowDimensions()
   return StyleSheet.create({
     container: {
-      paddingHorizontal: 20,
+      paddingHorizontal: 10,
       backgroundColor: theme.colors.background,
       flex: 1,
     },

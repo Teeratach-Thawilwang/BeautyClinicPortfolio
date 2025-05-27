@@ -1,5 +1,6 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {getDefaultStyles} from 'react-native-ui-datepicker'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   const defaultStyles = getDefaultStyles()

@@ -62,12 +62,14 @@ class CourseService {
     }
   }
 
-  public async getById(courseId: number): Promise<Course> {
+  public async getById(id: number): Promise<Course> {
     const {data, error} = await supabase
       .from(this.tableName)
       .select('*')
-      .eq('id', courseId)
+      .eq('id', id)
       .single()
+
+    data.images = data.images.map((val: string) => JSON.parse(val))
 
     if (error) throw error
     return data as Course

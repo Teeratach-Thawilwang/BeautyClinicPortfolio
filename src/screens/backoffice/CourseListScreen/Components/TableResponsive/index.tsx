@@ -27,7 +27,7 @@ export default function TableResponsive({
           data={data}
           isLoading={isLoading}
           onRowPress={onRowPress}
-          containerStyle={{marginTop: 20}}
+          containerStyle={{marginTop: 10}}
         />
         <TableCardPagination
           current={current}
@@ -44,7 +44,7 @@ export default function TableResponsive({
         data={data}
         isLoading={isLoading}
         onRowPress={onRowPress}
-        containerStyle={{marginTop: 20}}
+        containerStyle={{marginTop: 10}}
       />
       <TablePagination
         current={current}

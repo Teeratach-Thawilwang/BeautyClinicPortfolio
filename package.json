@@ -13,6 +13,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.1.2",
     "@hookform/resolvers": "^3.10.0",
+    "@quidone/react-native-wheel-picker": "^1.4.0",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-firebase/app": "^21.6.2",
@@ -43,7 +44,9 @@
     "react-native-reanimated": "^3.17.1",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.2.0",
+    "react-native-sortables": "^1.6.0",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-toast-message": "^2.3.0",
     "react-native-ui-datepicker": "^3.0.5",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.2.0",

@@ -1,4 +1,3 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {
   DrawerNavigationOptions,
   createDrawerNavigator,
@@ -8,6 +7,7 @@ import React from 'react'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
 import CourseCreateScreen from '@screens/backoffice/CourseCreateScreen'
 import CourseDetailScreen from '@screens/backoffice/CourseDetailScreen'
@@ -60,7 +60,7 @@ function screenOptions(
     headerShown: true,
     headerLeft: responsive != 'MOBILE' ? () => null : undefined,
     headerStyle: {
-      height: 70,
+      height: 50,
       backgroundColor: theme.colors.surface,
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.outlineVariant,

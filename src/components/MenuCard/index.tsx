@@ -9,7 +9,7 @@ import {Props} from './types'
 
 export default function MenuCard({
   children,
-  useDivider = true,
+  useDivider = false,
   containerStyle,
   dividerStyle,
 }: Props) {

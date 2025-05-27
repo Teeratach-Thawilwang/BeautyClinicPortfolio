@@ -1,9 +1,10 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import React, {useState} from 'react'
 import {View} from 'react-native'
 import {Text, TextInput as TextInputRNP} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {useDebounce} from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 import {getStyles} from './styles'
 import {ColorStyle, Props} from './types'
@@ -13,6 +14,8 @@ export default function TextInput({
   value,
   onChange,
   mode,
+  multiline,
+  keyboardType,
   placeholder,
   icon,
   error,
@@ -22,17 +25,21 @@ export default function TextInput({
   labelStyle,
   colorStyle,
 }: Props) {
-  const inputHeight = Number(containerStyle?.height ?? 50)
-  const borderRadius = Number(containerStyle?.borderRadius ?? 5)
+  const {height, borderRadius, ...restContainerStyle} = containerStyle || {}
+  const inputHeight = Number(height ?? 40)
+  const inputBorderRadius = Number(borderRadius ?? 5)
   const {theme} = useTheme()
   const styles = getStyles(theme, inputHeight)
   const [isSecureText, setIsSecureText] = useState(secureText ?? false)
   const [isFocus, setIsFocus] = useState(false)
   const iconName = isSecureText ? 'eye-outline' : 'eye-off-outline'
   const labelColor = getLineColor(isFocus, error, disabled, theme, colorStyle)
+  const [debounceValue, setDebounceValue] = useDebounce(value, val => {
+    onChange(val as string)
+  })
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container, restContainerStyle]}>
       {mode == 'labelTop' ? (
         <Text
           style={[
@@ -47,12 +54,15 @@ export default function TextInput({
       <TextInputRNP
         testID='text-input'
         style={styles.textInput}
+        outlineColor={theme.colors.outlineVariant}
         mode={mode == 'labelTop' ? 'outlined' : mode}
-        theme={{roundness: borderRadius}}
+        multiline={multiline}
+        keyboardType={keyboardType}
+        theme={{roundness: inputBorderRadius}}
         label={mode == 'labelTop' ? undefined : label}
         placeholder={placeholder}
-        value={String(value)}
-        onChangeText={onChange}
+        value={String(debounceValue)}
+        onChangeText={value => setDebounceValue(value)}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         error={error ? true : false}

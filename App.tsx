@@ -8,6 +8,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context'
 import QueryClientProvider from '@context-providers/QueryClientProvider'
 import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
+import ToastProvider from '@context-providers/ToastProvider'
 import AppNavigator from '@navigation/AppNavigator'
 import {requestNotificationPermission} from '@utils/FirebaseMessage'
 import {configureGoogleSignIn} from '@utils/GoogleSignIn'
@@ -40,6 +41,7 @@ export default function App() {
             <GestureHandlerRootView>
               <BottomSheetModalProvider>
                 <AppNavigator />
+                <ToastProvider />
               </BottomSheetModalProvider>
             </GestureHandlerRootView>
           </ThemeProvider>
