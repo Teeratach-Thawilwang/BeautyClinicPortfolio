@@ -115,6 +115,9 @@ dependencies {
 
     implementation project(':react-native-splash-screen')
 
+    // Fix build failure caused by installing react-native-image-picker
+    implementation("androidx.activity:activity:1.9.+")
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

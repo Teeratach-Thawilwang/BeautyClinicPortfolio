@@ -1,36 +1,46 @@
 import React, {ReactNode} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Icon, MD3Theme, Text, TouchableRipple} from 'react-native-paper'
+import {Icon, Text, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function CardTextAction({
   children,
   text,
   icon,
   iconColor,
+  containerStyle = {},
+  textStyle = {},
 }: {
   children: ReactNode
   text: string
   icon?: string
   iconColor?: string
+  containerStyle?: any
+  textStyle?: any
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
 
   return (
-    <TouchableRipple onPress={() => {}} style={styles.container}>
+    <TouchableRipple
+      onPress={() => {}}
+      style={{...styles.container, ...containerStyle}}>
       <>
         {icon ? (
           <View style={styles.iconLeft}>
             <Icon
               source={icon}
               size={20}
-              color={iconColor ?? theme.colors.secondary}
+              color={iconColor ?? theme.colors.primary}
             />
           </View>
         ) : null}
-        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.text}>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode='tail'
+          style={{...styles.text, ...textStyle}}>
           {text}
         </Text>
         {children}
@@ -39,7 +49,7 @@ export default function CardTextAction({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       paddingVertical: 10,

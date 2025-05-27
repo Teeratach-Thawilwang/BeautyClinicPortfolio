@@ -1,32 +1,35 @@
 import React, {ReactNode} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Divider, MD3Theme, Surface} from 'react-native-paper'
+import {Divider, Surface} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function Card({
   children,
-  useDevider = true,
-  style = {},
+  useDivider = true,
+  containerStyle = {},
+  dividerStyle = {},
 }: {
   children: ReactNode
-  useDevider?: boolean
-  style?: any
+  useDivider?: boolean
+  containerStyle?: any
+  dividerStyle?: any
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const childArray = React.Children.toArray(children)
 
   return (
-    <Surface style={{...styles.container, ...style}}>
-      {useDevider
+    <Surface style={{...styles.container, ...containerStyle}}>
+      {useDivider
         ? childArray.map((item, index) => {
             const isNotLastIndex = index != childArray.length - 1
             return (
               <View key={index}>
                 {item}
                 {isNotLastIndex ? (
-                  <Divider bold style={styles.devider} />
+                  <Divider bold style={{...styles.devider, ...dividerStyle}} />
                 ) : null}
               </View>
             )
@@ -36,7 +39,7 @@ export default function Card({
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       marginBottom: 20,

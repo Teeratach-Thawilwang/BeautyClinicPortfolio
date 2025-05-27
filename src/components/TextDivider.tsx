@@ -1,8 +1,9 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {Divider, MD3Theme, Text} from 'react-native-paper'
+import {Divider, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function TextDivider({text}: {text: string}) {
   const {theme} = useTheme()
@@ -18,7 +19,7 @@ export default function TextDivider({text}: {text: string}) {
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       height: 50,

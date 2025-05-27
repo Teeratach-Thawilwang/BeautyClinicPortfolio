@@ -23,7 +23,6 @@ module.exports = {
           "@hooks": "./src/hooks",
           "@models": "./src/models",
           "@navigation": "./src/navigation",
-          "@repositories": "./src/repositories",
           "@screens": "./src/screens",
           "@services": "./src/services",
           "@store": "./src/store",

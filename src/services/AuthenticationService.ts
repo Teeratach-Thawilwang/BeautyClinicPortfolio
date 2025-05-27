@@ -3,8 +3,7 @@ import {User} from '@supabase/supabase-js'
 import {shallowEqual} from 'react-redux'
 
 import {UserSliceInterface} from '@models/UserInterface'
-import {signInOnGoogle} from '@repositories/GoogleSignIn'
-import supabase from '@repositories/supabase/SupabaseClient'
+import supabase from '@services/SupabaseClient'
 import {store, useAppSelector} from '@store/Store'
 import {update} from '@store/slices/UserSlice'
 import {getFCMToken} from '@utils/FirebaseMessage'
@@ -104,10 +103,20 @@ class AuthenticationService {
     return {success: true, data: data.session.user, error: null}
   }
 
+  public async signInOnGoogle() {
+    const hasService = await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    })
+    if (!hasService) {
+      return null
+    }
+    return await GoogleSignin.signIn()
+  }
+
   public async signinWithGoogle(): Promise<Response> {
     this.update({isLoading: true})
-    const response = await signInOnGoogle()
-    if (response.type === 'cancelled') {
+    const response = await this.signInOnGoogle()
+    if (response == null || response.type === 'cancelled') {
       this.update({data: null, isLoading: false, error: null})
       return {success: null, data: null, error: null}
     }

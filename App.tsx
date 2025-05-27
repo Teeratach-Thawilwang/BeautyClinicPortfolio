@@ -1,13 +1,16 @@
 import 'react-native-gesture-handler'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
 import React, {useEffect} from 'react'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 
+import QueryClientProvider from '@context-providers/QueryClientProvider'
 import ReduxProvider from '@context-providers/ReduxProvider'
 import ThemeProvider from '@context-providers/ThemeProvider'
 import AppNavigator from '@navigation/AppNavigator'
-import {configureGoogleSignIn} from '@repositories/GoogleSignIn'
 import {requestNotificationPermission} from '@utils/FirebaseMessage'
+import {configureGoogleSignIn} from '@utils/GoogleSignIn'
 import {configureSplashScreen} from '@utils/SplashScreenConfig'
 import {supabaseListeners} from '@utils/SupabaseListener'
 
@@ -22,19 +25,25 @@ export default function App() {
     configureSplashScreen()
     configureGoogleSignIn()
     requestNotificationPermission()
-    const supabaseListener = supabaseListeners()
+    const supabaseUnSubscribe = supabaseListeners()
 
     return () => {
-      supabaseListener.data.subscription.unsubscribe()
+      supabaseUnSubscribe()
     }
   }, [])
 
   return (
     <SafeAreaProvider>
       <ReduxProvider>
-        <ThemeProvider>
-          <AppNavigator />
-        </ThemeProvider>
+        <QueryClientProvider>
+          <ThemeProvider>
+            <GestureHandlerRootView>
+              <BottomSheetModalProvider>
+                <AppNavigator />
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
+          </ThemeProvider>
+        </QueryClientProvider>
       </ReduxProvider>
     </SafeAreaProvider>
   )

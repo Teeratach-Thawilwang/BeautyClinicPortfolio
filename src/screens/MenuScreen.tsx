@@ -29,7 +29,7 @@ export default function MenuScreen() {
       keyboardShouldPersistTaps='handled'>
       <Header name='Menu' allowBack={false} />
       {user ? (
-        <Card>
+        <Card containerStyle={styles.cardContainer}>
           <CardContent style={styles.flexRowContainer}>
             <Image
               source={require('@assets/avatar-icon.png')}
@@ -54,12 +54,12 @@ export default function MenuScreen() {
       ) : (
         <Button
           onPress={() => navigation.navigate('SignInScreen')}
-          styles={{container: styles.signInContainer}}>
+          containerStyle={styles.signInContainer}>
           SignIn / SignUp
         </Button>
       )}
 
-      <Card>
+      <Card containerStyle={styles.cardContainer}>
         <CardLink icon='ion-bag-handle-sharp' onPress={() => {}}>
           Order History
         </CardLink>
@@ -72,7 +72,7 @@ export default function MenuScreen() {
       </Card>
 
       {isAdmin ? (
-        <Card>
+        <Card containerStyle={styles.cardContainer}>
           <CardLink
             icon='database-cog'
             onPress={() =>
@@ -86,14 +86,12 @@ export default function MenuScreen() {
       )}
 
       {user ? (
-        <Card style={styles.cardSignOut}>
+        <Card containerStyle={styles.cardSignOut}>
           <Button
             mode='text'
             onPress={() => AuthenticationService.signOut()}
-            styles={{
-              container: styles.signOutContainer,
-              label: styles.signOutLabel,
-            }}>
+            containerStyle={styles.signOutContainer}
+            labelStyle={styles.signOutLabel}>
             Sign out
           </Button>
         </Card>

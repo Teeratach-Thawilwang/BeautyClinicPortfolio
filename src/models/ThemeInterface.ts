@@ -10,8 +10,22 @@ export enum ThemeEnum {
   Dark = 'dark',
 }
 
+export type AdaptiveMD3Theme = {
+  colors: {
+    quaternary: string
+    onQuaternary: string
+    quaternaryContainer: string
+    OnQuaternaryContainer: string
+    surfaceContainerLowest: string
+    surfaceContainerLow: string
+    surfaceContainer: string
+    surfaceContainerHigh: string
+    surfaceContainerHighest: string
+  } & MD3Theme['colors']
+} & MD3Theme
+
 export type ThemeType = {
-  theme: MD3Theme
+  theme: AdaptiveMD3Theme
   schema: ThemeEnum
   toggleTheme: () => void
 }

@@ -6,9 +6,10 @@ import {
 import {DrawerActions} from '@react-navigation/native'
 import React from 'react'
 import {Image, StyleSheet, View} from 'react-native'
-import {Divider, Icon, MD3Theme} from 'react-native-paper'
+import {Icon} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 type MenuItem = {
   label: string
@@ -53,9 +54,13 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
       {...props}
       contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('@assets/logo.png')} style={styles.logoImage} />
+        <View style={styles.logoImageContainer}>
+          <Image
+            source={require('@assets/logo.png')}
+            style={styles.logoImage}
+          />
+        </View>
       </View>
-      <Divider style={styles.divider} />
 
       {menuItems.map((item, ItemIndex) => {
         const focused = item.activeOn.some(name => name == routeNames[index])
@@ -64,21 +69,30 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
           <DrawerItem
             key={item.route}
             label={item.label}
+            labelStyle={
+              focused
+                ? styles.drawerItemLabelBold
+                : styles.drawerItemLabelNormal
+            }
             focused={focused}
-            activeTintColor={theme.colors.onPrimary}
-            inactiveTintColor={theme.colors.onSurface}
-            activeBackgroundColor={theme.colors.primary}
+            activeTintColor={theme.colors.onSurface}
+            activeBackgroundColor={theme.colors.surfaceContainerHigh}
+            inactiveTintColor={theme.colors.onSurfaceVariant}
             inactiveBackgroundColor={theme.colors.surface}
             style={
               isLastIndex
-                ? {...styles.drawerItem, ...styles.lastDrawerItem}
-                : styles.drawerItem
+                ? focused
+                  ? {...styles.drawerItemFocused, ...styles.lastDrawerItem}
+                  : {...styles.drawerItem, ...styles.lastDrawerItem}
+                : focused
+                  ? styles.drawerItemFocused
+                  : styles.drawerItem
             }
             icon={() => (
               <Icon
                 color={
                   focused
-                    ? theme.colors.onPrimary
+                    ? theme.colors.onSurface
                     : theme.colors.onSurfaceVariant
                 }
                 size={20}
@@ -88,7 +102,7 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
             onPress={() => {
               isLastIndex
                 ? props.navigation.navigate('BottomTabScreens', {
-                    screen: 'Home',
+                    screen: 'Menu',
                   })
                 : props.navigation.dispatch(DrawerActions.jumpTo(item.route))
             }}
@@ -99,19 +113,28 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
   )
 }
 
-function getStyles(theme: MD3Theme) {
+function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       flexGrow: 1,
+      paddingTop: 0,
       backgroundColor: theme.colors.surface,
-      borderTopRightRadius: 30,
-      borderBottomRightRadius: 30,
+      borderTopRightRadius: 20,
+      borderBottomRightRadius: 20,
     },
     logoContainer: {
+      width: '100%',
+      height: 70,
+      paddingVertical: 10,
+      marginBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.outlineVariant,
+    },
+    logoImageContainer: {
       width: 50,
       height: 50,
       borderRadius: 100,
-      backgroundColor: '#81f8d0',
+      backgroundColor: '#89D6B9',
       justifyContent: 'center',
       alignItems: 'center',
       alignSelf: 'center',
@@ -121,22 +144,25 @@ function getStyles(theme: MD3Theme) {
       width: 40,
       height: 40,
     },
-    divider: {
-      marginVertical: 10,
-      borderColor: theme.colors.outlineVariant,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.outlineVariant,
-    },
     drawerItem: {
       borderRadius: 10,
       color: theme.colors.onSurface,
+    },
+    drawerItemFocused: {
+      borderRadius: 10,
+      color: theme.colors.onSurface,
+      borderWidth: 1,
+      borderColor: theme.colors.surfaceVariant,
     },
     lastDrawerItem: {
       marginTop: 'auto',
       marginBottom: 20,
     },
-    drawerItemLabel: {
+    drawerItemLabelBold: {
       fontWeight: 'bold',
+    },
+    drawerItemLabelNormal: {
+      fontWeight: 'normal',
     },
   })
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import {Image, StyleSheet, View} from 'react-native'
-import {IconButton, MD3Theme, Text} from 'react-native-paper'
+import {IconButton, Text} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate} from '@hooks/CommonHooks'
+import {AdaptiveMD3Theme} from '@models/ThemeInterface'
 
 export default function LogoHeader({allowBack = true}: {allowBack?: boolean}) {
   const {theme} = useTheme()
@@ -36,7 +37,7 @@ export default function LogoHeader({allowBack = true}: {allowBack?: boolean}) {
   )
 }
 
-function getStyles(theme: MD3Theme, allowBack: boolean) {
+function getStyles(theme: AdaptiveMD3Theme, allowBack: boolean) {
   return StyleSheet.create({
     container: {
       marginTop: allowBack ? 5 : 30,
@@ -52,7 +53,7 @@ function getStyles(theme: MD3Theme, allowBack: boolean) {
       width: 115,
       height: 115,
       borderRadius: 100,
-      backgroundColor: '#81f8d0',
+      backgroundColor: '#89D6B9',
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',

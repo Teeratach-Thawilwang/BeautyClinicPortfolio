@@ -1,8 +1,16 @@
+Library สำคัญที่คิดว่าจะต้องใช้เวลาขึ้น Project ใหม่
+- ต้องขาดไปไม่ได้
+- ไม่ค่อยมี Library อื่นให้ใช้เเทนได้
+- คิดว่าใช้ตัวนี้สะดวกที่สุด ไม่จำเป็นต้องไปหาเพิ่ม
+- ต่อให้มีตัวอื่นดีกว่า ก็จะใช้ตัวนี้
+
+
 - dependencies
 @react-native-async-storage/async-storage
 @react-navigation/native
 @react-navigation/native-stack
 @reduxjs/toolkit
+react-hook-form
 react-native-dotenv
 react-native-gesture-handler
 react-native-modal
@@ -17,8 +25,11 @@ redux-persist
 - devDependencies
 @types/react-native-vector-icons
 @trivago/prettier-plugin-sort-imports
+@types/jest
 babel-plugin-module-resolver
 babel-plugin-transform-imports
 reactotron-react-native
 reactotron-redux
+jest
+jest-html-reporters
 prettier

@@ -65,7 +65,8 @@ export default function SignUpForm() {
       <Button
         useLoading={true}
         onPress={handleSubmit(onSubmit)}
-        styles={{container: styles.buttonContainer, label: styles.buttonLabel}}>
+        containerStyle={styles.buttonContainer}
+        labelStyle={styles.buttonLabel}>
         Create Account
       </Button>
       <SignUpResponse

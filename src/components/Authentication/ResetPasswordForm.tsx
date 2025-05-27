@@ -76,7 +76,8 @@ export default function ResetPasswordForm({
       <Button
         useLoading={true}
         onPress={handleSubmit(onSubmit)}
-        styles={{container: styles.buttonContainer, label: styles.buttonLabel}}>
+        containerStyle={styles.buttonContainer}
+        labelStyle={styles.buttonLabel}>
         Reset Password
       </Button>
       <ResetPasswordResponse isVisible={isModalVisible} />
