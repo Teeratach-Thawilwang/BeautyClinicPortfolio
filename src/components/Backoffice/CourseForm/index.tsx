@@ -1,8 +1,9 @@
-import React, {useMemo} from 'react'
+import React, {useMemo, useState} from 'react'
 import {Controller} from 'react-hook-form'
 import {Text, View} from 'react-native'
 
 import Button from '@components/Button'
+import ConfirmModal from '@components/ConfirmModal'
 import Dropdown from '@components/Dropdown'
 import FlexBox from '@components/FlexBox'
 import ImagePicker from '@components/ImagePicker'
@@ -16,10 +17,16 @@ import {getFirstOrValue} from '@utils/Helpers'
 import {getStyles} from './styles'
 import {Props} from './types'
 
-export default function CourseForm({onSubmit, categories, course}: Props) {
+export default function CourseForm({
+  onSubmit,
+  onDelete,
+  categories,
+  course,
+}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
+  const [visible, setVisible] = useState(false)
   const {control, handleSubmit, errors} = useCourseForm(course)
   const errorsKeyList = Object.keys(errors) as (keyof typeof errors)[]
   const isDisableUpdate = errorsKeyList.length !== 0
@@ -387,12 +394,21 @@ export default function CourseForm({onSubmit, categories, course}: Props) {
       ) : null}
 
       <View style={styles.buttonContainer}>
-        <Button
-          containerStyle={styles.cancelButtonContainer}
-          labelStyle={styles.cancelButtonLabel}
-          onPress={() => navigation.goBack()}>
-          Cancel
-        </Button>
+        {course && onDelete ? (
+          <Button
+            containerStyle={styles.deleteButtonContainer}
+            labelStyle={styles.deleteButtonLabel}
+            onPress={() => setVisible(true)}>
+            Delete
+          </Button>
+        ) : (
+          <Button
+            containerStyle={styles.cancelButtonContainer}
+            labelStyle={styles.cancelButtonLabel}
+            onPress={() => navigation.goBack()}>
+            Cancel
+          </Button>
+        )}
         <Button
           containerStyle={styles.submitButtonContainer}
           onPress={handleSubmit(onSubmit)}
@@ -401,6 +417,15 @@ export default function CourseForm({onSubmit, categories, course}: Props) {
           {course ? 'Update' : 'Create'}
         </Button>
       </View>
+
+      <ConfirmModal
+        isVisible={onDelete != undefined && visible}
+        onConfirm={async () => {
+          if (onDelete) await onDelete()
+          setVisible(false)
+        }}
+        onDismiss={() => setVisible(false)}
+      />
     </View>
   )
 }

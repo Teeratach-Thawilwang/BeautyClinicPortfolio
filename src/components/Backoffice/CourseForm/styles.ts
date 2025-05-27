@@ -99,5 +99,13 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     cancelButtonLabel: {
       color: theme.colors.onSurface,
     },
+    deleteButtonContainer: {
+      maxWidth: maxWidthButton,
+      flex: 1,
+      backgroundColor: theme.colors.error,
+    },
+    deleteButtonLabel: {
+      color: theme.colors.onError,
+    },
   })
 }
