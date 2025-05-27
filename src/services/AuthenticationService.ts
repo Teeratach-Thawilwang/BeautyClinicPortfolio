@@ -7,6 +7,7 @@ import {signInOnGoogle} from '@repositories/GoogleSignIn'
 import supabase from '@repositories/supabase/SupabaseClient'
 import {store, useAppSelector} from '@store/Store'
 import {update} from '@store/slices/UserSlice'
+import {getFCMToken} from '@utils/FirebaseMessage'
 
 type Response = {
   success: boolean | null
@@ -73,6 +74,10 @@ class AuthenticationService {
     })
 
     if (error) {
+      if (error?.code == 'email_not_confirmed') {
+        await this.resendConfirmSignup(email)
+      }
+
       this.update({data: null, isLoading: false, error: error.message})
       return {success: false, data: null, error: error.message}
     }
@@ -80,6 +85,7 @@ class AuthenticationService {
       this.update({data: null, isLoading: false, error: null})
       return {success: false, data: null, error: null}
     }
+
     this.update({data: data.session.user, isLoading: false, error: null})
     return {success: true, data: data.session.user, error: null}
   }
@@ -102,13 +108,15 @@ class AuthenticationService {
       return {success: false, data: null, error: error.message}
     }
 
-    const user = data.session?.user ?? null
+    const user = data.session.user
     this.update({data: user, isLoading: false, error: null})
     return {success: true, data: user, error: null}
   }
 
   public async signOut(): Promise<Response> {
     this.update({isLoading: true})
+    await this.deleteFcmToken()
+
     const {error} = await supabase.auth.signOut()
     if (error) {
       this.update({isLoading: false, error: error.message})
@@ -116,6 +124,7 @@ class AuthenticationService {
     }
     const isGoogleSigningin = GoogleSignin.getCurrentUser()
     if (isGoogleSigningin) await GoogleSignin.signOut()
+
     this.update({data: null, isLoading: false, error: null})
     return {success: true, data: null, error: null}
   }
@@ -200,6 +209,12 @@ class AuthenticationService {
 
     this.update({data: null, isLoading: false, error: null})
     return {success: true, data: null, error: null}
+  }
+
+  public async deleteFcmToken() {
+    const fcmToken = await getFCMToken()
+    const {error} = await supabase.from('user_fcm_tokens').delete().eq('token', fcmToken)
+    return error == null
   }
 }
 

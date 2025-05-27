@@ -1,8 +1,9 @@
-import {Platform} from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 
+import {getPlatFormOS} from '@utils/Helpers'
+
 export function configureSplashScreen() {
-  if (Platform.OS === 'android') {
+  if (getPlatFormOS() === 'android') {
     SplashScreen.hide()
   }
 }

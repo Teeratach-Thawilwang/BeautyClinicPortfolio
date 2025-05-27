@@ -1,0 +1,54 @@
+ขั้นตอน setup
+    1. Setup Firebase console
+    2. Setup Android / IOS
+    3. Setup Policy and fcm_tokens Table on supabase
+
+
+การทำ FCM
+    1. เพิ่มโค้ด update or create fcm token ไปยัง supabase เมื่อ user เปิดแอพ (update เฉพาะ user ที่ signin เเล้ว)
+    2. เพิ่มโค้ด delete fcm_tokens เมื่อ user signout
+    3. สร้าง Cron job integration ของ supabase ให้ลบ token ที่มีโคลัม updated_at เกิน 3 เดือน
+        DELETE FROM user_fcm_tokens WHERE updated_at < NOW() - INTERVAL '3 months';
+
+
+FCM Policy
+    - read: authenticated
+    - insert: authenticated && owner user_id
+    - update: authenticated && owner user_id
+    - delete: authenticated && owner user_id || dashboard_user || supabase_admin || postgress
+
+
+การทำ Notification
+    1. request notification permission
+        ถ้า user allow เเล้วจะสามารถรับ push notification ได้ในขณะปิดแอพ หรือ พับแอพลงไป 
+        ถ้าเปิดแอพจะไม่มี notification ขึ้นเอง ต้องไปเขียนให้แสดง local push notification เองอีกที
+    2. ในกรณีทำ Realtime Chat จะต้องใช้ realtime database ของ supabase (ณ ที่นี้)
+        โดยจะแบ่งจุดสำคัญดังนี้
+        1. เมื่อปิดแอพ / พับแอพ อยู่ จะต้องได้รับ Notification 
+            ซึ่งแสดงว่าฝั่งที่ส่งข้อความจะต้อง push notification ไปยัง firebase ด้วย
+            พร้อมทั้งส่งข้อความไปยัง realtime database ของ supabase เพื่อเก็บข้อมูลแชท
+        2. เมื่อเปิดแอพ จะต้อง subscribe message ที่เกี่ยวข้องกับ user_id ของ user ที่ signin อยู่
+        3. เมื่อเปิดแอพเข้าหน้า chat detail จะต้องดึงข้อมูลเเชทย้อนหลังของ chat_id นั้นมา
+            โดยทำเป็น paginate แล้วเก็บลง state (ไปจัดการ flow state เอาอีกที)
+        เมื่อมี message เข้ามาขณะเปิดแอพก็ให้เพิ่มลงใน stateที่แบ่ง chat_id เองอีกที
+        4. ในการจัดการสถานะ อ่าน/ยังไม่อ่าน ของแต่ละห้องแชทจะใช้ table chat_user_last_access เพิ่มขึ้นมา
+            สมมุติมี 2 device
+            - เมื่อเปิดหน้า chat detail จะถือว่าอ่านข้อความทั้งหมดเมื่อเลื่อนลงมาถึงล่างสุด
+                ให้ทำการ update chat_user_last_access table (chat_id, user_id)
+                ต้องมีการ subscribe ข้อมูลใน table chat_user_last_access นี้ด้วย
+                คำนวณสถานะการอ่านว่า message สร้างก่อน last_access หรือไม่ ถ้าสร้างทีหลัง ถือว่ายังไม่อ่าน
+            - อีก device ถ้าปิดแอพหรือพับไป เมื่อเปิดแอพขึ้นมาใหม่จะต้องทำการ fetch ข้อมูล chat ใหม่ด้วย (ยังไงก็ paginate อยู่เเล้ว)
+                ถ้าเปิดแอพค้างไว้อยู่ จะปรับ state เองอยู่เเล้วจากการ subscribe
+        5. การออกแบบ Table
+            - chats: id, name, created_by
+            - chat_members: id, chat_id, user_id, created_at, role (optional)
+            - chat_message: id, chat_id, sender_id, context (ควรมี format เพราะต้องมาจัดการว่าต้องแสดงเป็น ข้อความ, รูป, แชร์โพส, Link)
+            - chat_user_last_access: id, chat_id, user_id, updated_at
+
+
+Toubleshoot
+    - Build failed เพราะ kotlin version ไม่ compatible
+        ref: https://github.com/invertase/react-native-firebase/issues/8317
+        ต้อง dowgrade package version
+            "@react-native-firebase/app": "^21.6.2",
+            "@react-native-firebase/messaging": "^21.6.2",

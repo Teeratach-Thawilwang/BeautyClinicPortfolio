@@ -24,7 +24,7 @@ module.exports = {
     "src/utils/*",
     "!src/**/__mock__/**",
     "!src/**/__test__/**",
-    "!src/utils/SplashScreenConfig.ts"
+    "!src/utils/helpers.ts"
   ],
   reporters: [
     'default',

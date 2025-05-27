@@ -1,0 +1,65 @@
+- Supabase จะมีการ pause project เมื่อไม่มีการใช้งาน เช่น
+    - เปิด supabase dashboard project
+    - request to supbase api and take some query on database
+
+- วิธีแก้ไขให้ใช้ github action ในการยิง request ไปอ่านข้อมูลบน database สัปดาห์ล่ะ 2 ครั้ง
+
+- ขั้นตอนการทำ
+    1. สร้าง keep_alive table บน supabase
+        column: id, value, created_at
+        ตั้ง policy => SELECT: Enable read access for all users
+        เพิ่ม record สักตัวมั่วๆ ขึ้นมา
+    2. ตั้งค่า Secrets ใน github project
+        > Settings → Secrets and variables → Actions
+        > ใช้anon secret เหมือนกับที่ใช้กับ .env ของ app
+        > ตั้ง SUPABASE_URL เช่น https://your-project.supabase.co
+        > ตั้ง SUPABASE_KEY จะเป็น bearer token
+    3. สร้าง github action โดยใช้ code yml ตาม code section
+    4. สามารถกดรันทดสอบได้ทันทีไม่ต้องรอเวลาตามที่ระบุใน schedule
+
+
+################################### CODE SECTION ###################################
+####################################################################################
+name: Ping Supabase to Prevent Project Pausing
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1,4'  # Runs at 9:00 AM every Monday and Thursday
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install --save @supabase/supabase-js
+
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          node -e "
+          (async () => {
+            const { createClient } = require('@supabase/supabase-js');
+            const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+            try {
+              const { data, error } = await supabase.from('keep_alive').select('id').limit(1);
+              if (error) throw error;
+              console.log('Supabase Response:', data);
+            } catch (err) {
+              console.error('Error:', err.message);
+              process.exit(1);
+            }
+          })();
+          "
+####################################################################################
+################################# END CODE SECTION #################################

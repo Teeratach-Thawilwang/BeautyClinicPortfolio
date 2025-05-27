@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "724797236639",
+    "project_id": "beauty-clinic-69a48",
+    "storage_bucket": "beauty-clinic-69a48.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724797236639:android:822b34387daf65e2ee09aa",
+        "android_client_info": {
+          "package_name": "com.beautyclinicportfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTB0kFYqf7CNaZdHs-NwBMaPnJhH8yaJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
