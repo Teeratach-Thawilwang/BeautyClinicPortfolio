@@ -9,6 +9,9 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
+import CategoryCreateScreen from '@screens/backoffice/CategoryCreateScreen'
+import CategoryDetailScreen from '@screens/backoffice/CategoryDetailScreen'
+import CategoryListScreen from '@screens/backoffice/CategoryListScreen'
 import CourseCreateScreen from '@screens/backoffice/CourseCreateScreen'
 import CourseDetailScreen from '@screens/backoffice/CourseDetailScreen'
 import CourseListScreen from '@screens/backoffice/CourseListScreen'
@@ -46,6 +49,21 @@ export default function BackOfficeNavigator() {
         name='CourseDetail'
         component={CourseDetailScreen}
         options={{title: 'Course details'}}
+      />
+      <Screen
+        name='CategoryList'
+        component={CategoryListScreen}
+        options={{title: 'Categories'}}
+      />
+      <Screen
+        name='CategoryCreate'
+        component={CategoryCreateScreen}
+        options={{title: 'Category create'}}
+      />
+      <Screen
+        name='CategoryDetail'
+        component={CategoryDetailScreen}
+        options={{title: 'Category details'}}
       />
     </Navigator>
   )
@@ -88,17 +106,20 @@ export type BackOfficeScreenParamList = {
   CourseList: undefined
   CourseCreate: undefined
   CourseDetail: {courseId: number}
+  CategoryList: undefined
+  CategoryCreate: undefined
+  CategoryDetail: {categoryId: number}
 }
 
 export type BackOfficeNavigatorParams =
   NavigatorScreenParams<BackOfficeScreenParamList>
 
-export type CourseCreateRouteProp = RouteProp<
-  BackOfficeScreenParamList,
-  'CourseCreate'
->
-
 export type CourseDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
   'CourseDetail'
+>
+
+export type CategoryDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'CategoryDetail'
 >
