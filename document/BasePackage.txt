@@ -3,8 +3,9 @@
 @react-navigation/native
 @react-navigation/native-stack
 @reduxjs/toolkit
-react-native-config
+react-native-dotenv
 react-native-gesture-handler
+react-native-modal
 react-native-paper
 react-native-reanimated
 react-native-safe-area-context

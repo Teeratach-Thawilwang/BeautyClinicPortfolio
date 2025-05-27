@@ -1,6 +1,7 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
+    ['module:react-native-dotenv'],
     [
       'transform-imports',
       {
@@ -26,6 +27,7 @@ module.exports = {
           "@screens": "./src/screens",
           "@services": "./src/services",
           "@store": "./src/store",
+          "@styles": "./src/styles",
           "@utils": "./src/utils"
         }
       }

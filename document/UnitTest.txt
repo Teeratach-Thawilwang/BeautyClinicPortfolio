@@ -1,0 +1,21 @@
+Setup
+    1. Install Package
+        > npm i -D jest @types/jest @testing-library/react-native babel-jest jest-html-reporters
+
+    2. Mock common dependencies in jest.setup.js (create if not exist)
+
+    3. Config transform, setupFiles, coverage, report in jest.config.js
+
+    4. Write unit test
+
+    5. Coverage Report in ./jest/component-test-report.html
+
+Command
+    Run via package.json script
+    > npm test
+
+    Run via jest cli
+    > npx jest
+
+    Clear cache for jest (impact to environment)
+    > npx jest --clear-cache

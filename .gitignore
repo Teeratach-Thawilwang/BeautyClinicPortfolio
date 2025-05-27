@@ -1,6 +1,7 @@
 # Custom Ignore
 .env
 output
+jest
 
 # OSX
 #

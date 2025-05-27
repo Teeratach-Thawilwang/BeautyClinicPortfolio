@@ -1,0 +1,14 @@
+Follow at git commit.
+
+1. Create project
+    - Debugger: Reactotron
+    - Set alias path and formatter
+        - prettierrc.js
+        - tsconfig.json
+        - babel.config.js
+    - Install package neccessary
+        - Look at BasePackage.txt
+2. Setup navigation
+3. Setup splash screen
+4. Setup application name
+5. Setup Authentication: screen, component, supabase, google

@@ -1,37 +1,44 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {NavigationContainer, NavigatorScreenParams} from '@react-navigation/native'
-import {NativeStackNavigationProp} from '@react-navigation/native-stack'
+import {NavigationContainer, RouteProp} from '@react-navigation/native'
+import {NativeStackNavigationProp, createNativeStackNavigator} from '@react-navigation/native-stack'
 import React from 'react'
 
-import AppointmentStackNavigator, {AppointmentStackNavigatorParamList} from '@navigation/AppointmentStackNavigator'
-import HomeStackNavigator, {HomeStackNavigatorParamList} from '@navigation/HomeStackNavigator'
-import MenuStackNavigator, {MenuStackNavigatorParamList} from '@navigation/MenuStackNavigator'
-import TabNavigatorOption from '@navigation/TabNavigatorOption'
+import LinkingConfiguration from '@navigation/LinkingConfiguration'
+import TabScreens, {TabNavigatorRouteProp} from '@navigation/TabScreens'
+import ConfirmSignupScreen from '@screens/ConfirmSignupScreen'
+import ForgotPasswordScreen from '@screens/ForgotPasswordScreen'
+import ResetPasswordScreen from '@screens/ResetPasswordScreen'
+import SignInScreen from '@screens/SignInScreen'
+import SignUpScreen from '@screens/SignUpScreen'
 
-const {Navigator, Screen} = createBottomTabNavigator<BottomTabNavigatorParamList>()
+const {Navigator, Screen} = createNativeStackNavigator<RootStackParamList>()
 
 export default function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Navigator screenOptions={TabNavigatorOption} initialRouteName='Home'>
-        <Screen name='Home' component={HomeStackNavigator} />
-        <Screen name='Appointment' component={AppointmentStackNavigator} />
-        <Screen name='Menu' component={MenuStackNavigator} />
+    <NavigationContainer linking={LinkingConfiguration}>
+      <Navigator screenOptions={{headerShown: false}} initialRouteName='TabScreen'>
+        <Screen name='TabScreen' component={TabScreens} />
+        <Screen name='SignUpScreen' component={SignUpScreen} />
+        <Screen name='SignInScreen' component={SignInScreen} />
+        <Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} />
+        <Screen name='ResetPasswordScreen' component={ResetPasswordScreen} />
+        <Screen name='ConfirmSignupScreen' component={ConfirmSignupScreen} />
       </Navigator>
     </NavigationContainer>
   )
 }
 
-export const TabRoutes = [
-  {name: 'Home', focusedIcon: 'ant-home', unfocusedIcon: 'ant-home'},
-  {name: 'Appointment', focusedIcon: 'ant-calendar', unfocusedIcon: 'ant-calendar'},
-  {name: 'Menu', focusedIcon: 'text-account', unfocusedIcon: 'text-account'},
-]
-
-export type BottomTabNavigatorParamList = {
-  Home: NavigatorScreenParams<HomeStackNavigatorParamList>
-  Appointment: NavigatorScreenParams<AppointmentStackNavigatorParamList>
-  Menu: NavigatorScreenParams<MenuStackNavigatorParamList>
+export type RootStackParamList = {
+  TabScreen: TabNavigatorRouteProp
+  SignUpScreen: undefined
+  SignInScreen: undefined
+  ForgotPasswordScreen: undefined
+  ResetPasswordScreen: {token_hash: string}
+  ConfirmSignupScreen: {token_hash: string}
 }
 
-export type ScreenNavigationProp = NativeStackNavigationProp<BottomTabNavigatorParamList>
+export type RootScreenNavigationProps = NativeStackNavigationProp<RootStackParamList>
+export type SignUpScreenRouteProp = RouteProp<RootStackParamList, 'SignUpScreen'>
+export type SignInScreenRouteProp = RouteProp<RootStackParamList, 'SignInScreen'>
+export type ForgotPasswordScreenRouteProp = RouteProp<RootStackParamList, 'ForgotPasswordScreen'>
+export type ResetPasswordScreenRouteProp = RouteProp<RootStackParamList, 'ResetPasswordScreen'>
+export type ConfirmSignupScreenRouteProp = RouteProp<RootStackParamList, 'ConfirmSignupScreen'>
