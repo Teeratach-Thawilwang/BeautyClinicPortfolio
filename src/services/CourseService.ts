@@ -42,10 +42,10 @@ class CourseService {
       query = query.eq('status', status)
     }
     if (startCreatedAt) {
-      query = query.gte('created_at', startCreatedAt)
+      query = query.gte('created_at', new Date(startCreatedAt).toISOString())
     }
-    if (startCreatedAt) {
-      query = query.lte('created_at', stopCreatedAt)
+    if (stopCreatedAt) {
+      query = query.lte('created_at', new Date(stopCreatedAt).toISOString())
     }
 
     const {data, error, count} = await query.range(from, to)

@@ -6,6 +6,7 @@ export type Props = {
   children: ReactNode
   index?: number | 'full'
   snapPoints?: string[] | number[]
+  onDismiss?: () => void
   backgroundStyle?: StyleProp<ViewStyle>
   indicatorStyle?: StyleProp<ViewStyle>
   backdropStyle?: StyleProp<ViewStyle>

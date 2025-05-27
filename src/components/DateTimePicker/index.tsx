@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react'
+import React, {useState} from 'react'
 import {Icon} from 'react-native-paper'
 import UIDateTimePicker, {DateType} from 'react-native-ui-datepicker'
 
@@ -20,7 +20,7 @@ export default function DateTimePicker({
   initialEndDate,
 }: Props) {
   const {theme} = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles(theme)
 
   const [singleDate, setSingleDate] = useState<DateType>(initialSingleDate)
   const [multipleDate, setMultipleDate] = useState<DateType[]>(

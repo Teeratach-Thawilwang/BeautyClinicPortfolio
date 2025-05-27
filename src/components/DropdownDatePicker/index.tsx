@@ -103,6 +103,12 @@ export default function DropdownDatePicker({
               startDate.current = undefined
               endDate.current = undefined
               setLabel(placeholder)
+              onChange({
+                date: undefined,
+                dates: undefined,
+                startDate: undefined,
+                endDate: undefined,
+              })
             }}
           />
         </>
@@ -156,11 +162,17 @@ export default function DropdownDatePicker({
             if (mode === 'range') {
               startDate.current = data.startDate
               endDate.current = data.endDate
-              dateText.current =
-                data.startDate && data.endDate
-                  ? `${transformDate(data.startDate as Date)} - ${transformDate(
-                      data.endDate as Date,
-                    )}`
+              const startDateText = data.startDate
+                ? transformDate(data.startDate as Date)
+                : null
+              const endDateText = data.endDate
+                ? transformDate(data.endDate as Date)
+                : null
+
+              dateText.current = data.startDate
+                ? startDateText
+                : data.startDate && data.endDate
+                  ? `${startDateText} - ${endDateText}`
                   : null
             }
             onChange(data)

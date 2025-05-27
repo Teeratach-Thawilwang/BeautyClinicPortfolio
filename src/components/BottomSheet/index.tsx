@@ -16,6 +16,7 @@ function BottomSheet(
     children,
     index,
     snapPoints,
+    onDismiss,
     backgroundStyle,
     indicatorStyle,
     backdropStyle,
@@ -47,6 +48,7 @@ function BottomSheet(
       enablePanDownToClose={true}
       backgroundStyle={[styles.background, backgroundStyle]}
       handleIndicatorStyle={[styles.indicator, indicatorStyle]}
+      onDismiss={onDismiss}
       backdropComponent={props => (
         <BottomSheetBackdrop
           {...props}
