@@ -9,6 +9,7 @@ import {useRefresh} from '@hooks/CommonHooks'
 import {useQueryAllActiveCategories} from '@hooks/backoffice/CategoryHooks'
 import {
   CourseFormData,
+  useCourseDeleteMutation,
   useCourseUpdateMutation,
   useQueryCourseById,
 } from '@hooks/backoffice/CourseHooks'
@@ -37,7 +38,8 @@ export default function CourseDetailScreen({
     refetch: refetchCategory,
   } = useQueryAllActiveCategories()
 
-  const {mutate} = useCourseUpdateMutation()
+  const {mutate: updateMutate} = useCourseUpdateMutation()
+  const {mutate: deleteMutate} = useCourseDeleteMutation()
 
   const isShowSkeleton = isCourseLoading || isCategoryLoading
 
@@ -75,7 +77,10 @@ export default function CourseDetailScreen({
               })
             }
             const transformData = {...formData, images: transformImage}
-            mutate(transformData as CourseUpdateProps)
+            updateMutate(transformData as CourseUpdateProps)
+          }}
+          onDelete={async () => {
+            if (course) deleteMutate(course.id)
           }}
           categories={categories ?? []}
           course={course}
