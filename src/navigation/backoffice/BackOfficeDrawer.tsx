@@ -35,6 +35,13 @@ const menuItems: MenuItem[] = [
     inactiveIcon: 'hospital-box-outline',
   },
   {
+    label: 'Categories',
+    route: 'CategoryList',
+    activeOn: ['CategoryList', 'CategoryCreate', 'CategoryDetail'],
+    activeIcon: 'mat-category',
+    inactiveIcon: 'mat-category',
+  },
+  {
     // should be on last item
     label: 'Exit',
     route: 'none',

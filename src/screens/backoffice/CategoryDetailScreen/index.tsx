@@ -2,50 +2,41 @@ import React from 'react'
 import {RefreshControl, ScrollView, View} from 'react-native'
 import {ActivityIndicator} from 'react-native-paper'
 
-import CourseForm from '@components/Backoffice/CourseForm'
+import CategoryForm from '@components/Backoffice/CategoryForm'
 import {ImageFileAsset} from '@components/ImagePicker/types'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useRefresh} from '@hooks/CommonHooks'
-import {useQueryAllActiveCategories} from '@hooks/backoffice/CategoryHooks'
 import {
-  CourseFormData,
-  useCourseDeleteMutation,
-  useCourseUpdateMutation,
-  useQueryCourseById,
-} from '@hooks/backoffice/CourseHooks'
-import {CourseUpdateProps} from '@models/CourseTypes'
-import {CourseDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
+  CategoryFormData,
+  useCategoryDeleteMutation,
+  useCategoryUpdateMutation,
+  useQueryCategoryById,
+} from '@hooks/backoffice/CategoryHooks'
+import {CategoryUpdateProps} from '@models/CategoryTypes'
+import {CategoryDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 import FileService from '@services/FileService'
 
 import {getStyles} from './styles'
 
-export default function CourseDetailScreen({
+export default function CategoryDetailScreen({
   route,
 }: {
-  route: CourseDetailRouteProp
+  route: CategoryDetailRouteProp
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const {
-    data: course,
-    isFetching: isCourseLoading,
-    refetch: refetchCourse,
-  } = useQueryCourseById(route.params.courseId)
 
   const {
-    data: categories,
-    isFetching: isCategoryLoading,
-    refetch: refetchCategory,
-  } = useQueryAllActiveCategories()
+    data: category,
+    isFetching: isLoading,
+    refetch: refetch,
+  } = useQueryCategoryById(route.params.categoryId)
 
-  const {mutate: updateMutate} = useCourseUpdateMutation()
-  const {mutate: deleteMutate} = useCourseDeleteMutation()
-
-  const isShowSkeleton = isCourseLoading || isCategoryLoading
+  const {mutate: updateMutate} = useCategoryUpdateMutation()
+  const {mutate: deleteMutate} = useCategoryDeleteMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
-    refetchCourse()
-    refetchCategory()
+    refetch()
   })
 
   return (
@@ -57,14 +48,14 @@ export default function CourseDetailScreen({
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {isShowSkeleton ? (
+      {isLoading ? (
         <View style={styles.skeletonContainer}>
           <ActivityIndicator />
         </View>
       ) : (
-        <CourseForm
-          key={route.params.courseId}
-          onSubmit={async (formData: CourseFormData) => {
+        <CategoryForm
+          key={route.params.categoryId}
+          onSubmit={async (formData: CategoryFormData) => {
             const transformImage: ImageFileAsset[] = []
             for (const image of formData.images) {
               let uri: string = image.uri
@@ -77,13 +68,12 @@ export default function CourseDetailScreen({
               })
             }
             const transformData = {...formData, images: transformImage}
-            updateMutate(transformData as CourseUpdateProps)
+            updateMutate(transformData as CategoryUpdateProps)
           }}
           onDelete={async () => {
-            if (course) deleteMutate(course.id)
+            if (category) deleteMutate(category.id)
           }}
-          categories={categories ?? []}
-          course={course}
+          category={category}
         />
       )}
     </ScrollView>

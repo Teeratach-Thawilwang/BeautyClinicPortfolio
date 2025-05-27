@@ -1,7 +1,13 @@
 import dayjs from 'dayjs'
 
 import {CategoryStatus} from '@enums/StatusEnums'
-import {Category, CategoryList, CategoryListItem} from '@models/CategoryTypes'
+import {
+  Category,
+  CategoryCreateProps,
+  CategoryList,
+  CategoryListItem,
+  CategoryUpdateProps,
+} from '@models/CategoryTypes'
 import supabase from '@services/SupabaseClient'
 
 class CategoryService {
@@ -71,11 +77,36 @@ class CategoryService {
       .from(this.tableName)
       .select('*')
       .eq('id', id)
-      .eq('status', 'active')
       .single()
+
+    data.images = data.images.map((val: string) => JSON.parse(val))
 
     if (error) throw error
     return data as Category
+  }
+
+  public async create(category: CategoryCreateProps): Promise<null> {
+    const {error} = await supabase.from(this.tableName).insert(category)
+
+    if (error) throw error
+    return null
+  }
+
+  public async update(category: CategoryUpdateProps): Promise<null> {
+    const {id, ...updateParams} = {...category}
+    const {error} = await supabase
+      .from(this.tableName)
+      .update(updateParams)
+      .eq('id', id)
+
+    if (error) throw error
+    return null
+  }
+
+  public async delete(id: number): Promise<null> {
+    const {error} = await supabase.from(this.tableName).delete().eq('id', id)
+    if (error) throw error
+    return null
   }
 }
 
