@@ -72,6 +72,72 @@ export function useQueryCourseById(
   })
 }
 
+export function useCourseCreateMutation() {
+  const navigation = useNavigate()
+  const mutation = useMutation({
+    mutationFn: (course: CourseCreateProps) => CourseService.create(course),
+    onSuccess: () => {
+      navigation.push('BackOfficeScreens', {screen: 'CourseList'})
+      Toast.show({
+        type: 'success',
+        text1: 'Create successfully.',
+      })
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
+    },
+  })
+  return mutation
+}
+
+export function useCourseUpdateMutation() {
+  const navigation = useNavigate()
+  const mutation = useMutation({
+    mutationFn: (course: CourseUpdateProps) => CourseService.update(course),
+    onSuccess: () => {
+      navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
+      Toast.show({
+        type: 'success',
+        text1: 'Update successfully.',
+      })
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
+    },
+  })
+  return mutation
+}
+
+export function useCourseDeleteMutation() {
+  const navigation = useNavigate()
+  const mutation = useMutation({
+    mutationFn: (id: number) => CourseService.delete(id),
+    onSuccess: () => {
+      navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
+      Toast.show({
+        type: 'success',
+        text1: 'Delete successfully.',
+      })
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.name,
+        text2: error.message,
+      })
+    },
+  })
+  return mutation
+}
+
 export const workingTimeSchema = z
   .array(
     z.object({
@@ -128,70 +194,4 @@ export function useCourseForm(course?: Course) {
     handleSubmit,
     errors,
   }
-}
-
-export function useCourseCreateMutation() {
-  const navigation = useNavigate()
-  const mutation = useMutation({
-    mutationFn: (course: CourseCreateProps) => CourseService.create(course),
-    onSuccess: () => {
-      navigation.push('BackOfficeScreens', {screen: 'CourseList'})
-      Toast.show({
-        type: 'success',
-        text1: 'Create successfully.',
-      })
-    },
-    onError: error => {
-      Toast.show({
-        type: 'error',
-        text1: error.name,
-        text2: error.message,
-      })
-    },
-  })
-  return mutation
-}
-
-export function useCourseUpdateMutation() {
-  const navigation = useNavigate()
-  const mutation = useMutation({
-    mutationFn: (course: CourseUpdateProps) => CourseService.update(course),
-    onSuccess: () => {
-      navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
-      Toast.show({
-        type: 'success',
-        text1: 'Update successfully.',
-      })
-    },
-    onError: error => {
-      Toast.show({
-        type: 'error',
-        text1: error.name,
-        text2: error.message,
-      })
-    },
-  })
-  return mutation
-}
-
-export function useCourseDeleteMutation() {
-  const navigation = useNavigate()
-  const mutation = useMutation({
-    mutationFn: (id: number) => CourseService.delete(id),
-    onSuccess: () => {
-      navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
-      Toast.show({
-        type: 'Delete',
-        text1: 'Create successfully.',
-      })
-    },
-    onError: error => {
-      Toast.show({
-        type: 'error',
-        text1: error.name,
-        text2: error.message,
-      })
-    },
-  })
-  return mutation
 }
