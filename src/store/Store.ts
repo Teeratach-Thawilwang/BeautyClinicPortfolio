@@ -4,9 +4,8 @@ import Reactotron from 'ReactotronConfig'
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
 import {persistReducer, persistStore} from 'redux-persist'
 
-import AdminSlice from '@store/slices/AdminSlice'
+import AuthSlice from '@store/slices/AuthSlice'
 import ThemeSlice from '@store/slices/ThemeSlice'
-import UserSlice from '@store/slices/UserSlice'
 
 const stagging = process.env.STAGING
 const isStaggingValid = stagging != 'production' && stagging != 'test'
@@ -14,12 +13,11 @@ const isStaggingValid = stagging != 'production' && stagging != 'test'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user', 'admin', 'theme'],
+  whitelist: ['auth', 'theme'],
 }
 
 const rootReducer = combineReducers({
-  user: UserSlice,
-  admin: AdminSlice,
+  auth: AuthSlice,
   theme: ThemeSlice,
 })
 

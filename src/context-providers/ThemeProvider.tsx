@@ -1,11 +1,11 @@
+import {ThemeEnum, ThemeType} from '@models/ThemeTypes'
 import React, {createContext, useContext} from 'react'
 import {Appearance} from 'react-native'
 import {PaperProvider} from 'react-native-paper'
 import {shallowEqual} from 'react-redux'
 
-import {DarkTheme, LightTheme} from '@assets/Theme'
+import {DarkTheme, FontSize, LightTheme} from '@assets/constants/Theme'
 import IconProvider from '@context-providers/IconProvider'
-import {ThemeEnum, ThemeType} from '@models/ThemeInterface'
 import {store, useAppSelector} from '@store/Store'
 import {toggle} from '@store/slices/ThemeSlice'
 
@@ -40,8 +40,9 @@ export function useTheme(): ThemeType {
 function useThemeProvider() {
   const themeSchema = getThemeSchema()
   const theme = themeSchema === ThemeEnum.Light ? LightTheme : DarkTheme
+  const customTheme = {...theme, fontSize: FontSize}
 
-  return {theme, schema: themeSchema, toggleTheme}
+  return {theme: customTheme, schema: themeSchema, toggleTheme}
 }
 
 function getThemeSchema() {

@@ -5,27 +5,26 @@ import {
 } from '@react-navigation/native-stack'
 import React from 'react'
 
+import LinkingConfiguration from '@navigation/LinkingConfiguration'
 import BackOfficeNavigator, {
   BackOfficeNavigatorParams,
-} from '@navigation/BackOfficeNavigator'
+} from '@navigation/backoffice/BackOfficeNavigator'
 import BottomTabNavigator, {
   BottomTabNavigatorParams,
-} from '@navigation/BottomTabNavigator'
-import LinkingConfiguration from '@navigation/LinkingConfiguration'
-import ConfirmSignupScreen from '@screens/ConfirmSignupScreen'
-import ForgotPasswordScreen from '@screens/ForgotPasswordScreen'
-import ResetPasswordScreen from '@screens/ResetPasswordScreen'
-import SignInScreen from '@screens/SignInScreen'
-import SignUpScreen from '@screens/SignUpScreen'
-import AdminService from '@services/AdminService'
-import AuthenticationService from '@services/AuthenticationService'
+} from '@navigation/bottom-tab/BottomTabNavigator'
+import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
+import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
+import ResetPasswordScreen from '@screens/store/ResetPasswordScreen'
+import SignInScreen from '@screens/store/SignInScreen'
+import SignUpScreen from '@screens/store/SignUpScreen'
+import AuthService from '@services/AuthService'
 
 const {Navigator, Screen, Group} =
   createNativeStackNavigator<RootStackParamList>()
 
 export default function AppNavigator() {
-  const isSignIn = AuthenticationService.getIsSignIn()
-  const isAdmin = AdminService.getIsAdmin()
+  const isSignIn = AuthService.getIsSignIn()
+  const isAdmin = AuthService.getIsAdmin()
 
   return (
     <NavigationContainer linking={LinkingConfiguration}>

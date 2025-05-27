@@ -1,0 +1,90 @@
+import React, {useState} from 'react'
+import {Keyboard, RefreshControl, ScrollView} from 'react-native'
+
+import {useTheme} from '@context-providers/ThemeProvider'
+import {useCourses} from '@hooks/BackofficeCourseHook'
+import {useNavigate, useRefresh} from '@hooks/CommonHooks'
+
+import Filter from './Components/Filter'
+import TableResponsive from './Components/TableResponsive'
+import {getStyles} from './styles'
+
+export default function CourseListScreen() {
+  const {theme} = useTheme()
+  const styles = getStyles(theme)
+  const navigation = useNavigate()
+
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [status, setStatus] = useState(undefined)
+  const [orderBy, setOrderBy] = useState<'ASC' | 'DESC'>('DESC')
+  const [startCreatedAt, setStartCreatedAt] = useState(undefined)
+  const [stopCreatedAt, setStopCreatedAt] = useState(undefined)
+
+  const {
+    data: courses,
+    isFetching: isLoading,
+    refetch,
+  } = useCourses(search, page, orderBy, status, startCreatedAt, stopCreatedAt)
+
+  const {refreshing, onRefresh} = useRefresh(() => {
+    setSearch('')
+    setPage(1)
+    setStatus(undefined)
+    setOrderBy('DESC')
+    setStartCreatedAt(undefined)
+    setStopCreatedAt(undefined)
+    refetch()
+  })
+
+  const tableHeaders = ['id', 'name', 'status', 'price', 'created at']
+  const searchEmpty = search.length != 0
+  const courseNotEmpty = courses?.data.length != 0
+
+  if (!isLoading && searchEmpty && courseNotEmpty) Keyboard.dismiss()
+
+  return (
+    <ScrollView
+      style={styles.container}
+      keyboardShouldPersistTaps='handled'
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <Filter
+        refreshing={refreshing}
+        initialStatus={status}
+        initialOrderBy={orderBy}
+        onChange={(type, value) => {
+          switch (type) {
+            case 'Search':
+              setSearch(value)
+              setPage(1)
+              break
+            case 'Status':
+              setStatus(value)
+              setPage(1)
+              break
+            case 'OrderBy':
+              setOrderBy(value)
+              setPage(1)
+              break
+          }
+        }}
+      />
+      <TableResponsive
+        headers={tableHeaders}
+        data={courses.data}
+        isLoading={isLoading}
+        onRowPress={row =>
+          navigation.push('BackOfficeScreens', {
+            screen: 'CourseDetail',
+            params: {courseId: row.id},
+          })
+        }
+        current={page}
+        last={courses.last}
+        onPaginatePress={page => setPage(page)}
+      />
+    </ScrollView>
+  )
+}

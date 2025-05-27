@@ -1,8 +1,7 @@
 import NetInfo from '@react-native-community/netinfo'
 import {AppState} from 'react-native'
 
-import AdminService from '@services/AdminService'
-import AuthenticationService from '@services/AuthenticationService'
+import AuthService from '@services/AuthService'
 import supabase from '@services/SupabaseClient'
 
 export function appStateAuthRefreshListener() {
@@ -34,12 +33,12 @@ export function authListenerHandler() {
         (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') &&
         session?.user
       ) {
-        await AuthenticationService.upsertFcmToken(session.user.id)
-        await AdminService.fetchIsAdmin(session.user.id)
+        await AuthService.upsertFcmToken(session.user.id)
+        await AuthService.fetchIsAdmin(session.user.id)
       }
 
       if (event === 'SIGNED_OUT') {
-        AdminService.update({isAdmin: false})
+        AuthService.update({isAdmin: false})
       }
     }, 0)
   })
