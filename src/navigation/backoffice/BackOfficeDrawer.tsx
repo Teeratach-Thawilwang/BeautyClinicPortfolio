@@ -42,6 +42,13 @@ const menuItems: MenuItem[] = [
     inactiveIcon: 'mat-category',
   },
   {
+    label: 'Bookings',
+    route: 'BookingList',
+    activeOn: ['BookingList', 'BookingCreate', 'BookingDetail'],
+    activeIcon: 'fa-briefcase-medical',
+    inactiveIcon: 'fa-briefcase-medical',
+  },
+  {
     // should be on last item
     label: 'Exit',
     route: 'none',
