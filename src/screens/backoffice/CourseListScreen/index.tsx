@@ -85,7 +85,7 @@ export default function CourseListScreen() {
     }
   }, [])
 
-  const tableHeaders = ['id', 'name', 'status', 'price', 'created at']
+  const tableHeaders = ['ID', 'Name', 'Status', 'Price', 'Created at']
   const searchEmpty = search.length != 0
   const courseNotEmpty = courses?.data.length != 0
 

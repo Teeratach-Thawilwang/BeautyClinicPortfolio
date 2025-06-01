@@ -53,7 +53,7 @@ export default function CourseForm({
               render={({field: {onChange, value}}) => (
                 <TextInput
                   mode='labelTop'
-                  label='Id'
+                  label='ID'
                   value={value ? String(value) : ''}
                   onChange={value => {
                     onChange(Number(value))

@@ -40,7 +40,7 @@ export default function CategoryForm({onSubmit, onDelete, category}: Props) {
               render={({field: {onChange, value}}) => (
                 <TextInput
                   mode='labelTop'
-                  label='Id'
+                  label='ID'
                   value={value ? String(value) : ''}
                   onChange={value => {
                     onChange(Number(value))

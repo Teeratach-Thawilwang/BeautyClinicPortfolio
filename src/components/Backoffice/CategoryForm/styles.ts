@@ -79,8 +79,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       justifyContent: 'flex-end',
       gap: 10,
 
-      position: 'absolute',
-      bottom: 10,
+      position: responsive === 'MOBILE' ? 'absolute' : 'relative',
+      bottom: responsive === 'MOBILE' ? 10 : undefined,
     },
     submitButtonContainer: {
       maxWidth: maxWidthButton,
