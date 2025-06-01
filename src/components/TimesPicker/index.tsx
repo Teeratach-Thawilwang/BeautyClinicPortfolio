@@ -1,24 +1,21 @@
 import dayjs from 'dayjs'
-import React, {useCallback, useRef, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {Text, View} from 'react-native'
-import Modal from 'react-native-modal'
-import {IconButton} from 'react-native-paper'
+import {IconButton, Modal, Portal} from 'react-native-paper'
 
 import Button from '@components/Button'
-import SingleDateTimePicker from '@components/SingleDateTimePicker'
-import TimeRangePicker from '@components/TimeRangePickerCustom'
+import TimeRangePicker from '@components/TimeRangePicker'
+import {TimeRange} from '@components/TimeRangePicker/types'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {floorHalfHourDate} from '@utils/Helpers'
 
 import {getStyles} from './styles'
-import {Props, TimeRange} from './types'
+import {Props} from './types'
 
 const ERROR_MESSAGES = {
-  INVALID_RANGE: 'Please select an end time that is after the start time.',
   OVERLAP: 'The selected time range overlaps with an existing one.',
 }
 
-export default function index({
+export default function TimesPicker({
   onChange,
   initialValue = [],
   maxLength = 5,
@@ -37,14 +34,11 @@ export default function index({
   const [times, setTimes] = useState<TimeRange[]>(initialValue)
   const [visible, setIsvisible] = useState(false)
   const [error, setError] = useState('')
-  const startDateRef = useRef<Date | null>(null)
-  const stopDateRef = useRef<Date | null>(null)
+  const [refresh, setRefresh] = useState(false)
 
   const onDismiss = useCallback(() => {
     setIsvisible(false)
     setError('')
-    startDateRef.current = null
-    stopDateRef.current = null
   }, [])
 
   function removeTimeHandler(index: number) {
@@ -53,27 +47,10 @@ export default function index({
     onChange(newTimes)
   }
 
-  function addTimeRangeHandler() {
-    const currentDate = floorHalfHourDate(new Date())
-    if (startDateRef.current == null) {
-      startDateRef.current = currentDate
-    }
-    if (stopDateRef.current == null) {
-      stopDateRef.current = currentDate
-    }
-
-    if (stopDateRef.current <= startDateRef.current) {
-      setError(ERROR_MESSAGES.INVALID_RANGE)
-      return
-    }
-
-    const timeRange: TimeRange = {
-      start: dayjs(startDateRef.current).format('HH:mm'),
-      end: dayjs(stopDateRef.current).format('HH:mm'),
-    }
-
+  function addTimeRangeHandler(timeRange: TimeRange) {
     if (isTimeOverlaping(times, timeRange)) {
       setError(ERROR_MESSAGES.OVERLAP)
+      setRefresh(val => !val)
       return
     }
 
@@ -82,8 +59,6 @@ export default function index({
     setTimes(newTimes)
     setIsvisible(false)
     setError('')
-    startDateRef.current = null
-    stopDateRef.current = null
   }
 
   return (
@@ -114,74 +89,21 @@ export default function index({
           </Button>
         ) : null}
       </View>
-      <Modal
-        testID='times-picker-modal'
-        isVisible={visible}
-        onBackdropPress={onDismiss}
-        animationIn='fadeIn'
-        animationOut='fadeOut'
-        animationInTiming={1}
-        animationOutTiming={1}
-        backdropColor={theme.colors.backdrop}>
-        <View style={styles.modal}>
-          <Text style={styles.modalTitle}>Select time range</Text>
-          <View style={styles.timeLabelContainer}>
-            <View style={styles.timeLabelItem}>
-              <Text style={styles.timeLabelText}>Hour</Text>
-              <Text style={styles.timeLabelText}>Minute</Text>
-            </View>
-            <View style={styles.timeLabelItem}>
-              <Text style={styles.timeLabelText}>Hour</Text>
-              <Text style={styles.timeLabelText}>Minute</Text>
-            </View>
-          </View>
-          <View style={styles.flexRow}>
-            <SingleDateTimePicker
-              initialDate={startDateRef.current ?? undefined}
-              onChange={date => {
-                startDateRef.current = date
-                if (error.length != 0) {
-                  setError('')
-                }
-              }}
-              backgroundColor={theme.colors.surfaceContainer}
-              dividerColor={theme.colors.surfaceVariant}
-              width={150}
-              minuteInterval={30}
-            />
-            <Text style={styles.textSaparate}>-</Text>
-            <SingleDateTimePicker
-              initialDate={stopDateRef.current ?? undefined}
-              onChange={date => {
-                stopDateRef.current = date
-                if (error.length != 0) {
-                  setError('')
-                }
-              }}
-              backgroundColor={theme.colors.surfaceContainer}
-              dividerColor={theme.colors.surfaceVariant}
-              width={150}
-              minuteInterval={30}
-            />
-          </View>
-          <View style={styles.modalButtonFlex}>
-            <Button
-              mode='text'
-              onPress={onDismiss}
-              containerStyle={styles.modalButtonContainer}
-              labelStyle={styles.modalButtonCancelLabel}>
-              Cancel
-            </Button>
-            <Button
-              mode='text'
-              onPress={addTimeRangeHandler}
-              containerStyle={styles.modalButtonContainer}>
-              Confirm
-            </Button>
-          </View>
-          {error ? <Text style={styles.modalErrorText}>{error}</Text> : null}
-        </View>
-      </Modal>
+      <Portal>
+        <Modal
+          testID='times-picker-modal'
+          visible={visible}
+          onDismiss={onDismiss}
+          contentContainerStyle={styles.modalCard}>
+          <TimeRangePicker
+            key={`time-range-picker-${refresh}`}
+            onCancel={onDismiss}
+            onConfirm={addTimeRangeHandler}
+            error={error}
+            containerStyle={styles.timeRangeContainer}
+          />
+        </Modal>
+      </Portal>
     </View>
   )
 }

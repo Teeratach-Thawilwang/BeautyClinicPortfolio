@@ -42,60 +42,13 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     button: {
       width: 120,
     },
-    flexRow: {
-      flexDirection: 'row',
-    },
-    timeLabelContainer: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    timeLabelItem: {
-      marginLeft: 22,
-      marginRight: 17,
-      width: 100,
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-    },
-    timeLabelText: {
-      color: theme.colors.onSurfaceVariant,
-      fontSize: theme.fontSize.note,
-    },
-    textSaparate: {
-      width: 20,
-      color: theme.colors.onSurface,
-      fontSize: theme.fontSize.headline,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      textAlignVertical: 'center',
-    },
-    modal: {
-      padding: 20,
-      backgroundColor: theme.colors.surfaceContainer,
-      borderColor: theme.colors.outlineVariant,
-      borderWidth: 1,
-      borderRadius: 10,
-      alignItems: 'center',
+    modalCard: {
+      width: 320,
       alignSelf: 'center',
+      overflow: 'hidden',
     },
-    modalTitle: {
-      color: theme.colors.onSurface,
-      fontSize: theme.fontSize.subtitle,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    modalButtonContainer: {
-      width: 100,
-    },
-    modalButtonFlex: {
-      flexDirection: 'row',
-      gap: 20,
-    },
-    modalButtonCancelLabel: {
-      color: theme.colors.error,
-    },
-    modalErrorText: {
-      color: theme.colors.error,
+    timeRangeContainer: {
+      width: '100%',
     },
   })
 }
