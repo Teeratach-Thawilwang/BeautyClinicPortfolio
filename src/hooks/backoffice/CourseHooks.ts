@@ -24,7 +24,7 @@ export function useQueryCourses(
   staleTime: number = 30 * 1000,
   initialValue?: {data: CourseListItem[]; last: number},
 ) {
-  const defaultItems: CourseListItem[] = [4, 3, 2, 1].map(i => ({
+  const defaultItems: CourseListItem[] = [1].map(i => ({
     id: i,
     name: '',
     status: CourseStatus.Active,
@@ -86,7 +86,7 @@ export function useCourseCreateMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },
@@ -108,7 +108,7 @@ export function useCourseUpdateMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },
@@ -130,7 +130,7 @@ export function useCourseDeleteMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },

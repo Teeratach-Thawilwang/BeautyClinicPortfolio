@@ -24,7 +24,7 @@ export function useQueryCategories(
   staleTime: number = 30 * 1000,
   initialValue?: {data: CategoryListItem[]; last: number},
 ) {
-  const defaultItems: CategoryListItem[] = [4, 3, 2, 1].map(i => ({
+  const defaultItems: CategoryListItem[] = [1].map(i => ({
     id: i,
     name: '',
     status: CategoryStatus.Active,
@@ -95,7 +95,7 @@ export function useCategoryCreateMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },
@@ -118,7 +118,7 @@ export function useCategoryUpdateMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },
@@ -140,7 +140,7 @@ export function useCategoryDeleteMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.name,
+        text1: 'Update failed.',
         text2: error.message,
       })
     },
