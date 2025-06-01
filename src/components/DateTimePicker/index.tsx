@@ -29,6 +29,10 @@ export default function DateTimePicker({
   const [startDate, setStartDate] = useState<DateType>(initialStartDate)
   const [endDate, setEndDate] = useState<DateType>(initialEndDate)
 
+  // Note
+  // width = containerHeight + 20
+  // real height = containerHeight + 60
+
   return (
     <UIDateTimePicker
       mode={mode}

@@ -52,16 +52,13 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       borderColor: theme.colors.error,
       borderWidth: 2,
     },
-    imagePicker: {
-      marginTop: itemMarginTop,
-    },
-    imagePickerTitle: {
+    bookingItemTitle: {
       marginTop: 10,
-      fontSize: theme.fontSize.label,
+      color: theme.colors.onSurface,
+      fontSize: theme.fontSize.body,
     },
-    imagePickerBox: {
-      width: 95,
-      height: 95,
+    bookingDateTimeButton: {
+      marginTop: 5,
     },
     formErrorText: {
       marginTop: 5,

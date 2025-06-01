@@ -1,9 +1,6 @@
 import {TextStyle, ViewStyle} from 'react-native'
 
-export type TimeRange = {
-  start: string
-  end: string
-}
+import {TimeRange} from '@components/TimeRangePicker/types'
 
 export type Props = {
   onChange: (times: TimeRange[]) => void
@@ -15,7 +12,7 @@ export type Props = {
   timeContainerStyle?: ViewStyle
   timeBoxStyle?: ViewStyle
   timeLabelStyle?: TextStyle
-  removeIconStyle?: {width: number; color: string}
+  removeIconStyle?: {width?: number; color?: string}
   buttonStyle?: ViewStyle
   buttonLabelStyle?: TextStyle
 }

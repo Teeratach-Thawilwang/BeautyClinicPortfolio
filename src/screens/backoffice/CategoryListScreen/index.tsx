@@ -85,7 +85,7 @@ export default function CategoryListScreen() {
     }
   }, [])
 
-  const tableHeaders = ['id', 'name', 'status', 'created at']
+  const tableHeaders = ['ID', 'Name', 'Status', 'Created at']
   const searchEmpty = search.length != 0
   const categoryNotEmpty = categories?.data.length != 0
 

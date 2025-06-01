@@ -9,6 +9,8 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
+import BookingDetailScreen from '@screens/backoffice/BookingDetailScreen'
+import BookingListScreen from '@screens/backoffice/BookingListScreen'
 import CategoryCreateScreen from '@screens/backoffice/CategoryCreateScreen'
 import CategoryDetailScreen from '@screens/backoffice/CategoryDetailScreen'
 import CategoryListScreen from '@screens/backoffice/CategoryListScreen'
@@ -65,6 +67,16 @@ export default function BackOfficeNavigator() {
         component={CategoryDetailScreen}
         options={{title: 'Category details'}}
       />
+      <Screen
+        name='BookingList'
+        component={BookingListScreen}
+        options={{title: 'Booking List'}}
+      />
+      <Screen
+        name='BookingDetail'
+        component={BookingDetailScreen}
+        options={{title: 'Booking details'}}
+      />
     </Navigator>
   )
 }
@@ -109,6 +121,8 @@ export type BackOfficeScreenParamList = {
   CategoryList: undefined
   CategoryCreate: undefined
   CategoryDetail: {categoryId: number}
+  BookingList: undefined
+  BookingDetail: {bookingId: number}
 }
 
 export type BackOfficeNavigatorParams =
@@ -122,4 +136,9 @@ export type CourseDetailRouteProp = RouteProp<
 export type CategoryDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
   'CategoryDetail'
+>
+
+export type BookingDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'BookingDetail'
 >

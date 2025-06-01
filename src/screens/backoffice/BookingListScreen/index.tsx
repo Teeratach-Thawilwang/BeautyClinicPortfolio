@@ -3,13 +3,13 @@ import {Keyboard, RefreshControl, ScrollView} from 'react-native'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate, useRefresh} from '@hooks/CommonHooks'
-import {useQueryCourses} from '@hooks/backoffice/CourseHooks'
+import {useQueryBookingList} from '@hooks/backoffice/BookingHooks'
 
 import Filter from './Components/Filter'
 import TableResponsive from './Components/TableResponsive'
 import {getStyles} from './styles'
 
-export default function CourseListScreen() {
+export default function BookingListScreen() {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
@@ -26,10 +26,11 @@ export default function CourseListScreen() {
   )
 
   const {
-    data: courses,
+    data: bookings,
     isFetching: isLoading,
+    error,
     refetch,
-  } = useQueryCourses(
+  } = useQueryBookingList(
     search,
     page,
     orderBy,
@@ -85,11 +86,19 @@ export default function CourseListScreen() {
     }
   }, [])
 
-  const tableHeaders = ['ID', 'Name', 'Status', 'Price', 'Created at']
+  const tableHeaders = [
+    'ID',
+    'User ID',
+    'Course ID',
+    'Booking date',
+    'Booking time',
+    'Status',
+    'Created at',
+  ]
   const searchEmpty = search.length != 0
-  const courseNotEmpty = courses?.data.length != 0
+  const bookingNotEmpty = bookings?.data.length != 0
 
-  if (!isLoading && searchEmpty && courseNotEmpty) Keyboard.dismiss()
+  if (!isLoading && searchEmpty && bookingNotEmpty) Keyboard.dismiss()
 
   return (
     <ScrollView
@@ -109,16 +118,16 @@ export default function CourseListScreen() {
       />
       <TableResponsive
         headers={tableHeaders}
-        data={courses.data}
+        data={bookings.data}
         isLoading={isLoading}
         onRowPress={row =>
           navigation.navigate('BackOfficeScreens', {
-            screen: 'CourseDetail',
-            params: {courseId: row.id},
+            screen: 'BookingDetail',
+            params: {bookingId: row.id},
           })
         }
         current={page}
-        last={courses.last}
+        last={bookings.last}
         onPaginatePress={page => setPage(page)}
       />
     </ScrollView>

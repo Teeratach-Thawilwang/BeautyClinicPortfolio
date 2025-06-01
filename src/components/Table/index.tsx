@@ -33,10 +33,10 @@ export default function Table<T extends object>({
         {headers.map((item, index) => {
           return (
             <Text
-              numberOfLines={1}
-              ellipsizeMode='tail'
               key={'header-item-' + index}
-              style={{...styles.headerCell, ...headerCellStyle}}>
+              style={{...styles.headerCell, ...headerCellStyle}}
+              numberOfLines={1}
+              ellipsizeMode='tail'>
               {item}
             </Text>
           )
@@ -65,7 +65,9 @@ export default function Table<T extends object>({
                     return (
                       <Text
                         key={`row-${index}-cell-${cellIndex}`}
-                        style={{...styles.rowCell, ...rowCellStyle}}>
+                        style={{...styles.rowCell, ...rowCellStyle}}
+                        numberOfLines={1}
+                        ellipsizeMode='tail'>
                         {text}
                       </Text>
                     )

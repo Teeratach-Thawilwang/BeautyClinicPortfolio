@@ -1,6 +1,6 @@
 import React from 'react'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign.js'
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome.js'
+import AwesomeIcon6 from 'react-native-vector-icons/FontAwesome6.js'
 import {IconProps} from 'react-native-vector-icons/Icon'
 import IoniconsIcon from 'react-native-vector-icons/Ionicons.js'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons.js'
@@ -10,7 +10,7 @@ export default function IconProvider(props: IconProps) {
   const {name, ...rest} = props
 
   if (name.startsWith('fa-')) {
-    return <AwesomeIcon name={name.replace('fa-', '')} {...rest} />
+    return <AwesomeIcon6 name={name.replace('fa-', '')} {...rest} />
   }
   if (name.startsWith('ant-')) {
     return <AntDesignIcon name={name.replace('ant-', '')} {...rest} />
