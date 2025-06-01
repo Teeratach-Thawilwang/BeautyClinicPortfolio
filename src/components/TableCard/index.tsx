@@ -45,17 +45,17 @@ export default function TableCard<T extends object>({
           return (
             <TouchableRipple
               key={'row-' + rowIndex}
-              style={
-                isLastChild
-                  ? [styles.rowLastChild, rowStyle]
-                  : [styles.row, rowStyle]
-              }
               onPress={() => {
                 if (onRowPress) {
                   onRowPress(item)
                 }
               }}>
-              <>
+              <View
+                style={
+                  isLastChild
+                    ? [styles.rowLastChild, rowStyle]
+                    : [styles.row, rowStyle]
+                }>
                 <View style={[styles.header, headerStyle]}>
                   {headers.map((text: string, itemIndex: number) => {
                     return (
@@ -67,17 +67,14 @@ export default function TableCard<T extends object>({
                     )
                   })}
                 </View>
-                {/* <Skeleton
-                skeletonHooks={skeletonHooks}
-                isLoading={isLoading}
-                style={{flexDirection: 'row', flexGrow: 1}}> */}
                 <View style={[styles.content, contentStyle]}>
                   {(Object.values(item) as string[]).map(
                     (text: string, itemIndex: number) => {
                       return (
                         <Text
                           key={'content-' + itemIndex}
-                          style={[styles.contentCell, contentCellStyle]}>
+                          style={[styles.contentCell, contentCellStyle]}
+                          numberOfLines={1}>
                           {text}
                         </Text>
                       )
@@ -91,8 +88,7 @@ export default function TableCard<T extends object>({
                     color={iconStyle?.color ?? theme.colors.surfaceVariant}
                   />
                 </View>
-                {/* </Skeleton> */}
-              </>
+              </View>
             </TouchableRipple>
           )
         })}

@@ -43,29 +43,30 @@ export function getStyles(theme: AdaptiveMD3Theme, isLoading?: boolean) {
         ? 'transparent'
         : theme.colors.surfaceContainerHigh,
       gap: 10,
+      flexShrink: 1,
     },
     headerCell: {
       fontSize: theme.fontSize.body,
       fontWeight: 'bold',
       textAlign: 'left',
-      flex: 1,
     },
     content: {
       paddingVertical: 10,
       paddingHorizontal: 20,
       height: '100%',
       gap: 10,
+      flex: 1,
     },
     contentCell: {
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.body,
       textAlign: 'left',
-      flex: 1,
     },
     iconContainer: {
       paddingHorizontal: 5,
       marginLeft: 'auto',
       alignSelf: 'center',
+      flexShrink: 1,
     },
   })
 }
