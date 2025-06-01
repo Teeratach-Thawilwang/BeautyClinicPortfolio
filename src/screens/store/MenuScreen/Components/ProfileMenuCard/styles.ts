@@ -1,5 +1,6 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
@@ -17,10 +18,16 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       flex: 1,
       flexDirection: 'row',
     },
-    image: {
-      width: 60,
-      height: 60,
+    imageContainer: {
+      padding: 5,
       borderRadius: 100,
+      backgroundColor: theme.colors.primary,
+    },
+    image: {
+      width: 45,
+      height: 45,
+      borderRadius: 100,
+      backgroundColor: theme.colors.primary,
     },
     detail: {
       marginLeft: 10,

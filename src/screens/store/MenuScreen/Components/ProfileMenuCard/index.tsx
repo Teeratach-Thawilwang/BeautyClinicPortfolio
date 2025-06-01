@@ -17,10 +17,12 @@ export default function ProfileMenuCard({name, email, containerStyle}: Props) {
         style={styles.content}
         rippleColor='rgba(255, 255, 255, 0.1)'>
         <>
-          <Image
-            source={require('@assets/images/avatar-icon.png')}
-            style={styles.image}
-          />
+          <View style={styles.imageContainer}>
+            <Image
+              source={require('@assets/images/avatar-icon.png')}
+              style={styles.image}
+            />
+          </View>
           <View style={styles.detail}>
             <Text numberOfLines={1} ellipsizeMode='tail' style={styles.name}>
               {name}
