@@ -28,9 +28,12 @@ export default function ModalDatePicker({
   const styles = getStyles(theme)
   const [visible, setVisible] = useState(false)
 
+  const dateRegex = /^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/
   const customParseFormat = require('dayjs/plugin/customParseFormat')
   dayjs.extend(customParseFormat)
-  const initialSingleDate = dayjs(buttonText, 'DD-MM-YYYY').toDate()
+  const initialSingleDate = !dateRegex.test(buttonText)
+    ? new Date()
+    : dayjs(buttonText, 'DD-MM-YYYY').toDate()
   const bookingDateRef = useRef<Date | undefined>(initialSingleDate)
 
   return (
