@@ -9,6 +9,9 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
+import BlackoutPeriodCreateScreen from '@screens/backoffice/BlackoutPeriodCreateScreen'
+import BlackoutPeriodDetailScreen from '@screens/backoffice/BlackoutPeriodDetailScreen'
+import BlackoutPeriodListScreen from '@screens/backoffice/BlackoutPeriodListScreen'
 import BookingDetailScreen from '@screens/backoffice/BookingDetailScreen'
 import BookingListScreen from '@screens/backoffice/BookingListScreen'
 import CategoryCreateScreen from '@screens/backoffice/CategoryCreateScreen'
@@ -45,12 +48,12 @@ export default function BackOfficeNavigator() {
       <Screen
         name='CourseCreate'
         component={CourseCreateScreen}
-        options={{title: 'Course create'}}
+        options={{title: 'Course Create'}}
       />
       <Screen
         name='CourseDetail'
         component={CourseDetailScreen}
-        options={{title: 'Course details'}}
+        options={{title: 'Course Details'}}
       />
       <Screen
         name='CategoryList'
@@ -60,12 +63,12 @@ export default function BackOfficeNavigator() {
       <Screen
         name='CategoryCreate'
         component={CategoryCreateScreen}
-        options={{title: 'Category create'}}
+        options={{title: 'Category Create'}}
       />
       <Screen
         name='CategoryDetail'
         component={CategoryDetailScreen}
-        options={{title: 'Category details'}}
+        options={{title: 'Category Details'}}
       />
       <Screen
         name='BookingList'
@@ -75,7 +78,22 @@ export default function BackOfficeNavigator() {
       <Screen
         name='BookingDetail'
         component={BookingDetailScreen}
-        options={{title: 'Booking details'}}
+        options={{title: 'Booking Details'}}
+      />
+      <Screen
+        name='BlackoutPeriodList'
+        component={BlackoutPeriodListScreen}
+        options={{title: 'Blackout Periods'}}
+      />
+      <Screen
+        name='BlackoutPeriodCreate'
+        component={BlackoutPeriodCreateScreen}
+        options={{title: 'Blackout Period Create'}}
+      />
+      <Screen
+        name='BlackoutPeriodDetail'
+        component={BlackoutPeriodDetailScreen}
+        options={{title: 'Blackout Period Details'}}
       />
     </Navigator>
   )
@@ -123,6 +141,9 @@ export type BackOfficeScreenParamList = {
   CategoryDetail: {categoryId: number}
   BookingList: undefined
   BookingDetail: {bookingId: number}
+  BlackoutPeriodList: undefined
+  BlackoutPeriodCreate: undefined
+  BlackoutPeriodDetail: {blackoutPeridId: number}
 }
 
 export type BackOfficeNavigatorParams =
@@ -141,4 +162,9 @@ export type CategoryDetailRouteProp = RouteProp<
 export type BookingDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
   'BookingDetail'
+>
+
+export type BlackoutPeriodDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'BlackoutPeriodDetail'
 >

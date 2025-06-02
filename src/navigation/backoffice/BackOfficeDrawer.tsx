@@ -44,9 +44,20 @@ const menuItems: MenuItem[] = [
   {
     label: 'Bookings',
     route: 'BookingList',
-    activeOn: ['BookingList', 'BookingCreate', 'BookingDetail'],
+    activeOn: ['BookingList', 'BookingDetail'],
     activeIcon: 'fa-briefcase-medical',
     inactiveIcon: 'fa-briefcase-medical',
+  },
+  {
+    label: 'Blackout Periods',
+    route: 'BlackoutPeriodList',
+    activeOn: [
+      'BlackoutPeriodList',
+      'BlackoutPeriodCreate',
+      'BlackoutPeriodDetail',
+    ],
+    activeIcon: 'fa-store-slash',
+    inactiveIcon: 'fa-store-slash',
   },
   {
     // should be on last item
