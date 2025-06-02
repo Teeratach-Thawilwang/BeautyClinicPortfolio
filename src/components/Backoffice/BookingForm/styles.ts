@@ -84,14 +84,6 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       flex: 1,
       borderRadius: 5,
     },
-    cancelButtonContainer: {
-      maxWidth: maxWidthButton,
-      flex: 1,
-      backgroundColor: theme.colors.surfaceContainerHigh,
-    },
-    cancelButtonLabel: {
-      color: theme.colors.onSurface,
-    },
     deleteButtonContainer: {
       maxWidth: maxWidthButton,
       flex: 1,
