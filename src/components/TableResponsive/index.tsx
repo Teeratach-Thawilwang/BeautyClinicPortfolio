@@ -8,7 +8,7 @@ import {useResponsiveScreen} from '@hooks/CommonHooks'
 
 import {Props} from './types'
 
-export default function TableResponsive({
+export default function TableResponsive<T extends object>({
   headers,
   data,
   isLoading,
@@ -16,7 +16,7 @@ export default function TableResponsive({
   current,
   last,
   onPaginatePress,
-}: Props) {
+}: Props<T>) {
   const {responsive} = useResponsiveScreen()
 
   if (responsive === 'MOBILE') {
