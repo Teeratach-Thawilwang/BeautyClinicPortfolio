@@ -79,8 +79,6 @@ class CategoryService {
       .eq('id', id)
       .single()
 
-    data.images = data.images.map((val: string) => JSON.parse(val))
-
     if (error) throw error
     return data as Category
   }
