@@ -1,12 +1,13 @@
 import React, {useCallback, useState} from 'react'
-import {Keyboard, RefreshControl, ScrollView} from 'react-native'
+import {Keyboard, RefreshControl, ScrollView, View} from 'react-native'
+import {ActivityIndicator} from 'react-native-paper'
 
+import TableResponsive from '@components/TableResponsive'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate, useRefresh} from '@hooks/CommonHooks'
 import {useQueryBookingList} from '@hooks/backoffice/BookingHooks'
 
 import Filter from './Components/Filter'
-import TableResponsive from './Components/TableResponsive'
 import {getStyles} from './styles'
 
 export default function BookingListScreen() {
@@ -28,7 +29,6 @@ export default function BookingListScreen() {
   const {
     data: bookings,
     isFetching: isLoading,
-    error,
     refetch,
   } = useQueryBookingList(
     search,
@@ -103,6 +103,7 @@ export default function BookingListScreen() {
   return (
     <ScrollView
       style={styles.container}
+      contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps='handled'
       showsVerticalScrollIndicator={false}
       refreshControl={
@@ -116,20 +117,26 @@ export default function BookingListScreen() {
         initialStopCreatedAt={stopCreatedAt}
         onChange={onChangeFilter}
       />
-      <TableResponsive
-        headers={tableHeaders}
-        data={bookings.data}
-        isLoading={isLoading}
-        onRowPress={row =>
-          navigation.navigate('BackOfficeScreens', {
-            screen: 'BookingDetail',
-            params: {bookingId: row.id},
-          })
-        }
-        current={page}
-        last={bookings.last}
-        onPaginatePress={page => setPage(page)}
-      />
+      {isLoading ? (
+        <View style={styles.skeletonContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <TableResponsive
+          headers={tableHeaders}
+          data={bookings.data}
+          isLoading={isLoading}
+          onRowPress={row =>
+            navigation.navigate('BackOfficeScreens', {
+              screen: 'BookingDetail',
+              params: {bookingId: row.id},
+            })
+          }
+          current={page}
+          last={bookings.last}
+          onPaginatePress={page => setPage(page)}
+        />
+      )}
     </ScrollView>
   )
 }

@@ -24,13 +24,7 @@ export function useQueryCategories(
   staleTime: number = 30 * 1000,
   initialValue?: {data: CategoryListItem[]; last: number},
 ) {
-  const defaultItems: CategoryListItem[] = [1].map(i => ({
-    id: i,
-    name: '',
-    status: CategoryStatus.Active,
-    created_at: ' ',
-  }))
-  initialValue = initialValue ?? {data: defaultItems, last: 1}
+  initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
       'categories',

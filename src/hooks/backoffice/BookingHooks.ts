@@ -23,16 +23,7 @@ export function useQueryBookingList(
   staleTime: number = 30 * 1000,
   initialValue?: {data: BookingListItem[]; last: number},
 ) {
-  const defaultItems: BookingListItem[] = [1].map(i => ({
-    id: i,
-    user_id: '',
-    course_id: i,
-    booking_date: '',
-    booking_time: '',
-    status: BookingStatus.Incoming,
-    created_at: ' ',
-  }))
-  initialValue = initialValue ?? {data: defaultItems, last: 1}
+  initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
       'booking-list',
