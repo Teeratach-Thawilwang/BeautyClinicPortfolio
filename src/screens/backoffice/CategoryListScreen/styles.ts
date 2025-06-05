@@ -9,5 +9,13 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       backgroundColor: theme.colors.background,
       flex: 1,
     },
+    contentContainer: {
+      flexGrow: 1,
+    },
+    skeletonContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   })
 }

@@ -17,5 +17,9 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    createButtonIcon: {
+      width: 16,
+      color: theme.colors.onPrimary,
+    },
   })
 }

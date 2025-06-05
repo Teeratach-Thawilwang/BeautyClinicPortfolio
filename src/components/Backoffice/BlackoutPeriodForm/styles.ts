@@ -30,39 +30,16 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     inputItem: {
       marginTop: itemMarginTop,
     },
-    dropdownLabel: {
-      marginTop: 10,
-      marginBottom: 5,
-      color: theme.colors.onSurface,
-      fontSize: theme.fontSize.body,
-      flex: 1,
-    },
-    dropdownErrorLabel: {
-      marginTop: 10,
-      marginBottom: 5,
-      color: theme.colors.error,
-      fontSize: theme.fontSize.body,
-      flex: 1,
-    },
-    dropdownContainer: {
-      backgroundColor: theme.colors.surfaceContainerHighest,
-    },
-    dropdownErrorContainer: {
-      backgroundColor: theme.colors.surfaceContainerHighest,
-      borderColor: theme.colors.error,
-      borderWidth: 2,
-    },
-    bookingItemTitle: {
+    DateTimeItemTitle: {
       marginTop: 10,
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.body,
     },
-    bookingDateTimeButton: {
+    DateTimeItemButton: {
       marginTop: 5,
     },
     formErrorText: {
       marginTop: 5,
-      paddingHorizontal: 10,
       color: theme.colors.error,
       fontSize: theme.fontSize.body,
     },
@@ -83,6 +60,14 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       maxWidth: maxWidthButton,
       flex: 1,
       borderRadius: 5,
+    },
+    cancelButtonContainer: {
+      maxWidth: maxWidthButton,
+      flex: 1,
+      backgroundColor: theme.colors.surfaceContainerHigh,
+    },
+    cancelButtonLabel: {
+      color: theme.colors.onSurface,
     },
     deleteButtonContainer: {
       maxWidth: maxWidthButton,

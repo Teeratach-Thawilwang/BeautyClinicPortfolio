@@ -1,12 +1,13 @@
 import React, {useCallback, useState} from 'react'
-import {Keyboard, RefreshControl, ScrollView} from 'react-native'
+import {Keyboard, RefreshControl, ScrollView, View} from 'react-native'
+import {ActivityIndicator} from 'react-native-paper'
 
+import TableResponsive from '@components/TableResponsive'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate, useRefresh} from '@hooks/CommonHooks'
 import {useQueryCategories} from '@hooks/backoffice/CategoryHooks'
 
 import Filter from './Components/Filter'
-import TableResponsive from './Components/TableResponsive'
 import {getStyles} from './styles'
 
 export default function CategoryListScreen() {
@@ -94,6 +95,7 @@ export default function CategoryListScreen() {
   return (
     <ScrollView
       style={styles.container}
+      contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps='handled'
       showsVerticalScrollIndicator={false}
       refreshControl={
@@ -107,20 +109,26 @@ export default function CategoryListScreen() {
         initialStopCreatedAt={stopCreatedAt}
         onChange={onChangeFilter}
       />
-      <TableResponsive
-        headers={tableHeaders}
-        data={categories.data}
-        isLoading={isLoading}
-        onRowPress={row =>
-          navigation.navigate('BackOfficeScreens', {
-            screen: 'CategoryDetail',
-            params: {categoryId: row.id},
-          })
-        }
-        current={page}
-        last={categories.last}
-        onPaginatePress={page => setPage(page)}
-      />
+      {isLoading ? (
+        <View style={styles.skeletonContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <TableResponsive
+          headers={tableHeaders}
+          data={categories.data}
+          isLoading={isLoading}
+          onRowPress={row =>
+            navigation.navigate('BackOfficeScreens', {
+              screen: 'CategoryDetail',
+              params: {categoryId: row.id},
+            })
+          }
+          current={page}
+          last={categories.last}
+          onPaginatePress={page => setPage(page)}
+        />
+      )}
     </ScrollView>
   )
 }

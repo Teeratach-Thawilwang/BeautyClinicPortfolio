@@ -13,3 +13,8 @@ export enum BookingStatus {
   Cancelled = 'cancelled',
   Completed = 'completed',
 }
+
+export enum BlackoutPeriodStatus {
+  Active = 'active',
+  Expired = 'expired',
+}

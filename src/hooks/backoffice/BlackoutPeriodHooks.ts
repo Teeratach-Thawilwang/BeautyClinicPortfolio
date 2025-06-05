@@ -4,45 +4,39 @@ import {useForm} from 'react-hook-form'
 import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
-import {CategoryStatus} from '@enums/StatusEnums'
 import {useNavigate} from '@hooks/CommonHooks'
 import {
-  Category,
-  CategoryCreateProps,
-  CategoryListItem,
-  CategoryUpdateProps,
-} from '@models/CategoryTypes'
-import CategoryService from '@services/CategoryService'
+  BlackoutPeriodCreateProps,
+  BlackoutPeriodForm,
+  BlackoutPeriodItem,
+  BlackoutPeriodUpdateProps,
+} from '@models/BlackoutPeriod'
+import BlackoutPeriodService from '@services/BlackoutPeriodService'
 
-export function useQueryCategories(
-  search: string,
+export function useQueryBlackoutPeriodList(
   page: number,
-  orderBy: 'ASC' | 'DESC',
-  status?: CategoryStatus,
+  orderBy: 'ASC' | 'DESC' = 'DESC',
   startCreatedAt?: Date,
   stopCreatedAt?: Date,
-  staleTime: number = 30 * 1000,
-  initialValue?: {data: CategoryListItem[]; last: number},
+  staleTime: number = 10 * 1000,
+  initialValue?: {data: BlackoutPeriodItem[]; last: number},
 ) {
   initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
-      'categories',
-      search,
+      'blackout_period_list',
       page,
       orderBy,
-      status,
       startCreatedAt,
       stopCreatedAt,
     ],
     queryFn: async () =>
-      await CategoryService.getList(
-        search,
+      await BlackoutPeriodService.getList(
         page,
         15,
-        'id',
+        'date',
         orderBy,
-        status,
+        undefined,
         startCreatedAt,
         stopCreatedAt,
       ),
@@ -53,34 +47,25 @@ export function useQueryCategories(
   return {...result, data: result.data ?? initialValue}
 }
 
-export function useQueryAllActiveCategories(staleTime: number = 60 * 1000) {
-  return useQuery({
-    queryKey: ['categories_all_status_active'],
-    queryFn: async () => await CategoryService.getAllActive(),
-    placeholderData: previousData => previousData,
-    staleTime: staleTime,
-  })
-}
-
-export function useQueryCategoryById(
-  categoryId: number,
+export function useQueryBlackoutPeriodById(
+  id: number,
   staleTime: number = 5 * 1000,
 ) {
   return useQuery({
-    queryKey: ['category', categoryId],
-    queryFn: async () => await CategoryService.getById(categoryId),
+    queryKey: ['blackout_period', id],
+    queryFn: async () => await BlackoutPeriodService.getById(id),
     placeholderData: previousData => previousData,
     staleTime: staleTime,
   })
 }
 
-export function useCategoryCreateMutation() {
+export function useBlackoutPeriodCreateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (category: CategoryCreateProps) =>
-      CategoryService.create(category),
+    mutationFn: (blackoutPeriod: BlackoutPeriodCreateProps) =>
+      BlackoutPeriodService.create(blackoutPeriod),
     onSuccess: () => {
-      navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
+      navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({
         type: 'success',
         text1: 'Create successfully.',
@@ -97,13 +82,13 @@ export function useCategoryCreateMutation() {
   return mutation
 }
 
-export function useCategoryUpdateMutation() {
+export function useBlackoutPeriodUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (category: CategoryUpdateProps) =>
-      CategoryService.update(category),
+    mutationFn: (blackoutPeriod: BlackoutPeriodUpdateProps) =>
+      BlackoutPeriodService.update(blackoutPeriod),
     onSuccess: () => {
-      navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
+      navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({
         type: 'success',
         text1: 'Update successfully.',
@@ -120,12 +105,12 @@ export function useCategoryUpdateMutation() {
   return mutation
 }
 
-export function useCategoryDeleteMutation() {
+export function useBlackoutPeriodDeleteMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (id: number) => CategoryService.delete(id),
+    mutationFn: (id: number) => BlackoutPeriodService.delete(id),
     onSuccess: () => {
-      navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
+      navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({
         type: 'success',
         text1: 'Delete successfully.',
@@ -142,32 +127,27 @@ export function useCategoryDeleteMutation() {
   return mutation
 }
 
-export const courseImageSchema = z
-  .array(
-    z.object({
-      uri: z.string(),
-      type: z.string(),
-    }),
-  )
-  .default([])
-
-export const categorySchema = z.object({
-  id: z.number().default(0),
-  name: z.string().min(2),
-  status: z.enum([CategoryStatus.Active, CategoryStatus.Inactive]),
-  images: courseImageSchema,
+export const timeRangeSchema = z.object({
+  start: z.string(),
+  end: z.string(),
 })
 
-export type CategoryFormData = z.infer<typeof categorySchema>
+export const blackoutPeriodSchema = z.object({
+  id: z.number().default(0),
+  date: z.string(),
+  time_range: timeRangeSchema,
+})
 
-export function useCategoryForm(category?: Category) {
+export type BlackoutPeriodFormData = z.infer<typeof blackoutPeriodSchema>
+
+export function useBlackoutPeriodForm(blackoutPeriod?: BlackoutPeriodForm) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<CategoryFormData>({
-    resolver: zodResolver(categorySchema),
-    defaultValues: category,
+  } = useForm<BlackoutPeriodFormData>({
+    resolver: zodResolver(blackoutPeriodSchema),
+    defaultValues: blackoutPeriod,
   })
 
   return {

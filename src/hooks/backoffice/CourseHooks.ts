@@ -24,14 +24,7 @@ export function useQueryCourses(
   staleTime: number = 30 * 1000,
   initialValue?: {data: CourseListItem[]; last: number},
 ) {
-  const defaultItems: CourseListItem[] = [1].map(i => ({
-    id: i,
-    name: '',
-    status: CourseStatus.Active,
-    price: 0,
-    created_at: '',
-  }))
-  initialValue = initialValue ?? {data: defaultItems, last: 1}
+  initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
       'courses',
