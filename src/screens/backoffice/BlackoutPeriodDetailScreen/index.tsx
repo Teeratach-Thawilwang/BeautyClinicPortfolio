@@ -29,8 +29,8 @@ export default function BlackoutPeriodDetailScreen({
     refetch: refetch,
   } = useQueryBlackoutPeriodById(route.params.blackoutPeridId)
 
-  const {mutate: updateMutate} = useBlackoutPeriodUpdateMutation()
-  const {mutate: deleteMutate} = useBlackoutPeriodDeleteMutation()
+  const {mutateAsync: updateMutate} = useBlackoutPeriodUpdateMutation()
+  const {mutateAsync: deleteMutate} = useBlackoutPeriodDeleteMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     refetch()
@@ -53,10 +53,10 @@ export default function BlackoutPeriodDetailScreen({
         <BlackoutPeriodForm
           key={route.params.blackoutPeridId}
           onSubmit={async (formData: BlackoutPeriodFormData) => {
-            updateMutate(formData)
+            await updateMutate(formData)
           }}
           onDelete={async () => {
-            if (blackoutPeriod) deleteMutate(blackoutPeriod.id)
+            if (blackoutPeriod) await deleteMutate(blackoutPeriod.id)
           }}
           blackoutPeriod={blackoutPeriod!}
         />

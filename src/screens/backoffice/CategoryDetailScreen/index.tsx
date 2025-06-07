@@ -32,8 +32,8 @@ export default function CategoryDetailScreen({
     refetch: refetch,
   } = useQueryCategoryById(route.params.categoryId)
 
-  const {mutate: updateMutate} = useCategoryUpdateMutation()
-  const {mutate: deleteMutate} = useCategoryDeleteMutation()
+  const {mutateAsync: updateMutate} = useCategoryUpdateMutation()
+  const {mutateAsync: deleteMutate} = useCategoryDeleteMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     refetch()
@@ -68,10 +68,10 @@ export default function CategoryDetailScreen({
               })
             }
             const transformData = {...formData, images: transformImage}
-            updateMutate(transformData as CategoryUpdateProps)
+            await updateMutate(transformData as CategoryUpdateProps)
           }}
           onDelete={async () => {
-            if (category) deleteMutate(category.id)
+            if (category) await deleteMutate(category.id)
           }}
           category={category}
         />

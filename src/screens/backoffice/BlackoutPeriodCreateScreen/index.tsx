@@ -19,7 +19,7 @@ export default function BlackoutPeriodCreateScreen() {
   const [isFirstTime, setIsFirstTime] = useState(true)
   const [refresh, setRefresh] = useState(false)
 
-  const {mutate} = useBlackoutPeriodCreateMutation()
+  const {mutateAsync} = useBlackoutPeriodCreateMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     setRefresh(val => !val)
@@ -52,7 +52,7 @@ export default function BlackoutPeriodCreateScreen() {
         <BlackoutPeriodForm
           onSubmit={async (formData: BlackoutPeriodFormData) => {
             const {id, ...formDataCreate} = {...formData}
-            mutate(formDataCreate as BlackoutPeriodCreateProps)
+            await mutateAsync(formDataCreate as BlackoutPeriodCreateProps)
           }}
         />
       )}

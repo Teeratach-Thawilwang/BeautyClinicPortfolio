@@ -67,7 +67,8 @@ export function useQueryBookingById(
 export function useBookingUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (booking: BookingUpdateProps) => BookingService.update(booking),
+    mutationFn: async (booking: BookingUpdateProps) =>
+      await BookingService.update(booking),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'BookingList'})
       Toast.show({
@@ -89,7 +90,7 @@ export function useBookingUpdateMutation() {
 export function useBookingDeleteMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (id: number) => BookingService.delete(id),
+    mutationFn: async (id: number) => await BookingService.delete(id),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'BookingList'})
       Toast.show({

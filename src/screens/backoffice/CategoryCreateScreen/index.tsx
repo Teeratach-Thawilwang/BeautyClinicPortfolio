@@ -21,7 +21,7 @@ export default function CategoryCreateScreen() {
   const [isFirstTime, setIsFirstTime] = useState(true)
   const [refresh, setRefresh] = useState(false)
 
-  const {mutate} = useCategoryCreateMutation()
+  const {mutateAsync} = useCategoryCreateMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     setRefresh(val => !val)
@@ -66,7 +66,7 @@ export default function CategoryCreateScreen() {
             }
             const {id, ...formDataCreate} = {...formData}
             const transformData = {...formDataCreate, images: transformImage}
-            mutate(transformData as CategoryCreateProps)
+            await mutateAsync(transformData as CategoryCreateProps)
           }}
         />
       )}
