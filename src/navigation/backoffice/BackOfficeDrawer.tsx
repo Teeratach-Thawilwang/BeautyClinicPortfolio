@@ -60,6 +60,13 @@ const menuItems: MenuItem[] = [
     inactiveIcon: 'fa-store-slash',
   },
   {
+    label: 'Admins',
+    route: 'AdminList',
+    activeOn: ['AdminList', 'AdminCreate'],
+    activeIcon: 'account-tie-hat',
+    inactiveIcon: 'account-tie-hat',
+  },
+  {
     // should be on last item
     label: 'Exit',
     route: 'none',
