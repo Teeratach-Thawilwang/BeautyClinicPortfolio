@@ -1,9 +1,9 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import React, {useCallback, useState} from 'react'
 import {Image, ImageSourcePropType, ImageStyle, View} from 'react-native'
 import {Icon, Button as RNButton} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 import {getStyles} from './styles'
 import {Props} from './types'
@@ -27,14 +27,16 @@ export default function Button({
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const defaultColor = getDefaultColor(mode, disabled, theme)
-
   const [isLoadingInternal, setIsLoadingInternal] = useState(false)
 
   const onPressHandler = useCallback(async () => {
     useLoading ? setIsLoadingInternal(true) : null
-    await onPress()
-    useLoading ? setIsLoadingInternal(false) : null
-  }, [onPress])
+    try {
+      await onPress()
+    } finally {
+      useLoading ? setIsLoadingInternal(false) : null
+    }
+  }, [onPress, useLoading])
 
   if (mode == 'skeleton') {
     return <View style={[styles.container, containerStyle, styles.skeleton]} />

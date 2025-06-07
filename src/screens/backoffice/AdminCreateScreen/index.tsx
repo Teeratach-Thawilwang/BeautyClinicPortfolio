@@ -2,26 +2,20 @@ import React, {useState} from 'react'
 import {RefreshControl, ScrollView, View} from 'react-native'
 import {ActivityIndicator} from 'react-native-paper'
 
-import CategoryForm from '@components/Backoffice/CategoryForm'
-import {ImageFileAsset} from '@components/ImagePicker/types'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useFocusEffect, useRefresh} from '@hooks/CommonHooks'
-import {
-  CategoryFormData,
-  useCategoryCreateMutation,
-} from '@hooks/backoffice/CategoryHooks'
-import {CategoryCreateProps} from '@models/CategoryTypes'
-import FileService from '@services/FileService'
+import {useAdminCreateMutation} from '@hooks/backoffice/AdminHooks'
 
+import AdminForm from './Components/AdminForm'
 import {getStyles} from './styles'
 
-export default function CategoryCreateScreen() {
+export default function AdminCreateScreen() {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const [isFirstTime, setIsFirstTime] = useState(true)
   const [refresh, setRefresh] = useState(false)
 
-  const {mutateAsync} = useCategoryCreateMutation()
+  const {mutateAsync} = useAdminCreateMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     setRefresh(val => !val)
@@ -51,22 +45,9 @@ export default function CategoryCreateScreen() {
           <ActivityIndicator />
         </View>
       ) : (
-        <CategoryForm
-          onSubmit={async (formData: CategoryFormData) => {
-            const transformImage: ImageFileAsset[] = []
-            for (const image of formData.images) {
-              let uri: string = image.uri
-              if (!uri.startsWith('https:')) {
-                uri = await FileService.uploadImage(image)
-              }
-              transformImage.push({
-                uri: uri,
-                type: image.type,
-              })
-            }
-            const {id, ...formDataCreate} = {...formData}
-            const transformData = {...formDataCreate, images: transformImage}
-            await mutateAsync(transformData as CategoryCreateProps)
+        <AdminForm
+          onSubmit={async formData => {
+            await mutateAsync(formData.email)
           }}
         />
       )}

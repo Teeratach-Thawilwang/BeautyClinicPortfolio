@@ -1,0 +1,34 @@
+Ref: https://supabase.com/docs/guides/functions/quickstart
+
+1. Install supabase package
+    > npm install supabase --save-dev
+
+2. Login
+    > npx supabase login
+    แล้วทำตามคำสั่งของมัน
+
+3. Init project
+    > npx supabase init
+
+4. Create edge function
+    > npx supabase functions new <Function name>
+
+5. Deploy
+    > npx supabase functions deploy <Function name | ถ้าไม่กำหนดจะ deploy ทุก function>
+
+
+
+ข้อควรระวัง
+
+1. ไฟล๋ deno.d.ts สร้างขึ้นเพราะ Deno type ไม่มี ดังนั้นห้ามลบ
+2. ไฟล์ tsconfig.json จะใช้แยกกันกับของ ./tsconfig.json ของ react native
+3. เวลา import จะใช้นามสกุลไฟล์ด้วย เช่น
+    import {supabase} from '@functions/_shared/supabase.ts'
+    import {errorResponse, jsonResponse} from '@functions/_shared/utils.ts'
+
+4. การใช้ config.toml
+    1. เวลา new function มาใหม่ ให้เรียกใช้ 
+        import_map = "./deno.json" ซึ่งเป็นตัวนอกสุด ไม่ใช่ในแต่ละ function
+    2. ถ้า API ตัวไหนไม่ต้องส่ง Authorization: `Bearer ${accessToken}`
+        ให้แก้ verify_jwt = false
+        แต่ต้องแก้เป็น function ของใครของมัน

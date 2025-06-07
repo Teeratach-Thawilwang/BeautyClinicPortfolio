@@ -9,6 +9,8 @@ import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
+import AdminCreateScreen from '@screens/backoffice/AdminCreateScreen'
+import AdminListScreen from '@screens/backoffice/AdminListScreen'
 import BlackoutPeriodCreateScreen from '@screens/backoffice/BlackoutPeriodCreateScreen'
 import BlackoutPeriodDetailScreen from '@screens/backoffice/BlackoutPeriodDetailScreen'
 import BlackoutPeriodListScreen from '@screens/backoffice/BlackoutPeriodListScreen'
@@ -95,6 +97,16 @@ export default function BackOfficeNavigator() {
         component={BlackoutPeriodDetailScreen}
         options={{title: 'Blackout Period Details'}}
       />
+      <Screen
+        name='AdminList'
+        component={AdminListScreen}
+        options={{title: 'Admins'}}
+      />
+      <Screen
+        name='AdminCreate'
+        component={AdminCreateScreen}
+        options={{title: 'Add admin'}}
+      />
     </Navigator>
   )
 }
@@ -144,6 +156,8 @@ export type BackOfficeScreenParamList = {
   BlackoutPeriodList: undefined
   BlackoutPeriodCreate: undefined
   BlackoutPeriodDetail: {blackoutPeridId: number}
+  AdminList: undefined
+  AdminCreate: undefined
 }
 
 export type BackOfficeNavigatorParams =

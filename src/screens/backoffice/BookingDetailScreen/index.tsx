@@ -32,8 +32,8 @@ export default function BookingDetailScreen({
     refetch: refetch,
   } = useQueryBookingById(route.params.bookingId)
 
-  const {mutate: updateMutate} = useBookingUpdateMutation()
-  const {mutate: deleteMutate} = useBookingDeleteMutation()
+  const {mutateAsync: updateMutate} = useBookingUpdateMutation()
+  const {mutateAsync: deleteMutate} = useBookingDeleteMutation()
 
   const {refreshing, onRefresh} = useRefresh(() => {
     refetch()
@@ -61,10 +61,10 @@ export default function BookingDetailScreen({
               ...formData,
               update_by: user.id,
             }
-            updateMutate(updateParams)
+            await updateMutate(updateParams)
           }}
           onDelete={async () => {
-            if (booking) deleteMutate(booking.id)
+            if (booking) await deleteMutate(booking.id)
           }}
           booking={booking!}
         />

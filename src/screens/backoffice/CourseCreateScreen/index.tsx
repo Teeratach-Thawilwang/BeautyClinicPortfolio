@@ -27,7 +27,7 @@ export default function CourseCreateScreen() {
     refetch: refetchCategory,
   } = useQueryAllActiveCategories()
 
-  const {mutate} = useCourseCreateMutation()
+  const {mutateAsync} = useCourseCreateMutation()
 
   const isShowSkeleton = isFirstTime || isCategoryLoading
 
@@ -74,7 +74,7 @@ export default function CourseCreateScreen() {
             }
             const {id, ...formDataCreate} = {...formData}
             const transformData = {...formDataCreate, images: transformImage}
-            mutate(transformData as CourseCreateProps)
+            await mutateAsync(transformData as CourseCreateProps)
           }}
           categories={categories ?? []}
         />

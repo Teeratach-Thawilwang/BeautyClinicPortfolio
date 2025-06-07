@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest --clear-cache && jest",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "edge-deploy": "npx supabase functions deploy"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.1.2",
@@ -81,6 +82,7 @@
     "react-test-renderer": "18.3.1",
     "reactotron-react-native": "^5.1.11",
     "reactotron-redux": "^3.1.10",
+    "supabase": "^2.24.3",
     "typescript": "5.0.4"
   },
   "engines": {

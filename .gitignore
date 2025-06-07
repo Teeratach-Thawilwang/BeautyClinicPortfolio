@@ -2,6 +2,7 @@
 .env
 output
 jest
+supabase/.temp
 
 # OSX
 #

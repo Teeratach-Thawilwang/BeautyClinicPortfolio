@@ -62,8 +62,8 @@ export function useQueryBlackoutPeriodById(
 export function useBlackoutPeriodCreateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (blackoutPeriod: BlackoutPeriodCreateProps) =>
-      BlackoutPeriodService.create(blackoutPeriod),
+    mutationFn: async (blackoutPeriod: BlackoutPeriodCreateProps) =>
+      await BlackoutPeriodService.create(blackoutPeriod),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({
@@ -85,8 +85,8 @@ export function useBlackoutPeriodCreateMutation() {
 export function useBlackoutPeriodUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (blackoutPeriod: BlackoutPeriodUpdateProps) =>
-      BlackoutPeriodService.update(blackoutPeriod),
+    mutationFn: async (blackoutPeriod: BlackoutPeriodUpdateProps) =>
+      await BlackoutPeriodService.update(blackoutPeriod),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({
@@ -108,7 +108,7 @@ export function useBlackoutPeriodUpdateMutation() {
 export function useBlackoutPeriodDeleteMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (id: number) => BlackoutPeriodService.delete(id),
+    mutationFn: async (id: number) => await BlackoutPeriodService.delete(id),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'BlackoutPeriodList'})
       Toast.show({

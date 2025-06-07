@@ -38,8 +38,8 @@ export default function CourseDetailScreen({
     refetch: refetchCategory,
   } = useQueryAllActiveCategories()
 
-  const {mutate: updateMutate} = useCourseUpdateMutation()
-  const {mutate: deleteMutate} = useCourseDeleteMutation()
+  const {mutateAsync: updateMutate} = useCourseUpdateMutation()
+  const {mutateAsync: deleteMutate} = useCourseDeleteMutation()
 
   const isShowSkeleton = isCourseLoading || isCategoryLoading
 
@@ -77,10 +77,10 @@ export default function CourseDetailScreen({
               })
             }
             const transformData = {...formData, images: transformImage}
-            updateMutate(transformData as CourseUpdateProps)
+            await updateMutate(transformData as CourseUpdateProps)
           }}
           onDelete={async () => {
-            if (course) deleteMutate(course.id)
+            if (course) await deleteMutate(course.id)
           }}
           categories={categories ?? []}
           course={course}

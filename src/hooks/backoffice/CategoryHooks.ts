@@ -77,8 +77,8 @@ export function useQueryCategoryById(
 export function useCategoryCreateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (category: CategoryCreateProps) =>
-      CategoryService.create(category),
+    mutationFn: async (category: CategoryCreateProps) =>
+      await CategoryService.create(category),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
       Toast.show({
@@ -100,8 +100,8 @@ export function useCategoryCreateMutation() {
 export function useCategoryUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (category: CategoryUpdateProps) =>
-      CategoryService.update(category),
+    mutationFn: async (category: CategoryUpdateProps) =>
+      await CategoryService.update(category),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
       Toast.show({
@@ -123,7 +123,7 @@ export function useCategoryUpdateMutation() {
 export function useCategoryDeleteMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (id: number) => CategoryService.delete(id),
+    mutationFn: async (id: number) => await CategoryService.delete(id),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'CategoryList'})
       Toast.show({

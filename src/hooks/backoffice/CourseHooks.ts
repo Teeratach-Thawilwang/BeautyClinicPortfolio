@@ -68,7 +68,8 @@ export function useQueryCourseById(
 export function useCourseCreateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (course: CourseCreateProps) => CourseService.create(course),
+    mutationFn: async (course: CourseCreateProps) =>
+      await CourseService.create(course),
     onSuccess: () => {
       navigation.push('BackOfficeScreens', {screen: 'CourseList'})
       Toast.show({
@@ -90,7 +91,8 @@ export function useCourseCreateMutation() {
 export function useCourseUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (course: CourseUpdateProps) => CourseService.update(course),
+    mutationFn: async (course: CourseUpdateProps) =>
+      await CourseService.update(course),
     onSuccess: () => {
       navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
       Toast.show({
@@ -112,7 +114,7 @@ export function useCourseUpdateMutation() {
 export function useCourseDeleteMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: (id: number) => CourseService.delete(id),
+    mutationFn: async (id: number) => await CourseService.delete(id),
     onSuccess: () => {
       navigation.replace('BackOfficeScreens', {screen: 'CourseList'})
       Toast.show({
