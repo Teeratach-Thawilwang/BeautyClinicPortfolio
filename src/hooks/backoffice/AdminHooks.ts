@@ -88,11 +88,6 @@ export function useAdminDeleteMutation(onSuccess: () => void) {
   return mutation
 }
 
-export const timeRangeSchema = z.object({
-  start: z.string(),
-  end: z.string(),
-})
-
 export const adminSchema = z.object({
   email: z.string().email(),
 })
