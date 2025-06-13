@@ -7,6 +7,8 @@ import React from 'react'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
+import {CustomerCourse} from '@models/CustomerCourseType'
+import {Customer} from '@models/CustomerType'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import BackOfficeDrawer from '@navigation/backoffice/BackOfficeDrawer'
 import AdminCreateScreen from '@screens/backoffice/AdminCreateScreen'
@@ -22,6 +24,9 @@ import CategoryListScreen from '@screens/backoffice/CategoryListScreen'
 import CourseCreateScreen from '@screens/backoffice/CourseCreateScreen'
 import CourseDetailScreen from '@screens/backoffice/CourseDetailScreen'
 import CourseListScreen from '@screens/backoffice/CourseListScreen'
+import CustomerCourseDetailScreen from '@screens/backoffice/CustomerCourseDetailScreen'
+import CustomerDetailScreen from '@screens/backoffice/CustomerDetailScreen'
+import CustomerListScreen from '@screens/backoffice/CustomerListScreen'
 import DashboardScreen from '@screens/backoffice/DashboardScreen'
 
 const {Navigator, Screen} = createDrawerNavigator<BackOfficeScreenParamList>()
@@ -107,6 +112,21 @@ export default function BackOfficeNavigator() {
         component={AdminCreateScreen}
         options={{title: 'Add admin'}}
       />
+      <Screen
+        name='CustomerList'
+        component={CustomerListScreen}
+        options={{title: 'Customers'}}
+      />
+      <Screen
+        name='CustomerDetail'
+        component={CustomerDetailScreen}
+        options={{title: 'Customer Details'}}
+      />
+      <Screen
+        name='CustomerCourseDetail'
+        component={CustomerCourseDetailScreen}
+        options={{title: 'Customer Course Edit'}}
+      />
     </Navigator>
   )
 }
@@ -158,6 +178,9 @@ export type BackOfficeScreenParamList = {
   BlackoutPeriodDetail: {blackoutPeridId: number}
   AdminList: undefined
   AdminCreate: undefined
+  CustomerList: undefined
+  CustomerDetail: {customer: Customer}
+  CustomerCourseDetail: {course: CustomerCourse}
 }
 
 export type BackOfficeNavigatorParams =
@@ -181,4 +204,14 @@ export type BookingDetailRouteProp = RouteProp<
 export type BlackoutPeriodDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
   'BlackoutPeriodDetail'
+>
+
+export type CustomerDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'CustomerDetail'
+>
+
+export type CustomerCourseDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'CustomerCourseDetail'
 >

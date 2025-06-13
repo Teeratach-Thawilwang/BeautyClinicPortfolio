@@ -1,8 +1,11 @@
 import {StyleSheet} from 'react-native'
 
+import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
+  const {responsive} = useResponsiveScreen()
+  const itemMarginTop = responsive == 'MOBILE' ? 10 : 20
   return StyleSheet.create({
     container: {
       paddingHorizontal: 10,
@@ -16,13 +19,6 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-    },
-    createButtonContainer: {
-      marginTop: 10,
-    },
-    createButtonIcon: {
-      width: 16,
-      color: theme.colors.onPrimary,
     },
   })
 }

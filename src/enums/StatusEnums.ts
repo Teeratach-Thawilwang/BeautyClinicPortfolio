@@ -18,3 +18,9 @@ export enum BlackoutPeriodStatus {
   Active = 'active',
   Expired = 'expired',
 }
+
+export enum CustomerCourseStatus {
+  Active = 'active',
+  Completed = 'completed',
+  Expired = 'expired',
+}

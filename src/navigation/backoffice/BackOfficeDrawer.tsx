@@ -67,6 +67,13 @@ const menuItems: MenuItem[] = [
     inactiveIcon: 'account-tie-hat',
   },
   {
+    label: 'Customers',
+    route: 'CustomerList',
+    activeOn: ['CustomerList', 'CustomerDetail', 'CustomerCourseDetail'],
+    activeIcon: 'account-group',
+    inactiveIcon: 'account-group',
+  },
+  {
     // should be on last item
     label: 'Exit',
     route: 'none',

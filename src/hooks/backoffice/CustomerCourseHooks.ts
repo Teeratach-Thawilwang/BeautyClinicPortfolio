@@ -4,37 +4,44 @@ import {useForm} from 'react-hook-form'
 import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
+import {CustomerCourseStatus} from '@enums/StatusEnums'
 import {useNavigate} from '@hooks/CommonHooks'
-import {Admin, AdminForm} from '@models/AdminTypes'
-import AdminService from '@services/AdminService'
+import {
+  CustomerCourse,
+  CustomerCourseForm,
+  CustomerCourseUpdateProps,
+} from '@models/CustomerCourseType'
+import CustomerCousreService from '@services/CustomerCousreService'
 
-export function useQueryAdminList(
-  search: string,
+export function useQueryCustomerCourseList(
+  customerId: string,
   page: number,
   orderBy: 'ASC' | 'DESC',
+  status?: CustomerCourseStatus,
   startCreatedAt?: Date,
   stopCreatedAt?: Date,
   staleTime: number = 5 * 1000,
-  initialValue?: {data: Admin[]; last: number},
+  initialValue?: {data: CustomerCourse[]; last: number},
 ) {
   initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
-      'admin-list',
-      search,
+      'customer-course-list',
+      customerId,
       page,
-      'created_at',
       orderBy,
+      status,
       startCreatedAt,
       stopCreatedAt,
     ],
     queryFn: async () =>
-      await AdminService.getList(
-        search,
+      await CustomerCousreService.getList(
+        customerId,
         page,
         15,
         'created_at',
         orderBy,
+        status,
         startCreatedAt,
         stopCreatedAt,
       ),
@@ -45,15 +52,16 @@ export function useQueryAdminList(
   return {...result, data: result.data ?? initialValue}
 }
 
-export function useAdminCreateMutation() {
+export function useCustomerCourseUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
-    mutationFn: async (email: string) => await AdminService.create(email),
+    mutationFn: async (course: CustomerCourseUpdateProps) =>
+      await CustomerCousreService.update(course),
     onSuccess: () => {
-      navigation.push('BackOfficeScreens', {screen: 'AdminList'})
+      navigation.goBack()
       Toast.show({
         type: 'success',
-        text1: 'Create successfully.',
+        text1: 'Update successfully.',
       })
     },
     onError: error => {
@@ -67,41 +75,26 @@ export function useAdminCreateMutation() {
   return mutation
 }
 
-export function useAdminDeleteMutation(onSuccess: () => void) {
-  const mutation = useMutation({
-    mutationFn: async (uuid: string) => await AdminService.delete(uuid),
-    onSuccess: () => {
-      onSuccess()
-      Toast.show({
-        type: 'success',
-        text1: 'Delete successfully.',
-      })
-    },
-    onError: error => {
-      Toast.show({
-        type: 'error',
-        text1: 'Delete failed.',
-        text2: error.message,
-      })
-    },
-  })
-  return mutation
-}
-
-export const adminSchema = z.object({
-  email: z.string().email(),
+export const customerCourseSchema = z.object({
+  quota_round: z.number(),
+  used_round: z.number(),
+  status: z.enum([
+    CustomerCourseStatus.Active,
+    CustomerCourseStatus.Completed,
+    CustomerCourseStatus.Expired,
+  ]),
 })
 
-export type AdminFormData = z.infer<typeof adminSchema>
+export type CustomerCourseFormData = z.infer<typeof customerCourseSchema>
 
-export function useAdminForm(admin?: AdminForm) {
+export function useCustomerCourseForm(customerCourse?: CustomerCourseForm) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<AdminFormData>({
-    resolver: zodResolver(adminSchema),
-    defaultValues: admin,
+  } = useForm<CustomerCourseFormData>({
+    resolver: zodResolver(customerCourseSchema),
+    defaultValues: customerCourse,
   })
 
   return {
