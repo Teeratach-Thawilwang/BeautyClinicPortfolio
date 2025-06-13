@@ -18,6 +18,9 @@ export function getStyles(theme: AdaptiveMD3Theme, isLoading?: boolean) {
       borderColor: theme.colors.outlineVariant,
       overflow: 'hidden',
     },
+    noDataContainer: {
+      backgroundColor: theme.colors.surfaceContainerHigh,
+    },
     noData: {
       height: 50,
       textAlign: 'center',
