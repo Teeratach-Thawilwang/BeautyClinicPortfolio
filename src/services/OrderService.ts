@@ -1,17 +1,16 @@
 import dayjs from 'dayjs'
 
-import {BookingStatus} from '@enums/StatusEnums'
+import {OrderStatusEnum} from '@enums/StatusEnums'
 import {
-  BookingCreateProps,
-  BookingForm,
-  BookingList,
-  BookingListItem,
-  BookingUpdateProps,
-} from '@models/BookingTypes'
+  Order,
+  OrderList,
+  OrderListItem,
+  OrderUpdateProps,
+} from '@models/OrderTypes'
 import supabase from '@services/SupabaseClient'
 
-class BookingService {
-  private tableName = 'booking'
+class OrderService {
+  private tableName = 'orders'
 
   public async getList(
     search?: string,
@@ -19,22 +18,21 @@ class BookingService {
     perPage: number = 15,
     sortBy: string = 'id',
     orderBy: 'ASC' | 'DESC' = 'DESC',
-    status?: BookingStatus,
+    status?: OrderStatusEnum,
     startCreatedAt?: Date,
     stopCreatedAt?: Date,
-  ): Promise<BookingList> {
+  ): Promise<OrderList> {
     const from = (page - 1) * perPage
     const to = from + perPage - 1
 
     let query = supabase
-      .from(this.tableName + '_view')
+      .from(this.tableName)
       .select(
         'id, \
         user_id, \
         course_id, \
-        booking_date, \
-        booking_time, \
         status, \
+        net_price, \
         created_at',
         {count: 'exact'},
       )
@@ -65,27 +63,20 @@ class BookingService {
 
     const transformData = data.map(item => {
       const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
-      const bookingDate = dayjs(item.booking_date).format('DD/MM/YYYY')
-      const bookingTime = `${item.booking_time.start} - ${item.booking_time.end}`
 
       return {
-        id: item.id,
-        user_id: item.user_id,
-        course_id: item.course_id,
-        booking_date: bookingDate,
-        booking_time: bookingTime,
-        status: item.status,
+        ...item,
         created_at: createdAt,
       }
     })
 
     return {
-      data: transformData as BookingListItem[],
+      data: transformData as OrderListItem[],
       last: count ? Math.ceil(count / perPage) : 1,
     }
   }
 
-  public async getById(id: number): Promise<BookingForm> {
+  public async getById(id: number): Promise<Order> {
     const {data, error} = await supabase
       .from(this.tableName)
       .select('*')
@@ -96,19 +87,11 @@ class BookingService {
 
     return {
       ...data,
-      booking_date: dayjs(data.booking_date).format('DD/MM/YYYY'),
-      time_range: data.booking_time,
-    } as BookingForm
+      created_at: dayjs(data.created_at).format('DD/MM/YYYY'),
+    } as Order
   }
 
-  public async create(booking: BookingCreateProps): Promise<null> {
-    const {error} = await supabase.from(this.tableName).insert(booking)
-
-    if (error) throw error
-    return null
-  }
-
-  public async update(booking: BookingUpdateProps): Promise<null> {
+  public async update(booking: OrderUpdateProps): Promise<null> {
     const {id, ...updateParams} = {...booking}
     const {error} = await supabase
       .from(this.tableName)
@@ -118,12 +101,6 @@ class BookingService {
     if (error) throw error
     return null
   }
-
-  public async delete(id: number): Promise<null> {
-    const {error} = await supabase.from(this.tableName).delete().eq('id', id)
-    if (error) throw error
-    return null
-  }
 }
 
-export default new BookingService()
+export default new OrderService()

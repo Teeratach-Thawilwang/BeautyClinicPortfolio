@@ -55,7 +55,7 @@ export function useQueryCategories(
 
 export function useQueryAllActiveCategories(staleTime: number = 60 * 1000) {
   return useQuery({
-    queryKey: ['categories_all_status_active'],
+    queryKey: ['categories-all-status-active'],
     queryFn: async () => await CategoryService.getAllActive(),
     placeholderData: previousData => previousData,
     staleTime: staleTime,

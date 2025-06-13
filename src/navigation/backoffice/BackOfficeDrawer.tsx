@@ -28,6 +28,13 @@ const menuItems: MenuItem[] = [
     inactiveIcon: 'ant-appstore1',
   },
   {
+    label: 'Orders',
+    route: 'OrderList',
+    activeOn: ['OrderList', 'OrderDetail'],
+    activeIcon: 'ion-bag-handle',
+    inactiveIcon: 'ion-bag-handle',
+  },
+  {
     label: 'Courses',
     route: 'CourseList',
     activeOn: ['CourseList', 'CourseCreate', 'CourseDetail'],

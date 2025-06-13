@@ -24,7 +24,7 @@ export function useQueryBlackoutPeriodList(
   initialValue = initialValue ?? {data: [], last: 1}
   const result = useQuery({
     queryKey: [
-      'blackout_period_list',
+      'blackout-period-list',
       page,
       orderBy,
       startCreatedAt,
@@ -52,7 +52,7 @@ export function useQueryBlackoutPeriodById(
   staleTime: number = 5 * 1000,
 ) {
   return useQuery({
-    queryKey: ['blackout_period', id],
+    queryKey: ['blackout-period', id],
     queryFn: async () => await BlackoutPeriodService.getById(id),
     placeholderData: previousData => previousData,
     staleTime: staleTime,

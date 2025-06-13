@@ -32,7 +32,9 @@ export default function TableCard<T extends object>({
   if (data.length == 0) {
     return (
       <View style={[styles.container, containerStyle]}>
-        <Text style={styles.noData}>No Data</Text>
+        <View style={styles.noDataContainer}>
+          <Text style={styles.noData}>No Data</Text>
+        </View>
       </View>
     )
   }
