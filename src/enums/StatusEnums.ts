@@ -24,3 +24,10 @@ export enum CustomerCourseStatus {
   Completed = 'completed',
   Expired = 'expired',
 }
+
+export enum OrderStatusEnum {
+  Created = 'created',
+  Ongoing = 'ongoing',
+  Completed = 'completed',
+  Cancel = 'cancel',
+}
