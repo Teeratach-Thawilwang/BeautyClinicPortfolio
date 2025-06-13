@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 
 import {BookingStatus} from '@enums/StatusEnums'
 import {
-  Booking,
   BookingCreateProps,
   BookingForm,
   BookingList,
