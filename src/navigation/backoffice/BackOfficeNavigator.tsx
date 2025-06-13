@@ -28,6 +28,8 @@ import CustomerCourseDetailScreen from '@screens/backoffice/CustomerCourseDetail
 import CustomerDetailScreen from '@screens/backoffice/CustomerDetailScreen'
 import CustomerListScreen from '@screens/backoffice/CustomerListScreen'
 import DashboardScreen from '@screens/backoffice/DashboardScreen'
+import OrderDetailScreen from '@screens/backoffice/OrderDetailScreen'
+import OrderListScreen from '@screens/backoffice/OrderListScreen'
 
 const {Navigator, Screen} = createDrawerNavigator<BackOfficeScreenParamList>()
 
@@ -127,6 +129,16 @@ export default function BackOfficeNavigator() {
         component={CustomerCourseDetailScreen}
         options={{title: 'Customer Course Edit'}}
       />
+      <Screen
+        name='OrderList'
+        component={OrderListScreen}
+        options={{title: 'Orders'}}
+      />
+      <Screen
+        name='OrderDetail'
+        component={OrderDetailScreen}
+        options={{title: 'Order Details'}}
+      />
     </Navigator>
   )
 }
@@ -181,6 +193,8 @@ export type BackOfficeScreenParamList = {
   CustomerList: undefined
   CustomerDetail: {customer: Customer}
   CustomerCourseDetail: {course: CustomerCourse}
+  OrderList: undefined
+  OrderDetail: {orderId: number}
 }
 
 export type BackOfficeNavigatorParams =
@@ -214,4 +228,9 @@ export type CustomerDetailRouteProp = RouteProp<
 export type CustomerCourseDetailRouteProp = RouteProp<
   BackOfficeScreenParamList,
   'CustomerCourseDetail'
+>
+
+export type OrderDetailRouteProp = RouteProp<
+  BackOfficeScreenParamList,
+  'OrderDetail'
 >
