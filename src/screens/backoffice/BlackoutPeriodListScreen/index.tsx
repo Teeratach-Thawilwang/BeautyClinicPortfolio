@@ -45,7 +45,8 @@ export default function BlackoutPeriodListScreen() {
           })
         }
         icon='fa-plus'
-        iconStyle={styles.createButtonIcon}>
+        iconStyle={styles.createButtonIcon}
+        containerStyle={styles.createButtonContainer}>
         Create
       </Button>
       {isLoading ? (
