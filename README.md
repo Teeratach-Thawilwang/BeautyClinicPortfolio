@@ -39,7 +39,7 @@ This section is restricted to **admin users only**. Admins can:
 - [Store] Course Searching and components
 - [Store] Order Detail and components
 - [Store] Checkout and payments selection components
-- [Store] Supabase edge function to integrate with Omise to testing payment action
+- [Store] Supabase edge function to integrate with Omise for testing payment action
 - [Store] Appointment booking with date/time selection
 
 ## 📱 Platform
