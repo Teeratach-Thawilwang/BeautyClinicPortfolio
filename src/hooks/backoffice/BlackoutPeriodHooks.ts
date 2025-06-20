@@ -10,8 +10,8 @@ import {
   BlackoutPeriodForm,
   BlackoutPeriodItem,
   BlackoutPeriodUpdateProps,
-} from '@models/BlackoutPeriod'
-import BlackoutPeriodService from '@services/BlackoutPeriodService'
+} from '@models/backoffice/BlackoutPeriod'
+import BlackoutPeriodService from '@services/backoffice/BlackoutPeriodService'
 
 export function useQueryBlackoutPeriodList(
   page: number,

@@ -1,4 +1,4 @@
-import {useSignInForm} from '@hooks/SignInHooks'
+import {useSignInForm} from '@hooks/store/SignInHooks'
 import {act, renderHook} from '@utils/TestUtil'
 
 describe('useSignInForm', () => {

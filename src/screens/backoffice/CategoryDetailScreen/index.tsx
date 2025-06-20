@@ -12,7 +12,7 @@ import {
   useCategoryUpdateMutation,
   useQueryCategoryById,
 } from '@hooks/backoffice/CategoryHooks'
-import {CategoryUpdateProps} from '@models/CategoryTypes'
+import {CategoryUpdateProps} from '@models/backoffice/CategoryTypes'
 import {CategoryDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 import FileService from '@services/FileService'
 

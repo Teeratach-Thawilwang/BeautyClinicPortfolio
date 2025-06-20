@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query'
 
-import {CustomerItem} from '@models/CustomerType'
-import CustomerService from '@services/CustomerService'
+import {CustomerItem} from '@models/backoffice/CustomerType'
+import CustomerService from '@services/backoffice/CustomerService'
 
 export function useQueryCustomerList(
   search: string,

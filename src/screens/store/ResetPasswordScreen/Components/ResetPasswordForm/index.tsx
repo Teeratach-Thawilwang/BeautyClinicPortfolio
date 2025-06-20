@@ -11,7 +11,7 @@ import {
   ResetPasswordFormData,
   useResetPasswordForm,
   useResetPasswordMutation,
-} from '@hooks/ResetPasswordHooks'
+} from '@hooks/store/ResetPasswordHooks'
 
 import {getStyles} from './styles'
 

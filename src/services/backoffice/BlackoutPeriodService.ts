@@ -7,7 +7,7 @@ import {
   BlackoutPeriodItem,
   BlackoutPeriodList,
   BlackoutPeriodUpdateProps,
-} from '@models/BlackoutPeriod'
+} from '@models/backoffice/BlackoutPeriod'
 import supabase from '@services/SupabaseClient'
 
 class BlackoutPeriodService {

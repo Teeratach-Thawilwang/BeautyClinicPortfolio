@@ -1,17 +1,16 @@
 import dayjs from 'dayjs'
 
-import {CourseStatus} from '@enums/StatusEnums'
+import {OrderStatusEnum} from '@enums/StatusEnums'
 import {
-  Course,
-  CourseCreateProps,
-  CourseList,
-  CourseListItem,
-  CourseUpdateProps,
-} from '@models/CourseTypes'
+  Order,
+  OrderList,
+  OrderListItem,
+  OrderUpdateProps,
+} from '@models/backoffice/OrderTypes'
 import supabase from '@services/SupabaseClient'
 
-class CourseService {
-  private tableName = 'courses'
+class OrderService {
+  private tableName = 'orders'
 
   public async getList(
     search?: string,
@@ -19,24 +18,35 @@ class CourseService {
     perPage: number = 15,
     sortBy: string = 'id',
     orderBy: 'ASC' | 'DESC' = 'DESC',
-    status?: CourseStatus,
+    status?: OrderStatusEnum,
     startCreatedAt?: Date,
     stopCreatedAt?: Date,
-  ): Promise<CourseList> {
+  ): Promise<OrderList> {
     const from = (page - 1) * perPage
     const to = from + perPage - 1
 
     let query = supabase
       .from(this.tableName)
-      .select('id, name, status, price, created_at', {count: 'exact'})
+      .select(
+        'id, \
+        user_id, \
+        course_id, \
+        status, \
+        net_price, \
+        created_at',
+        {count: 'exact'},
+      )
       .order(sortBy, {ascending: orderBy == 'ASC'})
 
     if (search) {
+      const orConditions: string[] = []
       if (isNaN(Number(search))) {
-        query = query.or(`name.ilike.%${search}%`)
+        orConditions.push(`user_id.ilike.%${search}%`)
       } else {
-        query = query.or(`id.eq.${search}`)
+        orConditions.push(`id.eq.${search}`)
+        orConditions.push(`course_id.eq.${search}`)
       }
+      query = query.or(orConditions.join(','))
     }
     if (status) {
       query = query.eq('status', status)
@@ -53,16 +63,20 @@ class CourseService {
 
     const transformData = data.map(item => {
       const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
-      return {...item, created_at: createdAt}
+
+      return {
+        ...item,
+        created_at: createdAt,
+      }
     })
 
     return {
-      data: transformData as CourseListItem[],
+      data: transformData as OrderListItem[],
       last: count ? Math.ceil(count / perPage) : 1,
     }
   }
 
-  public async getById(id: number): Promise<Course> {
+  public async getById(id: number): Promise<Order> {
     const {data, error} = await supabase
       .from(this.tableName)
       .select('*')
@@ -70,30 +84,23 @@ class CourseService {
       .single()
 
     if (error) throw error
-    return data as Course
+
+    return {
+      ...data,
+      created_at: dayjs(data.created_at).format('DD/MM/YYYY'),
+    } as Order
   }
 
-  public async create(course: CourseCreateProps): Promise<null> {
-    const {error} = await supabase.from(this.tableName).insert(course)
-    if (error) throw error
-    return null
-  }
-
-  public async update(course: CourseUpdateProps): Promise<null> {
-    const {id, ...updateParams} = {...course}
+  public async update(booking: OrderUpdateProps): Promise<null> {
+    const {id, ...updateParams} = {...booking}
     const {error} = await supabase
       .from(this.tableName)
       .update(updateParams)
       .eq('id', id)
-    if (error) throw error
-    return null
-  }
 
-  public async delete(id: number): Promise<null> {
-    const {error} = await supabase.from(this.tableName).delete().eq('id', id)
     if (error) throw error
     return null
   }
 }
 
-export default new CourseService()
+export default new OrderService()

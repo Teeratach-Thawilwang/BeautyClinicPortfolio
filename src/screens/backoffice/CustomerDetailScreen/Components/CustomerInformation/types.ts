@@ -1,4 +1,4 @@
-import {Customer} from '@models/CustomerType'
+import {Customer} from '@models/backoffice/CustomerType'
 
 export type Props = {
   customer: Customer

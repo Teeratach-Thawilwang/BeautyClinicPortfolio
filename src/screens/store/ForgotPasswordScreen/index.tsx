@@ -11,7 +11,7 @@ import {
   ForgotPasswordFormData,
   useForgotPasswordForm,
   useForgotPasswordMutation,
-} from '@hooks/ForgotPasswordHooks'
+} from '@hooks/store/ForgotPasswordHooks'
 
 import {getStyles} from './styles'
 

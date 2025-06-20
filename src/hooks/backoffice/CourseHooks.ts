@@ -11,8 +11,8 @@ import {
   CourseCreateProps,
   CourseListItem,
   CourseUpdateProps,
-} from '@models/CourseTypes'
-import CourseService from '@services/CourseService'
+} from '@models/backoffice/CourseTypes'
+import CourseService from '@services/backoffice/CourseService'
 
 export function useQueryCourses(
   search: string,

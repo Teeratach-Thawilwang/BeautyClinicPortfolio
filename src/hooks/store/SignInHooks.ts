@@ -5,23 +5,26 @@ import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 
 import AuthService from '@services/AuthService'
-import supabase from '@services/SupabaseClient'
 
-export const forgotPasswordSchema = z.object({
+import {useNavigate} from '../CommonHooks'
+
+export const signInSchema = z.object({
   email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
 })
 
-export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
+export type SignInFormData = z.infer<typeof signInSchema>
 
-export function useForgotPasswordForm(email?: string) {
+export function useSignInForm(email?: string, password?: string) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<ForgotPasswordFormData>({
-    resolver: zodResolver(forgotPasswordSchema),
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: email ?? '',
+      password: password ?? '',
     },
   })
 
@@ -32,12 +35,14 @@ export function useForgotPasswordForm(email?: string) {
   }
 }
 
-export function useForgotPasswordMutation() {
+export function useSignInMutation() {
+  const navigation = useNavigate()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const mutation = useMutation({
-    mutationFn: (email: string) => AuthService.forgotPassword(email),
+    mutationFn: (formData: SignInFormData) =>
+      AuthService.signInWithEmail(formData.email, formData.password),
     onSuccess: () => {
-      setIsModalVisible(true)
+      navigation.navigate('BottomTabScreens', {screen: 'Home'})
     },
     onError: () => {
       setIsModalVisible(true)

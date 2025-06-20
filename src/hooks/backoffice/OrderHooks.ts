@@ -6,8 +6,12 @@ import {z} from 'zod'
 
 import {OrderStatusEnum} from '@enums/StatusEnums'
 import {useNavigate} from '@hooks/CommonHooks'
-import {OrderForm, OrderListItem, OrderUpdateProps} from '@models/OrderTypes'
-import OrderService from '@services/OrderService'
+import {
+  OrderForm,
+  OrderListItem,
+  OrderUpdateProps,
+} from '@models/backoffice/OrderTypes'
+import OrderService from '@services/backoffice/OrderService'
 
 export function useQueryOrderList(
   search: string,

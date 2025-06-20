@@ -10,7 +10,7 @@ import {
   useAdminDeleteMutation,
   useQueryAdminList,
 } from '@hooks/backoffice/AdminHooks'
-import {Admin} from '@models/AdminTypes'
+import {Admin} from '@models/backoffice/AdminTypes'
 
 import Filter from './Components/Filter'
 import {getStyles} from './styles'

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import {Customer, CustomerList} from '@models/CustomerType'
+import {Customer, CustomerList} from '@models/backoffice/CustomerType'
 import supabase from '@services/SupabaseClient'
 
 class CustomerService {

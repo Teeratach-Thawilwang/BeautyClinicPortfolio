@@ -10,7 +10,7 @@ import {
   SignUpFormData,
   useSignUpForm,
   useSignUpMutation,
-} from '@hooks/SignUpHooks'
+} from '@hooks/store/SignUpHooks'
 import AuthService from '@services/AuthService'
 
 import {getStyles} from './styles'

@@ -11,8 +11,8 @@ import {
   CategoryCreateProps,
   CategoryListItem,
   CategoryUpdateProps,
-} from '@models/CategoryTypes'
-import CategoryService from '@services/CategoryService'
+} from '@models/backoffice/CategoryTypes'
+import CategoryService from '@services/backoffice/CategoryService'
 
 export function useQueryCategories(
   search: string,

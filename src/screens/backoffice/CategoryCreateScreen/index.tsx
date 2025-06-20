@@ -10,7 +10,7 @@ import {
   CategoryFormData,
   useCategoryCreateMutation,
 } from '@hooks/backoffice/CategoryHooks'
-import {CategoryCreateProps} from '@models/CategoryTypes'
+import {CategoryCreateProps} from '@models/backoffice/CategoryTypes'
 import FileService from '@services/FileService'
 
 import {getStyles} from './styles'

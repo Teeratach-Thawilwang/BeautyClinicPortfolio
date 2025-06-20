@@ -8,7 +8,7 @@ import {
   CustomerCourseFormData,
   useCustomerCourseUpdateMutation,
 } from '@hooks/backoffice/CustomerCourseHooks'
-import {CustomerCourseUpdateProps} from '@models/CustomerCourseType'
+import {CustomerCourseUpdateProps} from '@models/backoffice/CustomerCourseType'
 import {CustomerCourseDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 
 import CustomerCourseForm from './Components/CustomerCourseForm'

@@ -9,7 +9,7 @@ import {
   useOrderUpdateMutation,
   useQueryOrderById,
 } from '@hooks/backoffice/OrderHooks'
-import {OrderUpdateProps} from '@models/OrderTypes'
+import {OrderUpdateProps} from '@models/backoffice/OrderTypes'
 import {OrderDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 
 import OrderForm from './Components'

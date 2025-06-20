@@ -6,25 +6,21 @@ import {z} from 'zod'
 
 import AuthService from '@services/AuthService'
 
-import {useNavigate} from './CommonHooks'
-
-export const signInSchema = z.object({
+export const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters long'),
 })
 
-export type SignInFormData = z.infer<typeof signInSchema>
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
 
-export function useSignInForm(email?: string, password?: string) {
+export function useForgotPasswordForm(email?: string) {
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: email ?? '',
-      password: password ?? '',
     },
   })
 
@@ -35,14 +31,12 @@ export function useSignInForm(email?: string, password?: string) {
   }
 }
 
-export function useSignInMutation() {
-  const navigation = useNavigate()
+export function useForgotPasswordMutation() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const mutation = useMutation({
-    mutationFn: (formData: SignInFormData) =>
-      AuthService.signInWithEmail(formData.email, formData.password),
+    mutationFn: (email: string) => AuthService.forgotPassword(email),
     onSuccess: () => {
-      navigation.navigate('BottomTabScreens', {screen: 'Home'})
+      setIsModalVisible(true)
     },
     onError: () => {
       setIsModalVisible(true)

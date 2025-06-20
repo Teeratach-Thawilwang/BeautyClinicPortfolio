@@ -13,7 +13,7 @@ import {
   useCourseUpdateMutation,
   useQueryCourseById,
 } from '@hooks/backoffice/CourseHooks'
-import {CourseUpdateProps} from '@models/CourseTypes'
+import {CourseUpdateProps} from '@models/backoffice/CourseTypes'
 import {CourseDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 import FileService from '@services/FileService'
 

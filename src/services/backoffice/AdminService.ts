@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import {Admin, AdminList} from '@models/AdminTypes'
+import {Admin, AdminList} from '@models/backoffice/AdminTypes'
 import supabase from '@services/SupabaseClient'
 
 class AdminService {

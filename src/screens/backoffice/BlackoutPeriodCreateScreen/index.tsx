@@ -9,7 +9,7 @@ import {
   BlackoutPeriodFormData,
   useBlackoutPeriodCreateMutation,
 } from '@hooks/backoffice/BlackoutPeriodHooks'
-import {BlackoutPeriodCreateProps} from '@models/BlackoutPeriod'
+import {BlackoutPeriodCreateProps} from '@models/backoffice/BlackoutPeriod'
 
 import {getStyles} from './styles'
 

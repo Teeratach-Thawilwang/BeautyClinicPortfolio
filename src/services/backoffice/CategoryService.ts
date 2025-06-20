@@ -7,7 +7,7 @@ import {
   CategoryList,
   CategoryListItem,
   CategoryUpdateProps,
-} from '@models/CategoryTypes'
+} from '@models/backoffice/CategoryTypes'
 import supabase from '@services/SupabaseClient'
 
 class CategoryService {

@@ -5,8 +5,8 @@ import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
 import {useNavigate} from '@hooks/CommonHooks'
-import {Admin, AdminForm} from '@models/AdminTypes'
-import AdminService from '@services/AdminService'
+import {Admin, AdminForm} from '@models/backoffice/AdminTypes'
+import AdminService from '@services/backoffice/AdminService'
 
 export function useQueryAdminList(
   search: string,

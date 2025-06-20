@@ -11,7 +11,7 @@ import {
   CourseFormData,
   useCourseCreateMutation,
 } from '@hooks/backoffice/CourseHooks'
-import {CourseCreateProps} from '@models/CourseTypes'
+import {CourseCreateProps} from '@models/backoffice/CourseTypes'
 import FileService from '@services/FileService'
 
 import {getStyles} from './styles'

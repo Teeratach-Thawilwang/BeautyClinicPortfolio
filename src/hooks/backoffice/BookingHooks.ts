@@ -10,8 +10,8 @@ import {
   BookingForm,
   BookingListItem,
   BookingUpdateProps,
-} from '@models/BookingTypes'
-import BookingService from '@services/BookingService'
+} from '@models/backoffice/BookingTypes'
+import BookingService from '@services/backoffice/BookingService'
 
 export function useQueryBookingList(
   search: string,

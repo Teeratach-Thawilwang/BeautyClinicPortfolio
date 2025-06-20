@@ -7,7 +7,7 @@ import {
   BookingList,
   BookingListItem,
   BookingUpdateProps,
-} from '@models/BookingTypes'
+} from '@models/backoffice/BookingTypes'
 import supabase from '@services/SupabaseClient'
 
 class BookingService {

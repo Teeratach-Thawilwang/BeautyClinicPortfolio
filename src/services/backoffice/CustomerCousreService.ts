@@ -6,7 +6,7 @@ import {
   CustomerCourse,
   CustomerCourseList,
   CustomerCourseUpdateProps,
-} from '@models/CustomerCourseType'
+} from '@models/backoffice/CustomerCourseType'
 import supabase from '@services/SupabaseClient'
 
 class CustomerCousreService {

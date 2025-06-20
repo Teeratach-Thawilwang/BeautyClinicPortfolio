@@ -5,7 +5,7 @@ import {ActivityIndicator} from 'react-native-paper'
 import LogoHeader from '@components/LogoHeader'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {disableBackSwipe, useFocusEffect, useNavigate} from '@hooks/CommonHooks'
-import {useVerifyRecoveryTokenMutation} from '@hooks/ResetPasswordHooks'
+import {useVerifyRecoveryTokenMutation} from '@hooks/store/ResetPasswordHooks'
 import {ResetPasswordScreenRouteProp} from '@navigation/AppNavigator'
 import AuthService from '@services/AuthService'
 

@@ -11,7 +11,7 @@ import {
   useBookingUpdateMutation,
   useQueryBookingById,
 } from '@hooks/backoffice/BookingHooks'
-import {BookingUpdateProps} from '@models/BookingTypes'
+import {BookingUpdateProps} from '@models/backoffice/BookingTypes'
 import {BookingDetailRouteProp} from '@navigation/backoffice/BackOfficeNavigator'
 import AuthService from '@services/AuthService'
 

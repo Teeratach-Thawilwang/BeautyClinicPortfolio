@@ -10,8 +10,8 @@ import {
   CustomerCourse,
   CustomerCourseForm,
   CustomerCourseUpdateProps,
-} from '@models/CustomerCourseType'
-import CustomerCousreService from '@services/CustomerCousreService'
+} from '@models/backoffice/CustomerCourseType'
+import CustomerCousreService from '@services/backoffice/CustomerCousreService'
 
 export function useQueryCustomerCourseList(
   customerId: string,

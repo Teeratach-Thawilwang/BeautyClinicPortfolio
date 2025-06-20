@@ -6,7 +6,7 @@ import LogoHeader from '@components/LogoHeader'
 import ResponseModal from '@components/ResponseModal'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {disableBackSwipe, useFocusEffect, useNavigate} from '@hooks/CommonHooks'
-import {useVerifyConfirmSingupTokenMutation} from '@hooks/ResetPasswordHooks'
+import {useVerifyConfirmSingupTokenMutation} from '@hooks/store/ResetPasswordHooks'
 import {ConfirmSignupScreenRouteProp} from '@navigation/AppNavigator'
 import AuthService from '@services/AuthService'
 

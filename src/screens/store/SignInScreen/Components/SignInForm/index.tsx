@@ -11,7 +11,7 @@ import {
   SignInFormData,
   useSignInForm,
   useSignInMutation,
-} from '@hooks/SignInHooks'
+} from '@hooks/store/SignInHooks'
 
 import {getStyles} from './styles'
 
