@@ -319,3 +319,9 @@ enabled = true
 verify_jwt = true
 import_map = "./deno.json"
 entrypoint = "./functions/create-admin-by-email/index.ts"
+
+[functions.get-widgets]
+enabled = true
+verify_jwt = false
+import_map = "./deno.json"
+entrypoint = "./functions/get-widgets/index.ts"
