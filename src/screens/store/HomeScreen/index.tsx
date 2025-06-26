@@ -44,7 +44,7 @@ export default function HomeScreen() {
             containerStyle={styles.searchInput}
             onSubmit={value => {
               if (value.length === 0) return
-              navigation.navigate('SearchResult', {q: value})
+              navigation.navigate('SearchResultScreen', {q: value})
             }}
           />
           {widgets?.map((widget, index) => {
