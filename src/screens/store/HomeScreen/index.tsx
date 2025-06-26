@@ -1,49 +1,66 @@
-import React, {useState} from 'react'
-import {ScrollView, StyleSheet, Text} from 'react-native'
+import React from 'react'
+import {RefreshControl, ScrollView, View} from 'react-native'
+import {ActivityIndicator} from 'react-native-paper'
 
-import Button from '@components/Button'
+import TextInput from '@components/TextInput'
+import WidgetBanner from '@components/WidgetBanner'
+import WidgetCategory from '@components/WidgetCategory'
+import WidgetCourse from '@components/WidgetCourse'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useNavigate} from '@hooks/CommonHooks'
-import {AdaptiveMD3Theme, ThemeEnum} from '@models/ThemeTypes'
-import AuthService from '@services/AuthService'
+import {useNavigate, useRefresh} from '@hooks/CommonHooks'
+import {useWidgetList} from '@hooks/store/WidgetHooks'
+
+import {getStyles} from './styles'
 
 export default function HomeScreen() {
-  const {theme, schema, toggleTheme} = useTheme()
+  const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
-  const user = AuthService.getUser()
 
-  const [val, setVal] = useState('')
+  const {data: widgets, isFetching: isLoading, refetch} = useWidgetList()
+  const {refreshing, onRefresh} = useRefresh(() => {
+    refetch()
+  })
 
   return (
-    <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
-      <Text style={styles.text}>HomeScreen</Text>
-      <Text style={styles.text}>user: {user?.email}</Text>
-      <Button onPress={toggleTheme}>Change Theme</Button>
-      <Button
-        useLoading
-        icon='home'
-        mode='outlined'
-        onPress={async () => {
-          await new Promise(resolve => setTimeout(resolve, 1000))
-        }}>
-        Press me
-      </Button>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      keyboardShouldPersistTaps='handled'
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {isLoading ? (
+        <View style={styles.skeletonContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <>
+          <TextInput
+            icon='ion-search-outline'
+            placeholder='ค้นหาคอร์ส...'
+            mode='outlined'
+            containerStyle={styles.searchInput}
+            onSubmit={value => {
+              if (value.length === 0) return
+              navigation.navigate('SearchResult', {q: value})
+            }}
+          />
+          {widgets?.map((widget, index) => {
+            switch (widget.type) {
+              case 'banner':
+                return <WidgetBanner key={index} banners={widget.items} />
+              case 'category':
+                return <WidgetCategory key={index} banners={widget.items} />
+              case 'course':
+                return <WidgetCourse key={index} courses={widget.items} />
+              default:
+                return null
+            }
+          })}
+        </>
+      )}
     </ScrollView>
   )
-}
-
-function getStyles(theme: AdaptiveMD3Theme) {
-  return StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: theme.colors.background,
-      flex: 1,
-    },
-    text: {
-      color: theme.colors.onSurface,
-      textAlign: 'center',
-      fontSize: theme.fontSize.body,
-    },
-  })
 }
