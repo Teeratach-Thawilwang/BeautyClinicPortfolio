@@ -21,7 +21,7 @@ Deno.serve(async (_req: Request): Promise<Response> => {
   if (categoryError) {
     return errorResponse(categoryError.message, 404)
   }
-  const transFormCategories = categories.map((category: any) => {
+  const transformCategories = categories.map((category: any) => {
     return {
       id: category.id,
       name: category.name,
@@ -85,5 +85,9 @@ Deno.serve(async (_req: Request): Promise<Response> => {
   )
   const coursesGroupByCategory = Object.values(coursesGroupByCategoryObj)
 
-  return jsonResponse([banners, transFormCategories, coursesGroupByCategory])
+  return jsonResponse([
+    {type: 'banner', items: banners},
+    {type: 'category', items: transformCategories},
+    {type: 'course', items: coursesGroupByCategory},
+  ])
 })
