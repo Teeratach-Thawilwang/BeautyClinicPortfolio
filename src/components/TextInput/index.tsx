@@ -10,9 +10,10 @@ import {getStyles} from './styles'
 import {ColorStyle, Props} from './types'
 
 export default function TextInput({
-  label,
-  value,
+  label = '',
+  value = '',
   onChange,
+  onSubmit,
   mode,
   multiline,
   keyboardType,
@@ -21,11 +22,12 @@ export default function TextInput({
   error,
   secureText,
   disabled,
-  containerStyle,
+  containerStyle = {},
   labelStyle,
   colorStyle,
 }: Props) {
-  const {height, borderRadius, ...restContainerStyle} = containerStyle || {}
+  const {height, borderRadius, backgroundColor, ...restContainerStyle} =
+    containerStyle
   const inputHeight = Number(height ?? 40)
   const inputBorderRadius = Number(borderRadius ?? 5)
   const {theme} = useTheme()
@@ -35,7 +37,7 @@ export default function TextInput({
   const iconName = isSecureText ? 'eye-outline' : 'eye-off-outline'
   const labelColor = getLineColor(isFocus, error, disabled, theme, colorStyle)
   const [debounceValue, setDebounceValue] = useDebounce(value, val => {
-    onChange(val as string)
+    if (onChange) onChange(val as string)
   })
 
   return (
@@ -53,7 +55,10 @@ export default function TextInput({
       ) : null}
       <TextInputRNP
         testID='text-input'
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          backgroundColor ? {backgroundColor: backgroundColor} : {},
+        ]}
         outlineColor={theme.colors.outlineVariant}
         mode={mode == 'labelTop' ? 'outlined' : mode}
         multiline={multiline}
@@ -63,6 +68,9 @@ export default function TextInput({
         placeholder={placeholder}
         value={String(debounceValue)}
         onChangeText={value => setDebounceValue(value)}
+        onSubmitEditing={() => {
+          if (onSubmit) onSubmit(String(debounceValue))
+        }}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         error={error ? true : false}

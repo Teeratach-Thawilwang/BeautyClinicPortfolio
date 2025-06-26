@@ -58,22 +58,14 @@ class AdminService {
     if (!accessToken) {
       throw new Error('Only authenticated user has permission.')
     }
-    const response = await fetch(
-      process.env.SUPABASE_URL + '/functions/v1/create-admin-by-email',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({email}),
+    const {error} = await supabase.functions.invoke('create-admin-by-email', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
-    )
+      body: {email},
+    })
 
-    if (!response.ok) {
-      const error = await response.json()
-      throw error
-    }
+    if (error) throw error
 
     return null
   }

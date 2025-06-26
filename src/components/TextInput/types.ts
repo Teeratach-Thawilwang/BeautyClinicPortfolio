@@ -14,9 +14,10 @@ export type ColorStyle = {
 }
 
 export type Props = {
-  label: string
-  value: string | number
-  onChange: (value: string) => void
+  label?: string
+  value?: string | number
+  onChange?: (value: string) => void
+  onSubmit?: (value: string) => void
   mode?: 'flat' | 'outlined' | 'labelTop'
   multiline?: boolean
   keyboardType?: KeyboardTypeOptions

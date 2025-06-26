@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import React, {useState} from 'react'
 import {Controller} from 'react-hook-form'
 import {Text, View} from 'react-native'

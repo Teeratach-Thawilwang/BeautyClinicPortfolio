@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack'
 import React from 'react'
 
+import {WidgetCourseItemDetail} from '@models/store/WidgetTypes'
 import LinkingConfiguration from '@navigation/LinkingConfiguration'
 import BackOfficeNavigator, {
   BackOfficeNavigatorParams,
@@ -32,6 +33,7 @@ export default function AppNavigator() {
         screenOptions={{headerShown: false}}
         initialRouteName='BottomTabScreens'>
         <Screen name='BottomTabScreens' component={BottomTabNavigator} />
+
         {!isSignIn ? (
           <Group>
             <Screen name='SignUpScreen' component={SignUpScreen} />
@@ -66,6 +68,9 @@ export type RootStackParamList = {
   ForgotPasswordScreen: undefined
   ResetPasswordScreen: {token_hash: string}
   ConfirmSignupScreen: {token_hash: string}
+  SearchResultScreen: {q: string}
+  CourseDetailScreen: {course: WidgetCourseItemDetail}
+  CategoryCourseScreen: {categoryId: number; categoryName: string}
 }
 
 export type RootScreenNavigationProps =
@@ -77,4 +82,16 @@ export type ResetPasswordScreenRouteProp = RouteProp<
 export type ConfirmSignupScreenRouteProp = RouteProp<
   RootStackParamList,
   'ConfirmSignupScreen'
+>
+export type SearchResultScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'SearchResultScreen'
+>
+export type CourseDetailScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CourseDetailScreen'
+>
+export type CategoryCourseScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CategoryCourseScreen'
 >
