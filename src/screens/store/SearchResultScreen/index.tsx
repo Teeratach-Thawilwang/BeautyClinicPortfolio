@@ -78,20 +78,30 @@ export default function SearchResultScreen({
       ) : (
         <>
           <FlexBox
+            isPadding={true}
             mobileColumns={[1]}
             tabletColumns={[1, 1]}
+            containerStyle={{gap: 10}}
             rowStyle={{gap: 10}}>
             {courses.data.map((course, index) => {
-              return <CourseCardItem key={index} course={course} />
+              return (
+                <CourseCardItem
+                  key={index}
+                  course={course}
+                  isShowCategory={true}
+                />
+              )
             })}
           </FlexBox>
-          <TableCardPagination
-            current={page}
-            last={courses.last}
-            onPress={page => {
-              setPage(page)
-            }}
-          />
+          {courses.data.length !== 0 ? (
+            <TableCardPagination
+              current={page}
+              last={courses.last}
+              onPress={page => {
+                setPage(page)
+              }}
+            />
+          ) : null}
         </>
       )}
     </ScrollView>
