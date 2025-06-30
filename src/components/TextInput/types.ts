@@ -1,3 +1,4 @@
+import {ReactNode} from 'react'
 import {KeyboardTypeOptions, TextStyle, ViewStyle} from 'react-native'
 
 export type LabelStyle = {
@@ -23,8 +24,10 @@ export type Props = {
   keyboardType?: KeyboardTypeOptions
   placeholder?: string
   icon?: string
+  right?: ReactNode
   error?: string
   secureText?: boolean
+  clearText?: boolean
   disabled?: boolean
   containerStyle?: ViewStyle
   labelStyle?: LabelStyle

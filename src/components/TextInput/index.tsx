@@ -19,8 +19,10 @@ export default function TextInput({
   keyboardType,
   placeholder,
   icon,
+  right,
   error,
   secureText,
+  clearText,
   disabled,
   containerStyle = {},
   labelStyle,
@@ -77,7 +79,8 @@ export default function TextInput({
         secureTextEntry={isSecureText}
         left={icon ? <TextInputRNP.Icon icon={icon} /> : undefined}
         right={
-          secureText ? (
+          right ??
+          (secureText ? (
             <TextInputRNP.Icon
               testID='secure-text-icon'
               icon={iconName}
@@ -85,7 +88,17 @@ export default function TextInput({
                 setIsSecureText(val => !val)
               }}
             />
-          ) : null
+          ) : clearText && String(debounceValue).length > 0 ? (
+            <TextInputRNP.Icon
+              testID='clear-text-icon'
+              icon='close'
+              onPress={() => {
+                setDebounceValue('')
+                if (onChange) onChange('')
+                if (onSubmit) onSubmit('')
+              }}
+            />
+          ) : null)
         }
         disabled={disabled}
       />
