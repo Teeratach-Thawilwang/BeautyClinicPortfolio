@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {RefreshControl, ScrollView, View} from 'react-native'
 import {ActivityIndicator} from 'react-native-paper'
 
@@ -7,7 +7,7 @@ import WidgetBanner from '@components/WidgetBanner'
 import WidgetCategory from '@components/WidgetCategory'
 import WidgetCourse from '@components/WidgetCourse'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useNavigate, useRefresh} from '@hooks/CommonHooks'
+import {useFocusEffect, useNavigate, useRefresh} from '@hooks/CommonHooks'
 import {useWidgetList} from '@hooks/store/WidgetHooks'
 
 import {getStyles} from './styles'
@@ -15,12 +15,17 @@ import {getStyles} from './styles'
 export default function HomeScreen() {
   const {theme} = useTheme()
   const styles = getStyles(theme)
+  const [searchRefresh, setSearchRefresh] = useState(false)
   const navigation = useNavigate()
 
   const {data: widgets, isFetching: isLoading, refetch} = useWidgetList()
   const {refreshing, onRefresh} = useRefresh(() => {
     refetch()
   })
+
+  useFocusEffect(() => {
+    setSearchRefresh(val => !val)
+  }, [])
 
   return (
     <ScrollView
@@ -38,12 +43,12 @@ export default function HomeScreen() {
       ) : (
         <>
           <TextInput
+            key={`search-input-${searchRefresh}`}
             icon='ion-search-outline'
             placeholder='ค้นหาคอร์ส...'
             mode='outlined'
             containerStyle={styles.searchInput}
             onSubmit={value => {
-              if (value.length === 0) return
               navigation.navigate('SearchResultScreen', {q: value})
             }}
           />
