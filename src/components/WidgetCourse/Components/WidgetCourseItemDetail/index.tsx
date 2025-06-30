@@ -4,6 +4,7 @@ import {Divider, TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate} from '@hooks/CommonHooks'
+import {getDurationText, getTreatmentText} from '@utils/Helpers'
 
 import {getStyles} from './styles'
 import {Props} from './types'
@@ -20,7 +21,7 @@ export default function WidgetCourseItemDetail({course}: Props) {
       style={styles.container}
       rippleColor='transparent'
       onPress={() => {
-        navigation.navigate('CourseScreen', {course: course})
+        navigation.navigate('CourseDetailScreen', {course: course})
       }}>
       <>
         <Image source={{uri: course.images[0].uri}} style={styles.image} />
@@ -36,21 +37,4 @@ export default function WidgetCourseItemDetail({course}: Props) {
       </>
     </TouchableRipple>
   )
-}
-
-function getTreatmentText(treatmentRound: number) {
-  if (treatmentRound == 1) {
-    return `${treatmentRound} round`
-  }
-  return `${treatmentRound} rounds`
-}
-
-function getDurationText(duration: number) {
-  if (duration < 1) {
-    return `Duration ${duration} minutes`
-  }
-  if (duration == 1) {
-    return `Duration ${duration} hour`
-  }
-  return `Duration ${duration} hours`
 }
