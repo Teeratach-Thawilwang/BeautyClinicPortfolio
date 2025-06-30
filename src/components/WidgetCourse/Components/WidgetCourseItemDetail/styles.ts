@@ -6,17 +6,17 @@ export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       paddingBottom: 5,
-      width: 150,
+      width: 152,
       borderRadius: 8,
-      backgroundColor: theme.colors.surface,
+      backgroundColor: theme.colors.surfaceContainerHigh,
+      borderWidth: 1,
+      borderColor: theme.colors.outlineVariant,
       justifyContent: 'center',
-      boxShadow: `1 2 7 -2 ${theme.colors.onSurface}80`,
+      overflow: 'hidden',
     },
     image: {
       width: 150,
       height: 100,
-      borderTopLeftRadius: 8,
-      borderTopRightRadius: 8,
       resizeMode: 'cover',
     },
     detailContainer: {

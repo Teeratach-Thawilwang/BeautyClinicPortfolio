@@ -7,15 +7,13 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     container: {
       paddingVertical: 10,
       paddingHorizontal: 10,
-      marginTop: 10,
       borderRadius: 8,
-      backgroundColor: theme.colors.surface,
+      backgroundColor: theme.colors.surfaceContainerHigh,
       borderWidth: 0.5,
       borderColor: theme.colors.outlineVariant,
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      boxShadow: `0 1 5 -1 ${theme.colors.onSurface}80`,
     },
     image: {
       width: 120,
