@@ -113,3 +113,20 @@ export function swapArrayItem<T>(
   newArray[toIndex] = temp
   return newArray
 }
+
+export function getTreatmentText(treatmentRound: number) {
+  if (treatmentRound == 1) {
+    return `${treatmentRound} round`
+  }
+  return `${treatmentRound} rounds`
+}
+
+export function getDurationText(duration: number) {
+  if (duration < 1) {
+    return `Duration ${duration} minutes`
+  }
+  if (duration == 1) {
+    return `Duration ${duration} hour`
+  }
+  return `Duration ${duration} hours`
+}

@@ -9,7 +9,7 @@ import {getDurationText, getTreatmentText} from '@utils/Helpers'
 import {getStyles} from './styles'
 import {Props} from './types'
 
-export default function WidgetCourseItemDetail({course}: Props) {
+export default function CourseCardItem({course, isShowCategory}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
@@ -33,6 +33,11 @@ export default function WidgetCourseItemDetail({course}: Props) {
           <Text style={styles.text}>{treatmentText}</Text>
           <Text style={styles.text}>{durationText}</Text>
           <Text style={styles.text}>Price {course.price}฿</Text>
+          {isShowCategory ? (
+            <View style={styles.textCategoryContainer}>
+              <Text style={styles.textCategory}>{course.category?.name}</Text>
+            </View>
+          ) : null}
         </View>
       </>
     </TouchableRipple>
