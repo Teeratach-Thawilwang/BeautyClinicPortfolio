@@ -8,21 +8,21 @@ import TableCardPagination from '@components/TableCardPagination'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useRefresh} from '@hooks/CommonHooks'
 import {useQueryCourseList} from '@hooks/store/SearchCourseHooks'
-import {SearchResultScreenRouteProp} from '@navigation/AppNavigator'
+import {CategoryCourseScreenRouteProp} from '@navigation/AppNavigator'
 
 import Filter from './Components/Filter'
 import SearchInputHeader from './Components/SearchInputHeader'
 import {getStyles} from './styles'
 
-export default function SearchResultScreen({
+export default function CategoryCourseScreen({
   route,
 }: {
-  route: SearchResultScreenRouteProp
+  route: CategoryCourseScreenRouteProp
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
 
-  const [search, setSearch] = useState(route.params.q)
+  const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [orderBy, setOrderBy] = useState<'ASC' | 'DESC'>('DESC')
   const [minPrice, setMinPrice] = useState<number>(0)
@@ -32,7 +32,14 @@ export default function SearchResultScreen({
     data: courses,
     isFetching: isLoading,
     refetch,
-  } = useQueryCourseList(search, undefined, minPrice, maxPrice, page, orderBy)
+  } = useQueryCourseList(
+    search,
+    route.params.categoryId,
+    minPrice,
+    maxPrice,
+    page,
+    orderBy,
+  )
 
   const {refreshing, onRefresh} = useRefresh(() => {
     setPage(1)
@@ -59,6 +66,7 @@ export default function SearchResultScreen({
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <SearchInputHeader
+        title={route.params.categoryName}
         value={search}
         onSubmit={value => {
           setSearch(value)
@@ -84,13 +92,7 @@ export default function SearchResultScreen({
             containerStyle={{gap: 10}}
             rowStyle={{gap: 10}}>
             {courses.data.map((course, index) => {
-              return (
-                <CourseCardItem
-                  key={index}
-                  course={course}
-                  isShowCategory={true}
-                />
-              )
+              return <CourseCardItem key={index} course={course} />
             })}
           </FlexBox>
           {courses.data.length !== 0 ? (

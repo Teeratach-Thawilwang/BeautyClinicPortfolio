@@ -7,7 +7,7 @@ import WidgetBanner from '@components/WidgetBanner'
 import WidgetCategory from '@components/WidgetCategory'
 import WidgetCourse from '@components/WidgetCourse'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useFocusEffect, useNavigate, useRefresh} from '@hooks/CommonHooks'
+import {useNavigate, useRefresh} from '@hooks/CommonHooks'
 import {useWidgetList} from '@hooks/store/WidgetHooks'
 
 import {getStyles} from './styles'
@@ -15,17 +15,13 @@ import {getStyles} from './styles'
 export default function HomeScreen() {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const [searchRefresh, setSearchRefresh] = useState(false)
+  const [search, setSearch] = useState('')
   const navigation = useNavigate()
 
   const {data: widgets, isFetching: isLoading, refetch} = useWidgetList()
   const {refreshing, onRefresh} = useRefresh(() => {
     refetch()
   })
-
-  useFocusEffect(() => {
-    setSearchRefresh(val => !val)
-  }, [])
 
   return (
     <ScrollView
@@ -43,13 +39,15 @@ export default function HomeScreen() {
       ) : (
         <>
           <TextInput
-            key={`search-input-${searchRefresh}`}
+            mode='outlined'
             icon='ion-search-outline'
             placeholder='ค้นหาคอร์ส...'
-            mode='outlined'
+            value={search}
             containerStyle={styles.searchInput}
+            onChange={value => setSearch(value)}
             onSubmit={value => {
               navigation.navigate('SearchResultScreen', {q: value})
+              setSearch('')
             }}
           />
           {widgets?.map((widget, index) => {

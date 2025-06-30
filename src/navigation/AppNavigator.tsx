@@ -13,9 +13,12 @@ import BackOfficeNavigator, {
 import BottomTabNavigator, {
   BottomTabNavigatorParams,
 } from '@navigation/bottom-tab/BottomTabNavigator'
+import CategoryCourseScreen from '@screens/store/CategoryCourseScreen'
 import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
+import CourseDetailScreen from '@screens/store/CourseDetailScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
 import ResetPasswordScreen from '@screens/store/ResetPasswordScreen'
+import SearchResultScreen from '@screens/store/SearchResultScreen'
 import SignInScreen from '@screens/store/SignInScreen'
 import SignUpScreen from '@screens/store/SignUpScreen'
 import AuthService from '@services/AuthService'
@@ -33,6 +36,14 @@ export default function AppNavigator() {
         screenOptions={{headerShown: false}}
         initialRouteName='BottomTabScreens'>
         <Screen name='BottomTabScreens' component={BottomTabNavigator} />
+        <Group>
+          <Screen name='SearchResultScreen' component={SearchResultScreen} />
+          <Screen
+            name='CategoryCourseScreen'
+            component={CategoryCourseScreen}
+          />
+          <Screen name='CourseDetailScreen' component={CourseDetailScreen} />
+        </Group>
 
         {!isSignIn ? (
           <Group>
@@ -87,11 +98,11 @@ export type SearchResultScreenRouteProp = RouteProp<
   RootStackParamList,
   'SearchResultScreen'
 >
-export type CourseDetailScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'CourseDetailScreen'
->
 export type CategoryCourseScreenRouteProp = RouteProp<
   RootStackParamList,
   'CategoryCourseScreen'
+>
+export type CourseDetailScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CourseDetailScreen'
 >

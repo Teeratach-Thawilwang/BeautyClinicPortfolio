@@ -4,49 +4,12 @@ import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 10,
-      marginTop: 10,
-    },
-    createButtonContainer: {
-      width: 110,
-      borderRadius: 5,
-    },
-    createButtonIcon: {
-      width: 16,
-      color: theme.colors.onPrimary,
-    },
-    filterButtonContainer: {
-      marginLeft: 'auto',
-      marginRight: 0,
-      width: 100,
-      borderRadius: 5,
-      borderColor: theme.colors.onSurfaceVariant,
-    },
-    filterButtonLabel: {
-      color: theme.colors.onSurface,
-    },
-    filterButtonIcon: {
-      width: 20,
-      color: theme.colors.onSurface,
-    },
     filterItemContainer: {
       padding: 10,
       borderBottomColor: theme.colors.outlineVariant,
       gap: 10,
     },
     filterItemLabel: {
-      color: theme.colors.onSurface,
-      fontSize: theme.fontSize.label,
-    },
-    filterDateContainer: {
-      borderBottomColor: theme.colors.outlineVariant,
-      gap: 10,
-    },
-    filterDateLabel: {
-      padding: 10,
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.label,
     },
@@ -74,6 +37,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       right: 10,
     },
     bottomSheetButtons: {
+      marginTop: 20,
       padding: 10,
       flexDirection: 'row',
       justifyContent: 'space-between',
