@@ -123,8 +123,8 @@ export default function Filter({
                 activeButtonContainerStyle={styles.activeButtomChoiceContainer}
               />
             </View>
-            <View style={styles.filterItemContainer}>
-              <Text style={styles.filterItemLabel}>Created date</Text>
+            <View style={styles.filterDateContainer}>
+              <Text style={styles.filterDateLabel}>Created date</Text>
               <DateTimePicker
                 key={`bottomsheet-created-at-${resetFilter}`}
                 mode='range'

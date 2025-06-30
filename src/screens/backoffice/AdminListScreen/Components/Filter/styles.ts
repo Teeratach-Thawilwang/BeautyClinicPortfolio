@@ -41,6 +41,15 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.label,
     },
+    filterDateContainer: {
+      borderBottomColor: theme.colors.outlineVariant,
+      gap: 10,
+    },
+    filterDateLabel: {
+      padding: 10,
+      color: theme.colors.onSurface,
+      fontSize: theme.fontSize.label,
+    },
     buttomChoiceContainer: {
       height: 36,
       backgroundColor: theme.colors.surfaceContainerHighest,
