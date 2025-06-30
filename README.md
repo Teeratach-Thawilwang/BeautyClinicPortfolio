@@ -32,15 +32,16 @@ This section is restricted to **admin users only**. Admins can:
 - **React Navigation** — for navigation between screens (Stack, BottomTab, Drawer)
 - **Redux Toolkit** for state management
 - **React Query** for state management of APIs
+- **Firebase** for authentication and FCM
 
 ## 📦 Features in Progress
 
-- [Store] Home screen with widget components
-- [Store] Course Searching and components
+- [Store] Category course and components
 - [Store] Order Detail and components
 - [Store] Checkout and payments selection components
 - [Store] Supabase edge function to integrate with Omise for testing payment action
 - [Store] Appointment booking with date/time selection
+- [Store] Push notification when appointment incoming (using cron + edge function + FCM).
 
 ## 📱 Platform
 
