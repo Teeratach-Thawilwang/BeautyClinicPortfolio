@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {View} from 'react-native'
 import {Text, TextInput as TextInputRNP} from 'react-native-paper'
 
@@ -41,6 +41,10 @@ export default function TextInput({
   const [debounceValue, setDebounceValue] = useDebounce(value, val => {
     if (onChange) onChange(val as string)
   })
+
+  useEffect(() => {
+    setDebounceValue(value)
+  }, [value])
 
   return (
     <View style={[styles.container, restContainerStyle]}>
