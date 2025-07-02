@@ -50,21 +50,9 @@ export default function WidgetBanner({banners}: Props) {
         progress={progress}
         horizontal={true}
         data={banners.map(_ => ({color: ''}))}
-        dotStyle={{
-          width: 25,
-          height: 4,
-          borderRadius: 2,
-          backgroundColor: theme.colors.surfaceVariant,
-        }}
-        activeDotStyle={{
-          overflow: 'hidden',
-          backgroundColor: theme.colors.primary,
-        }}
-        containerStyle={{
-          marginTop: 10,
-          marginBottom: 10,
-          gap: 10,
-        }}
+        dotStyle={styles.paginateDot}
+        activeDotStyle={styles.paginateActiveDot}
+        containerStyle={styles.paginateContainer}
       />
     </View>
   )

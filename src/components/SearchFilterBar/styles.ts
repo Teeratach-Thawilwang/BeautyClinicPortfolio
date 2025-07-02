@@ -5,7 +5,6 @@ import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
-      marginTop: 10,
       flexDirection: 'row',
       alignItems: 'center',
     },

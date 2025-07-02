@@ -19,5 +19,20 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       borderRadius: 5,
       resizeMode: 'contain',
     },
+    paginateContainer: {
+      marginTop: 10,
+      marginBottom: 10,
+      gap: 10,
+    },
+    paginateDot: {
+      width: 25,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: theme.colors.surfaceVariant,
+    },
+    paginateActiveDot: {
+      overflow: 'hidden',
+      backgroundColor: theme.colors.primary,
+    },
   })
 }
