@@ -9,25 +9,29 @@ import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {getStyles} from './styles'
 import {Props} from './types'
 
-export default function WidgetBanner({banners}: Props) {
-  const {theme} = useTheme()
-  const styles = getStyles(theme)
+export default function ImageCarousel({images}: Props) {
   const {width, responsive} = useResponsiveScreen()
+  const {theme} = useTheme()
+  const styles = getStyles(theme, width)
   const scrollOffsetValue = useSharedValue<number>(0)
   const progress = useSharedValue<number>(0)
 
   return (
-    <View style={styles.container}>
+    <View>
       <Carousel
-        testID='widget-banner-carousel'
+        testID='course-images-carousel'
+        mode='parallax'
+        modeConfig={{
+          parallaxScrollingScale: 1,
+          parallaxScrollingOffset: 0,
+          parallaxAdjacentItemScale: 1,
+        }}
+        data={images}
         loop={true}
-        height={200}
         width={width - 20}
-        snapEnabled={true}
+        height={250}
+        autoFillData={true}
         pagingEnabled={true}
-        autoPlay={true}
-        autoPlayInterval={2000}
-        data={banners}
         defaultScrollOffsetValue={scrollOffsetValue}
         onConfigurePanGesture={gesture => {
           'worklet'
@@ -37,19 +41,16 @@ export default function WidgetBanner({banners}: Props) {
         onSnapToItem={(index: number) => {
           progress.value = index
         }}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.imageContainer}>
-              <Image source={{uri: item.image.uri}} style={styles.image} />
-            </View>
-          )
-        }}
+        renderItem={({item, index}) => (
+          <Image key={index} source={{uri: item.uri}} style={styles.image} />
+        )}
+        style={styles.container}
       />
       <Pagination.Basic<{color: string}>
-        key={`banner-pagination-${responsive}`}
+        key={`course-images-pagination-${responsive}`}
         progress={progress}
         horizontal={true}
-        data={banners.map(_ => ({color: ''}))}
+        data={images.map(_ => ({color: ''}))}
         dotStyle={styles.paginateDot}
         activeDotStyle={styles.paginateActiveDot}
         containerStyle={styles.paginateContainer}

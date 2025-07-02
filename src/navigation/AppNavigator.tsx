@@ -14,6 +14,7 @@ import BottomTabNavigator, {
   BottomTabNavigatorParams,
 } from '@navigation/bottom-tab/BottomTabNavigator'
 import CategoryCourseScreen from '@screens/store/CategoryCourseScreen'
+import CheckoutScreen from '@screens/store/CheckoutScreen'
 import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
 import CourseDetailScreen from '@screens/store/CourseDetailScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
@@ -43,6 +44,7 @@ export default function AppNavigator() {
             component={CategoryCourseScreen}
           />
           <Screen name='CourseDetailScreen' component={CourseDetailScreen} />
+          <Screen name='CheckoutScreen' component={CheckoutScreen} />
         </Group>
 
         {!isSignIn ? (
@@ -82,6 +84,7 @@ export type RootStackParamList = {
   SearchResultScreen: {q: string}
   CourseDetailScreen: {course: WidgetCourseItemDetail}
   CategoryCourseScreen: {categoryId: number; categoryName: string}
+  CheckoutScreen: {course: WidgetCourseItemDetail}
 }
 
 export type RootScreenNavigationProps =
@@ -105,4 +108,8 @@ export type CategoryCourseScreenRouteProp = RouteProp<
 export type CourseDetailScreenRouteProp = RouteProp<
   RootStackParamList,
   'CourseDetailScreen'
+>
+export type CheckoutScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CheckoutScreen'
 >

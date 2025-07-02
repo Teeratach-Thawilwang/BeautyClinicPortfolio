@@ -2,22 +2,17 @@ import {StyleSheet} from 'react-native'
 
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
-export function getStyles(theme: AdaptiveMD3Theme) {
+export function getStyles(theme: AdaptiveMD3Theme, width: number) {
   return StyleSheet.create({
     container: {
-      marginTop: 10,
-    },
-    imageContainer: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 5,
-      backgroundColor: theme.colors.primary,
+      borderRadius: 8,
+      overflow: 'hidden',
     },
     image: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 5,
+      width: width - 20,
+      height: 250,
       resizeMode: 'contain',
+      backgroundColor: theme.colors.primary,
     },
     paginateContainer: {
       marginTop: 10,

@@ -8,24 +8,18 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       flexDirection: 'row',
       alignItems: 'center',
     },
-    searchCount: {
+    title: {
+      marginRight: 35,
       color: theme.colors.onSurface,
       fontSize: theme.fontSize.label,
       fontWeight: 'bold',
+      flexGrow: 1,
+      textAlign: 'center',
     },
-    filterButtonContainer: {
-      marginLeft: 'auto',
+    backIcon: {
+      marginLeft: -10,
       marginRight: 0,
-      width: 65,
-      borderRadius: 5,
-      borderColor: theme.colors.onSurfaceVariant,
-    },
-    filterButtonLabel: {
-      color: theme.colors.onSurface,
-    },
-    filterButtonIcon: {
-      width: 20,
-      color: theme.colors.onSurface,
+      marginVertical: 0,
     },
   })
 }
