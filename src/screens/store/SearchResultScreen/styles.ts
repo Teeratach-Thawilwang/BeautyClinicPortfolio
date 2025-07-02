@@ -9,9 +9,12 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       backgroundColor: theme.colors.background,
       flex: 1,
     },
+    scrollViewContainer: {
+      marginTop: 10,
+    },
     contentContainer: {
-      flexGrow: 1,
       paddingBottom: 20,
+      flexGrow: 1,
     },
     skeletonContainer: {
       flex: 1,

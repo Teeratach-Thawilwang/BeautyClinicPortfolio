@@ -57,14 +57,7 @@ export default function CategoryCourseScreen({
   }, [])
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
-      keyboardShouldPersistTaps='handled'
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
+    <View style={styles.container}>
       <SearchInputHeader
         title={route.params.categoryName}
         value={search}
@@ -72,40 +65,49 @@ export default function CategoryCourseScreen({
           setSearch(value)
         }}
       />
-      <Filter
-        initialOrderBy={orderBy}
-        initialMinPrice={minPrice}
-        initialMaxPrice={maxPrice}
-        searchCount={courses.total}
-        onChange={onChangeFilter}
-      />
-      {isLoading ? (
-        <View style={styles.skeletonContainer}>
-          <ActivityIndicator />
-        </View>
-      ) : (
-        <>
-          <FlexBox
-            isPadding={true}
-            mobileColumns={[1]}
-            tabletColumns={[1, 1]}
-            containerStyle={{gap: 10}}
-            rowStyle={{gap: 10}}>
-            {courses.data.map((course, index) => {
-              return <CourseCardItem key={index} course={course} />
-            })}
-          </FlexBox>
-          {courses.data.length !== 0 ? (
-            <TableCardPagination
-              current={page}
-              last={courses.last}
-              onPress={page => {
-                setPage(page)
-              }}
-            />
-          ) : null}
-        </>
-      )}
-    </ScrollView>
+      <ScrollView
+        style={styles.scrollViewContainer}
+        contentContainerStyle={styles.contentContainer}
+        keyboardShouldPersistTaps='handled'
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <Filter
+          initialOrderBy={orderBy}
+          initialMinPrice={minPrice}
+          initialMaxPrice={maxPrice}
+          searchCount={courses.total}
+          onChange={onChangeFilter}
+        />
+        {isLoading ? (
+          <View style={styles.skeletonContainer}>
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <>
+            <FlexBox
+              isPadding={true}
+              mobileColumns={[1]}
+              tabletColumns={[1, 1]}
+              containerStyle={{gap: 10}}
+              rowStyle={{gap: 10}}>
+              {courses.data.map((course, index) => {
+                return <CourseCardItem key={index} course={course} />
+              })}
+            </FlexBox>
+            {courses.data.length !== 0 ? (
+              <TableCardPagination
+                current={page}
+                last={courses.last}
+                onPress={page => {
+                  setPage(page)
+                }}
+              />
+            ) : null}
+          </>
+        )}
+      </ScrollView>
+    </View>
   )
 }
