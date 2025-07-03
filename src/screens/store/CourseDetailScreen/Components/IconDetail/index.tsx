@@ -30,7 +30,9 @@ export default function IconDetail({round, duration, price}: Props) {
             color={theme.colors.onSurface}
           />
         </View>
-        <Text style={styles.text}>{duration}</Text>
+        <Text style={styles.text}>
+          {duration} {duration > 1 ? 'hours' : 'hour'}
+        </Text>
         <Text style={styles.note}>Duration</Text>
       </View>
       <View style={styles.detailItemContainer}>
@@ -43,7 +45,7 @@ export default function IconDetail({round, duration, price}: Props) {
             />
           </View>
         </View>
-        <Text style={styles.text}>{price}</Text>
+        <Text style={styles.text}>{price}฿</Text>
         <Text style={styles.note}>Price</Text>
       </View>
     </View>

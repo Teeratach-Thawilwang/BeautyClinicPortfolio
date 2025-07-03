@@ -33,10 +33,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     },
     buttonContainer: {
       borderRadius: 50,
-      // backgroundColor: theme.colors.secondaryContainer,
     },
-    buttonLabel: {
-      // color: theme.colors.onSecondaryContainer,
-    },
+    buttonLabel: {},
   })
 }

@@ -29,6 +29,7 @@ export default function CourseDetailScreen({
   const styles = getStyles(theme)
   const navigation = useNavigate()
   const course = route.params.course
+  const category = route.params.category
 
   const concatTimeArray = useCallback(
     (times: WorkingTime): string => {
@@ -101,7 +102,12 @@ export default function CourseDetailScreen({
         showsVerticalScrollIndicator={false}
       />
       <Button
-        onPress={() => navigation.navigate('CheckoutScreen', {course: course})}
+        onPress={() =>
+          navigation.navigate('CheckoutScreen', {
+            course: course,
+            category: category,
+          })
+        }
         containerStyle={styles.buttonContainer}
         labelStyle={styles.buttonLabel}>
         Buy
