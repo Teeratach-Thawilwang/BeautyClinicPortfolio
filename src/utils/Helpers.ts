@@ -123,7 +123,7 @@ export function getTreatmentText(treatmentRound: number) {
 
 export function getDurationText(duration: number) {
   if (duration < 1) {
-    return `Duration ${duration} minutes`
+    return `Duration ${duration * 60} minutes`
   }
   if (duration == 1) {
     return `Duration ${duration} hour`

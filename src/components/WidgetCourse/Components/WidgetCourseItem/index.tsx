@@ -57,7 +57,16 @@ export default function WidgetCourseItem({courses}: Props) {
           gesture.failOffsetY([-10, 10])
         }}
         renderItem={({item, index}) => {
-          return <WidgetCourseItemDetail key={index} course={item} />
+          return (
+            <WidgetCourseItemDetail
+              key={index}
+              course={item}
+              category={{
+                id: courses.categoryId,
+                name: courses.categoryName,
+              }}
+            />
+          )
         }}
         style={styles.carousel}
       />

@@ -9,7 +9,11 @@ import {getDurationText, getTreatmentText} from '@utils/Helpers'
 import {getStyles} from './styles'
 import {Props} from './types'
 
-export default function CourseCardItem({course, isShowCategory}: Props) {
+export default function CourseCardItem({
+  course,
+  isShowCategory,
+  isPressable = true,
+}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
@@ -21,7 +25,12 @@ export default function CourseCardItem({course, isShowCategory}: Props) {
       style={styles.container}
       rippleColor='transparent'
       onPress={() => {
-        navigation.navigate('CourseDetailScreen', {course: course})
+        if (isPressable) {
+          navigation.navigate('CourseDetailScreen', {
+            course: course,
+            category: course.category,
+          })
+        }
       }}>
       <>
         <Image source={{uri: course.images[0].uri}} style={styles.image} />

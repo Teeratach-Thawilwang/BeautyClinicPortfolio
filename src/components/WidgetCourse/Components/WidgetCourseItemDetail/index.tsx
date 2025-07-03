@@ -9,7 +9,7 @@ import {getDurationText, getTreatmentText} from '@utils/Helpers'
 import {getStyles} from './styles'
 import {Props} from './types'
 
-export default function WidgetCourseItemDetail({course}: Props) {
+export default function WidgetCourseItemDetail({course, category}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
@@ -21,7 +21,10 @@ export default function WidgetCourseItemDetail({course}: Props) {
       style={styles.container}
       rippleColor='transparent'
       onPress={() => {
-        navigation.navigate('CourseDetailScreen', {course: course})
+        navigation.navigate('CourseDetailScreen', {
+          course: course,
+          category: category,
+        })
       }}>
       <>
         <Image source={{uri: course.images[0].uri}} style={styles.image} />

@@ -37,6 +37,14 @@ export function authListenerHandler() {
         await AuthService.fetchIsAdmin(session.user.id)
       }
 
+      if (event === 'INITIAL_SESSION' && !session?.user) {
+        try {
+          await AuthService.signOut()
+        } catch {
+          AuthService.update({user: null, isAdmin: false})
+        }
+      }
+
       if (event === 'SIGNED_OUT') {
         AuthService.update({isAdmin: false})
       }
