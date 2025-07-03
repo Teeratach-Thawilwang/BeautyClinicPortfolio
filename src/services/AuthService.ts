@@ -129,7 +129,7 @@ class AuthService {
     const isGoogleSigningin = GoogleSignin.getCurrentUser()
     if (isGoogleSigningin) await GoogleSignin.signOut()
 
-    this.update({user: null})
+    this.update({user: null, isAdmin: false})
     return null
   }
 
