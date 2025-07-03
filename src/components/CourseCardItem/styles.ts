@@ -9,7 +9,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       paddingHorizontal: 10,
       borderRadius: 8,
       backgroundColor: theme.colors.surfaceContainerHigh,
-      borderWidth: 0.5,
+      borderWidth: 1,
       borderColor: theme.colors.outlineVariant,
       flexDirection: 'row',
       alignItems: 'center',
