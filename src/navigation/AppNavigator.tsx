@@ -82,9 +82,15 @@ export type RootStackParamList = {
   ResetPasswordScreen: {token_hash: string}
   ConfirmSignupScreen: {token_hash: string}
   SearchResultScreen: {q: string}
-  CourseDetailScreen: {course: WidgetCourseItemDetail}
+  CourseDetailScreen: {
+    course: WidgetCourseItemDetail
+    category?: {id: number; name: string}
+  }
   CategoryCourseScreen: {categoryId: number; categoryName: string}
-  CheckoutScreen: {course: WidgetCourseItemDetail}
+  CheckoutScreen: {
+    course: WidgetCourseItemDetail
+    category?: {id: number; name: string}
+  }
 }
 
 export type RootScreenNavigationProps =
