@@ -28,9 +28,16 @@ export const paymentFee: PaymentFee = {
 export function calculatePaymentFee(
   amount: number,
   paymentMethod: PaymentMethod,
+  vat: number = 7,
 ) {
+  const stang = amount * 100
+  let fee = 0
   if (paymentFee[paymentMethod].type == 'FIX_COST') {
-    return paymentFee[paymentMethod].fee
+    fee = paymentFee[paymentMethod].fee * 100
+  } else {
+    fee = (stang * paymentFee[paymentMethod].fee) / 100
   }
-  return (amount * paymentFee[paymentMethod].fee) / 100
+
+  fee = fee * (1 + vat / 100)
+  return Math.ceil(fee) / 100
 }
