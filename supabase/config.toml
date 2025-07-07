@@ -325,3 +325,22 @@ enabled = true
 verify_jwt = false
 import_map = "./deno.json"
 entrypoint = "./functions/get-widgets/index.ts"
+
+[functions.create-order]
+enabled = true
+verify_jwt = true
+import_map = "./deno.json"
+entrypoint = "./functions/create-order/index.ts"
+
+[functions.get-payment-status]
+enabled = true
+verify_jwt = true
+import_map = "./deno.json"
+entrypoint = "./functions/get-payment-status/index.ts"
+
+[functions.charge-webhook]
+enabled = true
+verify_jwt = false
+import_map = "./deno.json"
+entrypoint = "./functions/charge-webhook/index.ts"
+
