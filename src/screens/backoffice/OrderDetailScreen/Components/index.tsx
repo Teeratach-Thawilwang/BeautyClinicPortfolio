@@ -94,16 +94,8 @@ export default function OrderForm({order, onSubmit}: Props) {
           />
           <TextInput
             mode='labelTop'
-            label='Original Price'
-            value={order.original_price}
-            onChange={_ => {}}
-            containerStyle={styles.inputItem}
-            disabled
-          />
-          <TextInput
-            mode='labelTop'
             label='Net Price'
-            value={order.net_price}
+            value={order.amount}
             onChange={_ => {}}
             containerStyle={styles.inputItem}
             disabled

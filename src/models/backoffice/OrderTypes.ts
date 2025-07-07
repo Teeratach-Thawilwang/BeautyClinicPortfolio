@@ -5,8 +5,7 @@ export type Order = {
   user_id: string
   course_id: string
   status: OrderStatusEnum
-  original_price: number
-  net_price: number
+  amount: number
   updated_by: string
   created_at: string
 }
@@ -16,7 +15,7 @@ export type OrderListItem = {
   user_id: string
   course_id: string
   status: OrderStatusEnum
-  net_price: number
+  amount: number
   created_at: string
 }
 
