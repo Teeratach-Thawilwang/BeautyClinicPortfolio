@@ -1,0 +1,126 @@
+Flow การใช้งานร่วมกับ Omise
+
+** Database Table
+    charges
+        - id: string (ยึดตาม omise)
+        - order_id: number [foreign key ไปยังตาราง orders]
+        - user_id: string [foreign key ไปยัง auth.users]
+        - amount: number     ยอดโอนที่ลูกค้าจะต้องเสียเงิน
+        - net: number        ยอดที่ร้านค้าจะได้รับ
+        - fee: number        
+        - fee_vat: number    
+        - status: string
+
+
+** Web hook
+    - ref: https://docs.opn.ooo/api-webhooks#supported-events
+    - รับ event object มาโดยใช้งานส่วนสำคัญดังนี้
+        - key เช่น charge.create, charge.complete, charge.expire, charge.update
+        - id ก็คือ charge_id
+        - metadata คือข้อมูลที่เราส่งไปตอนสร้าง charge
+    - logic
+        ถ้าเป็น event charge.complete
+            ให้เชคอีกทีว่าข้อมูล charge จ่ายเเล้วจริงมั้ย ที่ key ชื่อ status ด้วย Retreive charge API
+            ref: https://docs.opn.ooo/charges-api#retrieve
+            ถ้าจ่ายเเล้วให้ 
+                - ปรับ order status เป็น ongoing
+                    โดยหา order_id จากตาราง charges
+                - ปรับ charge status เป็น success
+        
+        ถ้าเป็น event charge.expire
+        - ให้ปรับ order status เป็น cancel
+
+** Edge function
+    1. get-payment-status
+        params {
+            chargeId: string
+            userId: string
+        }
+        return 200 | error response
+
+    2. create-order
+        params {
+            courseId: number
+            userId: string
+            amount: number
+            paymentMethod: '...'
+            token: string (กรณีจ่ายด้วย CREDIT_CARD)
+        }
+        logic
+            - create order
+            - create charge
+        return 200 with charge | error response
+        
+
+** QR Promptpay
+    Step 1 - user กดปุ่ม checkout ไปเรียก OrderService.create(...)
+            OrderService.create ไปเรียกใช้ Edge function
+                - สร้าง order
+                - สร้าง source & charge กับ omise และจะได้ charge object มา ซึ่งมี QR code image url ให้
+                - ตอบกลับมา success, failed พร้อม charge data ที่สำคัญ
+    Step 2 - ถ้า success ให้ navigate ไปหน้า payment พร้อมข้อมูล 
+            {
+                type: 'QR_promptpay',
+                charge: Charge,
+            }
+            นำ QR code มาแสดง
+
+            ถ้า failed ให้แสดง error message ในหน้า Checkout
+    Step 3 - User สแกนจ่ายเงินผ่านแอพ แล้วกลับมาที่แอพ
+            ถ้ายังคงอยู่ที่หน้า payment
+            จะมีการใช้ UseFocusEffect ในการทำ Pulling
+            เรียก Edge function get-payment-status
+            ถ้า success จะแสดง modal success ให้กดไปหน้า Appointment
+            ถ้า failed จะแสดง modal failed
+
+
+** Credit card
+    Step 1 - user กดปุ่ม checkout จะ navigate ไปยังหน้า payment พร้อมข้อมูล
+            {
+                type: 'CREDIT_CARD',
+                course: course,
+                grandTotal: number
+            }
+            โดยจะแสดง Form credit card ให้กรอก
+            - name: ชื่อเจ้าของบัตร
+            - number: หมายเลขบัตร (16 หลัก)
+            - expiration_month: เดือนหมดอายุ (2 หลัก)
+            - expiration_year: ปีหมดอายุ (4 หลัก)
+            - security_code: CVV หรือ CVC (3–4 หลัก)
+    Step 2 - เมื่อกดปุ่ม Checkout ของ form ที่หน้า payment
+            จะเรียก omise token api เพื่อสร้าง token โดยใช้ omise public key
+
+            ถ้าได้ token มาเเล้ว
+            จะไปเรียก OrderService.create(...)
+            OrderService.create ไปเรียกใช้ Edge function
+                - สร้าง order
+                - สร้าง charge กับ omise และจะได้ charge object มา
+                - ตอบกลับมา success, failed พร้อม charge data ที่สำคัญ
+    Step 3 - ถ้า success จะไป trigger ให้ทำการเชค payment status
+            โดยใช้ UseFocusEffect ในการทำ Pulling
+            เรียก Edge function get-payment-status
+            ถ้า success จะแสดง modal success ให้กดไปหน้า Appointment
+            ถ้า failed จะแสดง modal failed
+
+
+** Mobile banking
+    Step 1 - user กดปุ่ม checkout ไปเรียก OrderService.create(...)
+            OrderService.create ไปเรียกใช้ Edge function
+                - สร้าง order
+                - สร้าง source & charge กับ omise
+                - ตอบกลับมา success, failed พร้อม charge data ที่สำคัญ
+    Step 2 - ถ้า create charge success
+            ให้ navigate ไปยังหน้า payment พร้อมข้อมูล charge
+            {
+                type: '...',
+                charge: Charge,
+            }
+            แสดงรูปและข้อความรอการชำระเงิน กรุณาชำระเงินภายใน 15 นาที
+            จากนั้นให้เด้งไปยังแอพธนาคารโดยใช้ Linking.openURL('...')
+            หากสามารถเด้งไปแอพธนาคารได้ ก็จะกลับมาหน้า payment
+            หากไม่สามารถ ก็จะยังอยู่หน้า payment
+    Step 3 - หน้า payment จะมีการใช้ UseFocusEffect ในการทำ Pulling
+            เรียก Edge function get-payment-status
+            ถ้า success จะแสดง modal success ให้กดไปหน้า Appointment
+            ถ้า failed จะแสดง modal failed
+

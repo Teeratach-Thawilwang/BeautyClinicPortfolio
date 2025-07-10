@@ -4,7 +4,12 @@ import {
   useNavigation,
 } from '@react-navigation/native'
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {BackHandler, useWindowDimensions} from 'react-native'
+import {
+  AppState,
+  AppStateStatus,
+  BackHandler,
+  useWindowDimensions,
+} from 'react-native'
 
 import {RootScreenNavigationProps} from '@navigation/AppNavigator'
 import AuthService from '@services/AuthService'
@@ -16,6 +21,19 @@ export function useNavigate() {
 
 export function useFocusEffect(handler: () => void, dependencies: any[]) {
   useFocusEffectRN(useCallback(handler, dependencies))
+}
+
+export function useAppState() {
+  const [state, setState] = useState(AppState.currentState)
+  useFocusEffect(() => {
+    const subscription = AppState.addEventListener('change', appState =>
+      setState(appState),
+    )
+    return () => {
+      subscription.remove()
+    }
+  }, [])
+  return state
 }
 
 export function disableBackSwipe(handler: () => boolean) {
@@ -55,7 +73,6 @@ export function useDebounce<T>(
   delay = 800,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [val, set] = useState<T>(initialValue)
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       callback(val)
@@ -63,7 +80,6 @@ export function useDebounce<T>(
 
     return () => clearTimeout(timeout)
   }, [val, delay])
-
   return [val, set]
 }
 

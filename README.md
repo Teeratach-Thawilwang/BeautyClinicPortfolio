@@ -36,11 +36,9 @@ This section is restricted to **admin users only**. Admins can:
 
 ## 📦 Features in Progress
 
-- [Store] Payment screen for QR code and credit card with polling-based payment status checking.
-- [Store] Supabase edge function to integrate with Omise for testing payment action
+- [Store] Order history and order detail screen
 - [Store] Appointment booking with date/time selection
 - [Store] Push notification when appointment incoming (using cron + edge function + FCM).
-- [Store] Order Detail and components
 
 ## 📱 Platform
 

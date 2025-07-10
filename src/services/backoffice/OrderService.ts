@@ -32,7 +32,7 @@ class OrderService {
         user_id, \
         course_id, \
         status, \
-        net_price, \
+        amount, \
         created_at',
         {count: 'exact'},
       )

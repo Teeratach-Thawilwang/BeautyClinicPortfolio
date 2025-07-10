@@ -1,0 +1,39 @@
+https://beautyclinicportfolio.page.link/?link=https://beautyclinicportfolio.page.link/payment&apn=com.beautyclinicportfolio
+
+1. สร้าง Github repo หรือใช้ Cloudflare Pages 
+    วางไฟล์ assetlinks.json ไว้ตำแหน่งดังนี้
+    public/
+    ├── .well-known/
+    │   └── assetlinks.json
+
+    โดยที่ assetlinks.json มีเนื้อหาดังนี้
+    [
+        {
+            "relation": ["delegate_permission/common.handle_all_urls"],
+            "target": {
+            "namespace": "android_app",
+            "package_name": "com.package_name",  // แก้ตาม package name
+            "sha256_cert_fingerprints": ["12:34:56:..."]  // แก้ตาม fingerprint จาก keystore จริง
+            }
+        }
+    ]
+
+2. ดู SHA-256 จาก keystore
+    ใช้คำสั่ง {JAVA_HOME}\bin\keytool -keystore {path-to-debug-or-production-keystore-file} -list -
+    - open cmd inside root project 
+    > %USERPROFILE%\.jdks\corretto-17.0.12\bin\keytool -keystore ./android/app/debug.keystore -list -v
+    > รหัสผ่าน default ของ debug.keystore คือ android
+
+3. เพิ่ม deeplink ให้ android
+    - เปิดไฟล์
+    - เพิ่ม intent-filter นี้ลงใน tag <activity> ... </activity>
+        <intent-filter android:autoVerify="true">
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="https" />
+          <data android:host="my-domain.com" />                           <<--- // แก้ตาม domain
+        </intent-filter>
+
+
+กรณีทำการ Deploy ขึ้น Production ควรทำ keystore ตัวใหม่

@@ -5,6 +5,8 @@ import Button from '@components/Button'
 import CourseCardItem from '@components/CourseCardItem'
 import HeaderBar from '@components/HeaderBar'
 import {useTheme} from '@context-providers/ThemeProvider'
+import {useNavigate} from '@hooks/CommonHooks'
+import {useCreateOrderMutation} from '@hooks/store/OrderHooks'
 import {CheckoutScreenRouteProp} from '@navigation/AppNavigator'
 import {PaymentMethod, calculatePaymentFee} from '@utils/Payments'
 
@@ -19,8 +21,8 @@ export default function CheckoutScreen({
 }) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
-  const course = route.params.course
-  const category = route.params.category
+  const navigation = useNavigate()
+  const {course, category} = route.params
   const courseItem = {...course, category: category}
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | undefined>(
     undefined,
@@ -29,6 +31,12 @@ export default function CheckoutScreen({
   const [grandTotal, setGrandTotal] = useState<number | undefined>(undefined)
   const [isShowValidateMessage, setIsShowValidateMessage] = useState(false)
   const scrollRef = useRef<ScrollView>(null)
+
+  const {mutateAsync} = useCreateOrderMutation(
+    course.id,
+    paymentMethod,
+    grandTotal,
+  )
 
   return (
     <View style={styles.container}>
@@ -67,13 +75,29 @@ export default function CheckoutScreen({
         ) : null}
       </ScrollView>
       <Button
-        onPress={() => {
+        useLoading={true}
+        onPress={async () => {
           if (paymentMethod == undefined) {
             setIsShowValidateMessage(true)
             scrollRef.current?.scrollToEnd({animated: true})
             return
           }
           setIsShowValidateMessage(false)
+          if (grandTotal) {
+            if (paymentMethod == PaymentMethod.CREDIT_CARD) {
+              navigation.navigate('PaymentScreen', {
+                paymentMethod: paymentMethod,
+                amount: grandTotal!,
+                courseId: course.id,
+              })
+            } else {
+              await mutateAsync({
+                courseId: course.id,
+                amount: grandTotal * 100, // to stang unit
+                paymentMethod: paymentMethod,
+              })
+            }
+          }
         }}
         containerStyle={styles.buttonContainer}
         labelStyle={styles.buttonLabel}>

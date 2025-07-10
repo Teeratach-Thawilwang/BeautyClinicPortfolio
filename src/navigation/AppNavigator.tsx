@@ -18,11 +18,13 @@ import CheckoutScreen from '@screens/store/CheckoutScreen'
 import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
 import CourseDetailScreen from '@screens/store/CourseDetailScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
+import PaymentScreen from '@screens/store/PaymentScreen'
 import ResetPasswordScreen from '@screens/store/ResetPasswordScreen'
 import SearchResultScreen from '@screens/store/SearchResultScreen'
 import SignInScreen from '@screens/store/SignInScreen'
 import SignUpScreen from '@screens/store/SignUpScreen'
 import AuthService from '@services/AuthService'
+import {PaymentMethod} from '@utils/Payments'
 
 const {Navigator, Screen, Group} =
   createNativeStackNavigator<RootStackParamList>()
@@ -45,6 +47,7 @@ export default function AppNavigator() {
           />
           <Screen name='CourseDetailScreen' component={CourseDetailScreen} />
           <Screen name='CheckoutScreen' component={CheckoutScreen} />
+          <Screen name='PaymentScreen' component={PaymentScreen} />
         </Group>
 
         {!isSignIn ? (
@@ -91,6 +94,15 @@ export type RootStackParamList = {
     course: WidgetCourseItemDetail
     category?: {id: number; name: string}
   }
+  PaymentScreen: {
+    paymentMethod: PaymentMethod
+    amount: number
+    courseId: number
+    chargeId?: string
+    qrCode?: string
+    authorizeUri?: string
+    referenceNo?: string
+  }
 }
 
 export type RootScreenNavigationProps =
@@ -118,4 +130,8 @@ export type CourseDetailScreenRouteProp = RouteProp<
 export type CheckoutScreenRouteProp = RouteProp<
   RootStackParamList,
   'CheckoutScreen'
+>
+export type PaymentScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'PaymentScreen'
 >

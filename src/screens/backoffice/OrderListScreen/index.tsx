@@ -91,7 +91,7 @@ export default function OrderListScreen() {
     'User ID',
     'Course ID',
     'Status',
-    'net_price',
+    'Amount',
     'Created at',
   ]
   const searchEmpty = search.length != 0
