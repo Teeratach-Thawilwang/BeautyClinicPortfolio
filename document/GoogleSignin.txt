@@ -21,6 +21,7 @@
         - SHA-1 ให้ใช้คำสั่ง {JAVA_HOME}\bin\keytool -keystore {path-to-debug-or-production-keystore-file} -list -v
             - open cmd inside root project 
             > %USERPROFILE%\.jdks\corretto-17.0.12\bin\keytool -keystore ./android/app/debug.keystore -list
+            > รหัสผ่าน default ของ debug.keystore คือ android
     สำหรับ IOS [ยังไม่ลองทำ]
 
 3. เมื่อต้อง Deploy ขึ้น Production ต้องสร้าง OAuth Client 2.0 ไว้ทั้ง 3 ใหม่
