@@ -31,3 +31,11 @@ export enum OrderStatusEnum {
   Completed = 'completed',
   Cancel = 'cancel',
 }
+
+export enum ChargeStatusEnum {
+  FAILED = 'failed',
+  EXPIRED = 'expired',
+  PENDING = 'pending',
+  REVERSED = 'reversed',
+  SUCCESSFUL = 'successful',
+}
