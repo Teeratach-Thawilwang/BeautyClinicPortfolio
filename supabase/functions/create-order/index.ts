@@ -22,7 +22,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
   ) {
     return errorResponse('Invalid parameter.')
   }
-
   try {
     const order = await createOrder(courseId, userId, amount)
     const chargeRequestBody = createChargeRequestBody(
@@ -56,6 +55,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
       qr_code_image:
         chargeResponse.source?.scannable_code?.image?.download_uri ?? null,
       authorize_uri: chargeResponse.authorize_uri,
+      reference_no:
+        chargeResponse.source?.provider_references?.reference_number_1 ?? null,
     })
   } catch (error: unknown) {
     if (error instanceof Error) {
