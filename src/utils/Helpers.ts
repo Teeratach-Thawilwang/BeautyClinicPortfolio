@@ -130,3 +130,12 @@ export function getDurationText(duration: number) {
   }
   return `Duration ${duration} hours`
 }
+
+export function toFormUrlEncoded(data: Record<string, string>): string {
+  return Object.entries(data)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+    )
+    .join('&')
+}
