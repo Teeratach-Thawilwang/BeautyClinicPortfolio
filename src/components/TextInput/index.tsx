@@ -14,9 +14,11 @@ export default function TextInput({
   value = '',
   onChange,
   onSubmit,
+  onChangeInject,
   mode,
   multiline,
   keyboardType,
+  maxLength,
   placeholder,
   icon,
   right,
@@ -24,9 +26,11 @@ export default function TextInput({
   secureText,
   clearText,
   disabled,
+  useDebounceDelay,
   containerStyle = {},
   labelStyle,
   colorStyle,
+  errorStyle,
 }: Props) {
   const {height, borderRadius, backgroundColor, ...restContainerStyle} =
     containerStyle
@@ -38,9 +42,13 @@ export default function TextInput({
   const [isFocus, setIsFocus] = useState(false)
   const iconName = isSecureText ? 'eye-outline' : 'eye-off-outline'
   const labelColor = getLineColor(isFocus, error, disabled, theme, colorStyle)
-  const [debounceValue, setDebounceValue] = useDebounce(value, val => {
-    if (onChange) onChange(val as string)
-  })
+  const [debounceValue, setDebounceValue] = useDebounce(
+    value,
+    val => {
+      if (onChange) onChange(val as string)
+    },
+    useDebounceDelay,
+  )
 
   useEffect(() => {
     setDebounceValue(value)
@@ -69,11 +77,18 @@ export default function TextInput({
         mode={mode == 'labelTop' ? 'outlined' : mode}
         multiline={multiline}
         keyboardType={keyboardType}
+        maxLength={maxLength}
         theme={{roundness: inputBorderRadius}}
         label={mode == 'labelTop' ? undefined : label}
         placeholder={placeholder}
         value={String(debounceValue)}
-        onChangeText={value => setDebounceValue(value)}
+        onChangeText={value => {
+          let text = value
+          if (onChangeInject) {
+            text = onChangeInject(value)
+          }
+          setDebounceValue(text)
+        }}
         onSubmitEditing={() => {
           if (onSubmit) onSubmit(String(debounceValue))
         }}
@@ -106,7 +121,9 @@ export default function TextInput({
         }
         disabled={disabled}
       />
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <Text style={[styles.errorText, errorStyle]}>{error}</Text>
+      ) : null}
     </View>
   )
 }
