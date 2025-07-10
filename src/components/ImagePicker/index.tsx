@@ -1,5 +1,4 @@
 import React, {useRef, useState} from 'react'
-import {set} from 'react-hook-form'
 import {Alert, Text, View} from 'react-native'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
 import Animated, {useAnimatedRef} from 'react-native-reanimated'
