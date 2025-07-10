@@ -6,6 +6,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       paddingHorizontal: 10,
+      paddingBottom: 10,
       backgroundColor: theme.colors.background,
       flex: 1,
     },
