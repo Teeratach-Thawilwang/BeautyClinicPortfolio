@@ -13,7 +13,6 @@ Library สำคัญที่คิดว่าจะต้องใช้เ
 react-hook-form
 react-native-dotenv
 react-native-gesture-handler
-react-native-modal
 react-native-paper
 react-native-reanimated
 react-native-safe-area-context
