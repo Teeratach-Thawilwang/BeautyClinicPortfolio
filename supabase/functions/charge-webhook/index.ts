@@ -11,8 +11,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     body.object !== 'event' ||
     !body.data ||
     !body.data.object ||
-    !body.key ||
-    body.key == 'charge.create'
+    !body.key
   ) {
     return jsonResponse(null)
   }
