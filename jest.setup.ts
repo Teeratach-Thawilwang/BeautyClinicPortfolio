@@ -3,8 +3,6 @@ import React from 'react'
 // ----------------------------------------------------------------------------
 // ------------------------- Mock Third-party Library -------------------------
 
-jest.mock('react-native-modal', () => require('@components/__mock__/ReactNativeModal'))
-
 jest.mock('reactotron-react-native', () => ({
   setAsyncStorageHandler: jest.fn().mockReturnThis(),
   configure: jest.fn().mockReturnThis(),
@@ -57,14 +55,14 @@ jest.mock('@react-native-google-signin/google-signin', () => ({
   GoogleSignin: jest.fn(),
 }))
 
-jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
+jest.mock('react-native-reanimated', () =>
+  require('react-native-reanimated/mock'),
+)
 
 jest.mock('react-native/src/private/animated/NativeAnimatedHelper')
 
 // ----------------------------------------------------------------------------
 // ----------------------- Custom Mock Implementation -------------------------
-
-jest.mock('react-native-modal', () => require('@components/__mock__/ReactNativeModal'))
 
 jest.mock(
   '@context-providers/ReduxProvider',

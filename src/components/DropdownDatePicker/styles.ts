@@ -22,6 +22,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       margin: 0,
       padding: 0,
       width: 300,
+      height: 335,
       borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.colors.surfaceVariant,

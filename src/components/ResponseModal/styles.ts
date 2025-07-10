@@ -1,9 +1,11 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 import {StyleSheet} from 'react-native'
+
+import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
 export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     modal: {
+      margin: 20,
       padding: 20,
       backgroundColor: theme.colors.background,
       borderColor: theme.colors.outlineVariant,
@@ -32,7 +34,6 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     buttonContainer: {
       borderRadius: 25,
       marginTop: 10,
-      paddingVertical: 4,
       color: theme.colors.onPrimary,
       backgroundColor: theme.colors.primary,
     },

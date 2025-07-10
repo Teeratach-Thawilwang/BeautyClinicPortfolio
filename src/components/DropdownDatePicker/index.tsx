@@ -1,7 +1,12 @@
 import React, {useRef, useState} from 'react'
 import {View, useWindowDimensions} from 'react-native'
-import Modal from 'react-native-modal'
-import {IconButton, Text, TouchableRipple} from 'react-native-paper'
+import {
+  IconButton,
+  Modal,
+  Portal,
+  Text,
+  TouchableRipple,
+} from 'react-native-paper'
 import {DateType} from 'react-native-ui-datepicker'
 
 import DateTimePicker from '@components/DateTimePicker'
@@ -61,7 +66,7 @@ export default function DropdownDatePicker({
       top = pageY + height + marginTop
       left = pageX
 
-      const marginRight = 20
+      const marginRight = 10
       const right = pageX + contentWidth
       if (right >= screenWidth) {
         left = pageX - (right - screenWidth) - marginRight
@@ -113,72 +118,72 @@ export default function DropdownDatePicker({
           />
         </>
       </TouchableRipple>
-      <Modal
-        style={{
-          ...styles.contentContainer,
-          ...contentContainerStyle,
-          position: 'absolute',
-          ...calculateDropdownPosition(),
-        }}
-        testID='react-native-modal'
-        isVisible={visible}
-        onBackdropPress={() => {
-          setVisible(false)
-          setLabel(dateText.current ?? placeholder)
-        }}
-        animationIn='fadeIn'
-        animationOut='fadeOut'
-        animationInTiming={1}
-        animationOutTiming={1}
-        backdropColor='transparent'>
-        <DateTimePicker
-          mode={mode}
-          containerHeight={contentHeight}
-          minDate={minDate}
-          maxDate={maxDate}
-          disabledDates={disabledDates}
-          initialSingleDate={singleDate.current}
-          initialMultipleDate={multipleDate.current}
-          initialStartDate={startDate.current}
-          initialEndDate={endDate.current}
-          onChange={data => {
-            if (mode === 'single') {
-              singleDate.current = data.date
-              dateText.current = data.date
-                ? transformDate(data.date as Date)
-                : null
-            }
-            if (mode === 'multiple') {
-              multipleDate.current = data.dates
-              dateText.current =
-                data.dates?.length != 0
-                  ? data
-                      .dates!.map((item: DateType) =>
-                        transformDate(item as Date),
-                      )
-                      .join(', ')
-                  : null
-            }
-            if (mode === 'range') {
-              startDate.current = data.startDate
-              endDate.current = data.endDate
-              const startDateText = data.startDate
-                ? transformDate(data.startDate as Date)
-                : null
-              const endDateText = data.endDate
-                ? transformDate(data.endDate as Date)
-                : null
-
-              dateText.current = data.startDate
-                ? startDateText
-                : data.startDate && data.endDate
-                  ? `${startDateText} - ${endDateText}`
-                  : null
-            }
-            onChange(data)
+      <Portal>
+        <Modal
+          style={{
+            width: styles.contentContainer.width,
+            height: styles.contentContainer.height,
+            ...calculateDropdownPosition(),
           }}
-        />
-      </Modal>
+          contentContainerStyle={[
+            styles.contentContainer,
+            contentContainerStyle,
+          ]}
+          testID='dropdown-date-picker-modal'
+          visible={visible}
+          onDismiss={() => {
+            setVisible(false)
+            setLabel(dateText.current ?? placeholder)
+          }}>
+          <DateTimePicker
+            mode={mode}
+            containerHeight={contentHeight}
+            minDate={minDate}
+            maxDate={maxDate}
+            disabledDates={disabledDates}
+            initialSingleDate={singleDate.current}
+            initialMultipleDate={multipleDate.current}
+            initialStartDate={startDate.current}
+            initialEndDate={endDate.current}
+            onChange={data => {
+              if (mode === 'single') {
+                singleDate.current = data.date
+                dateText.current = data.date
+                  ? transformDate(data.date as Date)
+                  : null
+              }
+              if (mode === 'multiple') {
+                multipleDate.current = data.dates
+                dateText.current =
+                  data.dates?.length != 0
+                    ? data
+                        .dates!.map((item: DateType) =>
+                          transformDate(item as Date),
+                        )
+                        .join(', ')
+                    : null
+              }
+              if (mode === 'range') {
+                startDate.current = data.startDate
+                endDate.current = data.endDate
+                const startDateText = data.startDate
+                  ? transformDate(data.startDate as Date)
+                  : null
+                const endDateText = data.endDate
+                  ? transformDate(data.endDate as Date)
+                  : null
+
+                dateText.current = data.startDate
+                  ? startDateText
+                  : data.startDate && data.endDate
+                    ? `${startDateText} - ${endDateText}`
+                    : null
+              }
+              onChange(data)
+            }}
+          />
+        </Modal>
+      </Portal>
     </View>
   )
 }
