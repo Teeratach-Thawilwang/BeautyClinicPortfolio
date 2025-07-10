@@ -15,9 +15,12 @@ export default function WidgetCourseItem({courses}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
-  const {width} = useResponsiveScreen()
+  const {width, responsive} = useResponsiveScreen()
   const scrollOffsetValue = useSharedValue<number>(0)
-  const coursesData = cloneData(courses.courses)
+  const coursesData = cloneData(
+    courses.courses,
+    responsive != 'MOBILE' ? 14 : 8,
+  )
 
   return (
     <View style={styles.container}>
