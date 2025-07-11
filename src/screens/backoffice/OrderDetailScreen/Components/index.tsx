@@ -8,6 +8,7 @@ import FlexBox from '@components/FlexBox'
 import TextInput from '@components/TextInput'
 import {useTheme} from '@context-providers/ThemeProvider'
 import {OrderStatusEnum} from '@enums/StatusEnums'
+import {useNavigate} from '@hooks/CommonHooks'
 import {useOrderForm} from '@hooks/backoffice/OrderHooks'
 import {getFirstOrValue} from '@utils/Helpers'
 
@@ -17,6 +18,7 @@ import {Props} from './types'
 export default function OrderForm({order, onSubmit}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
+  const navigation = useNavigate()
   const {control, handleSubmit, errors} = useOrderForm(order)
   const errorsKeyList = Object.keys(errors) as (keyof typeof errors)[]
   const isDisableUpdate = errorsKeyList.length !== 0
@@ -121,7 +123,9 @@ export default function OrderForm({order, onSubmit}: Props) {
         <Button
           containerStyle={styles.cancelButtonContainer}
           labelStyle={styles.cancelButtonLabel}
-          onPress={() => {}}>
+          onPress={() => {
+            navigation.goBack()
+          }}>
           Cancel
         </Button>
         <Button
