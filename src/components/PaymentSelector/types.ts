@@ -1,4 +1,4 @@
-import {PaymentMethod} from '@utils/Payments'
+import {PaymentMethod} from '@enums/PaymentEnums'
 
 export type Props = {
   onChange: (method: PaymentMethod | undefined) => void

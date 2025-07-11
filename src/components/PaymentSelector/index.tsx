@@ -12,7 +12,7 @@ import ScbIcon from '@assets/images/scb.svg'
 import VisaIcon from '@assets/images/visa.svg'
 import Checkbox from '@components/Checkbox'
 import {useTheme} from '@context-providers/ThemeProvider'
-import {PaymentMethod} from '@utils/Payments'
+import {PaymentMethod} from '@enums/PaymentEnums'
 
 import {getStyles} from './styles'
 import {Props} from './types'
