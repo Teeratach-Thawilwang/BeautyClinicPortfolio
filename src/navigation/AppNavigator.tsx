@@ -18,6 +18,7 @@ import CheckoutScreen from '@screens/store/CheckoutScreen'
 import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
 import CourseDetailScreen from '@screens/store/CourseDetailScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
+import OrderHistoryScreen from '@screens/store/OrderHistoryScreen'
 import PaymentScreen from '@screens/store/PaymentScreen'
 import ResetPasswordScreen from '@screens/store/ResetPasswordScreen'
 import SearchResultScreen from '@screens/store/SearchResultScreen'
@@ -48,6 +49,7 @@ export default function AppNavigator() {
           <Screen name='CourseDetailScreen' component={CourseDetailScreen} />
           <Screen name='CheckoutScreen' component={CheckoutScreen} />
           <Screen name='PaymentScreen' component={PaymentScreen} />
+          <Screen name='OrderHistoryScreen' component={OrderHistoryScreen} />
         </Group>
 
         {!isSignIn ? (
@@ -97,12 +99,13 @@ export type RootStackParamList = {
   PaymentScreen: {
     paymentMethod: PaymentMethod
     amount: number
-    courseId: number
+    orderId: number
     chargeId?: string
     qrCode?: string
     authorizeUri?: string
     referenceNo?: string
   }
+  OrderHistoryScreen: undefined
 }
 
 export type RootScreenNavigationProps =
