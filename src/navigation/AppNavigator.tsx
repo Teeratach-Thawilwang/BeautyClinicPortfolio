@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack'
 import React from 'react'
 
+import {PaymentMethod} from '@enums/PaymentEnums'
 import {WidgetCourseItemDetail} from '@models/store/WidgetTypes'
 import LinkingConfiguration from '@navigation/LinkingConfiguration'
 import BackOfficeNavigator, {
@@ -20,12 +21,12 @@ import CourseDetailScreen from '@screens/store/CourseDetailScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
 import OrderHistoryScreen from '@screens/store/OrderHistoryScreen'
 import PaymentScreen from '@screens/store/PaymentScreen'
+import RePaymentScreen from '@screens/store/RePaymentScreen'
 import ResetPasswordScreen from '@screens/store/ResetPasswordScreen'
 import SearchResultScreen from '@screens/store/SearchResultScreen'
 import SignInScreen from '@screens/store/SignInScreen'
 import SignUpScreen from '@screens/store/SignUpScreen'
 import AuthService from '@services/AuthService'
-import {PaymentMethod} from '@utils/Payments'
 
 const {Navigator, Screen, Group} =
   createNativeStackNavigator<RootStackParamList>()
@@ -50,6 +51,7 @@ export default function AppNavigator() {
           <Screen name='CheckoutScreen' component={CheckoutScreen} />
           <Screen name='PaymentScreen' component={PaymentScreen} />
           <Screen name='OrderHistoryScreen' component={OrderHistoryScreen} />
+          <Screen name='RePaymentScreen' component={RePaymentScreen} />
         </Group>
 
         {!isSignIn ? (
@@ -106,6 +108,7 @@ export type RootStackParamList = {
     referenceNo?: string
   }
   OrderHistoryScreen: undefined
+  RePaymentScreen: {orderId: number; coursePrice: number}
 }
 
 export type RootScreenNavigationProps =
@@ -137,4 +140,8 @@ export type CheckoutScreenRouteProp = RouteProp<
 export type PaymentScreenRouteProp = RouteProp<
   RootStackParamList,
   'PaymentScreen'
+>
+export type RePaymentScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'RePaymentScreen'
 >
