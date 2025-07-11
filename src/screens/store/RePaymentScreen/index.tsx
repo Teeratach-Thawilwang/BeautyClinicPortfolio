@@ -83,6 +83,7 @@ export default function RePaymentScreen({
             } else {
               const charge = await createCharge({
                 orderId: orderId,
+                stangAmount: Math.ceil(grandTotal * 100),
                 paymentMethod: paymentMethod,
               })
               navigation.replace('PaymentScreen', {

@@ -21,10 +21,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const chargeDB = await getChargeDB(chargeId)
 
     const chargeOmise = await getChargeOmise(chargeId)
-    await updateStatus('charges', chargeOmise.status, chargeId)
+    await updateCharge(chargeOmise.status, chargeId)
 
     if (chargeOmise.status == 'successful' && chargeOmise.paid) {
-      await updateStatus('orders', 'ongoing', chargeDB.order_id)
+      await updateOrder(chargeOmise.amount, 'ongoing', chargeDB.order_id)
       await createCustomerCourseIfNotExist(
         chargeDB.user_id,
         chargeDB.order_id,
@@ -82,16 +82,31 @@ async function getChargeOmise(id: string) {
   return await response.json()
 }
 
-async function updateStatus(tableName: string, status: string, id: string) {
+async function updateCharge(status: string, id: string) {
   const {error} = await supabase.service
-    .from(tableName)
+    .from('charges')
     .update({
       status: status,
     })
     .eq('id', id)
 
   if (error) {
-    console.log('updateStatus error', error)
+    console.log('update charge error', error)
+    throw error
+  }
+}
+
+async function updateOrder(amount: number, status: string, id: string) {
+  const {error} = await supabase.service
+    .from('orders')
+    .update({
+      amount: amount,
+      status: status,
+    })
+    .eq('id', id)
+
+  if (error) {
+    console.log('update order error', error)
     throw error
   }
 }

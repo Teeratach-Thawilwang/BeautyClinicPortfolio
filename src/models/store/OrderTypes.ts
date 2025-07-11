@@ -45,6 +45,7 @@ export type CreateOrderResponse = {
 // create-charge
 export type CreateChargeProps = {
   orderId: number
+  stangAmount: number
   paymentMethod: PaymentMethod
   token?: string
   returnUri?: string

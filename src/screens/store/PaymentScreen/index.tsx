@@ -131,6 +131,7 @@ export default function PaymentScreen({
               const token = await createToken(cardPayload)
               const params: CreateChargeProps = {
                 orderId: orderId,
+                stangAmount: Math.ceil(amount * 100),
                 paymentMethod: paymentMethod,
                 token: token,
               }
@@ -170,7 +171,7 @@ export default function PaymentScreen({
           containerStyle={styles.buttonContainer}
           labelStyle={styles.buttonLabel}
           onPress={() => {
-            navigation.navigate('BottomTabScreens', {screen: 'Home'})
+            navigation.replace('BottomTabScreens', {screen: 'Home'})
           }}>
           กลับหน้าแรก
         </Button>
@@ -180,7 +181,7 @@ export default function PaymentScreen({
             containerStyle={styles.buttonContainer}
             labelStyle={styles.buttonLabel}
             onPress={() => {
-              navigation.navigate('OrderHistoryScreen')
+              navigation.replace('OrderHistoryScreen')
             }}>
             ไปหน้าการซื้อของฉัน
           </Button>

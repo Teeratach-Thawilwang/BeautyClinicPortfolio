@@ -99,6 +99,7 @@ export default function CheckoutScreen({
             } else {
               const charge = await createCharge({
                 orderId: order.id,
+                stangAmount: Math.ceil(grandTotal * 100),
                 paymentMethod: paymentMethod,
               })
               navigation.replace('PaymentScreen', {

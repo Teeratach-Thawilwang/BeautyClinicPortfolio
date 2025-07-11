@@ -21,22 +21,16 @@ Deno.serve(async (req: Request): Promise<Response> => {
   if (userError) return errorResponse(userError.message, 500)
 
   // validate payload
-  const {orderId, paymentMethod, token, returnUri} = await req.json()
+  const {orderId, stangAmount, paymentMethod, token, returnUri} =
+    await req.json()
   const isPaymentConditionInvalid =
     paymentMethod == PaymentMethod.CREDIT_CARD && !token
 
-  if (!orderId || !paymentMethod || isPaymentConditionInvalid) {
+  if (!orderId || !stangAmount || !paymentMethod || isPaymentConditionInvalid) {
     return errorResponse('Invalid parameter.')
   }
 
   try {
-    const {data: order, error: orderError} = await supabase.service
-      .from('orders')
-      .select('*')
-      .eq('id', orderId)
-    if (orderError) throw orderError
-    const stangAmount = order[0].amount
-
     const chargeRequestBody = createChargeRequestBody(
       stangAmount,
       paymentMethod,
