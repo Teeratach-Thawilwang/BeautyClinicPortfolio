@@ -18,6 +18,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       gap: 10,
     },
     flexContainer: {
+      marginBottom: 20,
       flexDirection: 'row',
       gap: 20,
     },

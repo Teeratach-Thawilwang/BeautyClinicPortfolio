@@ -6,6 +6,7 @@ export function getStyles(theme: AdaptiveMD3Theme) {
   return StyleSheet.create({
     container: {
       marginTop: 20,
+      marginBottom: 20,
       alignItems: 'center',
     },
     title: {
