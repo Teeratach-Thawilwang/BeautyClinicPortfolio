@@ -147,8 +147,17 @@ export default function BackOfficeDrawer(props: DrawerContentComponentProps) {
             )}
             onPress={() => {
               isLastIndex
-                ? props.navigation.navigate('BottomTabScreens', {
-                    screen: 'Menu',
+                ? props.navigation.reset({
+                    index: 0,
+                    routes: [
+                      {
+                        name: 'BottomTabScreens',
+                        state: {
+                          routes: [{name: 'Menu'}],
+                          index: 0,
+                        },
+                      },
+                    ],
                   })
                 : props.navigation.dispatch(DrawerActions.jumpTo(item.route))
             }}
