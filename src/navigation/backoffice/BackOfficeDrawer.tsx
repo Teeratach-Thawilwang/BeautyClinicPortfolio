@@ -20,13 +20,13 @@ type MenuItem = {
 }
 
 const menuItems: MenuItem[] = [
-  {
-    label: 'Dashboard',
-    route: 'Dashboard',
-    activeOn: ['Dashboard'],
-    activeIcon: 'ant-appstore1',
-    inactiveIcon: 'ant-appstore1',
-  },
+  // {
+  //   label: 'Dashboard',
+  //   route: 'Dashboard',
+  //   activeOn: ['Dashboard'],
+  //   activeIcon: 'ant-appstore1',
+  //   inactiveIcon: 'ant-appstore1',
+  // },
   {
     label: 'Orders',
     route: 'OrderList',

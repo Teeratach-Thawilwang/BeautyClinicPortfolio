@@ -27,7 +27,6 @@ import CourseListScreen from '@screens/backoffice/CourseListScreen'
 import CustomerCourseDetailScreen from '@screens/backoffice/CustomerCourseDetailScreen'
 import CustomerDetailScreen from '@screens/backoffice/CustomerDetailScreen'
 import CustomerListScreen from '@screens/backoffice/CustomerListScreen'
-import DashboardScreen from '@screens/backoffice/DashboardScreen'
 import OrderDetailScreen from '@screens/backoffice/OrderDetailScreen'
 import OrderListScreen from '@screens/backoffice/OrderListScreen'
 
@@ -43,11 +42,16 @@ export default function BackOfficeNavigator() {
       drawerContent={props => <BackOfficeDrawer {...props} />}
       screenOptions={screenOptions(theme, width, responsive)}
       backBehavior='history'
-      initialRouteName='Dashboard'>
+      initialRouteName='OrderList'>
       <Screen
-        name='Dashboard'
-        component={DashboardScreen}
-        options={{title: 'Dashboard'}}
+        name='OrderList'
+        component={OrderListScreen}
+        options={{title: 'Orders'}}
+      />
+      <Screen
+        name='OrderDetail'
+        component={OrderDetailScreen}
+        options={{title: 'Order Details'}}
       />
       <Screen
         name='CourseList'
@@ -128,16 +132,6 @@ export default function BackOfficeNavigator() {
         name='CustomerCourseDetail'
         component={CustomerCourseDetailScreen}
         options={{title: 'Customer Course Edit'}}
-      />
-      <Screen
-        name='OrderList'
-        component={OrderListScreen}
-        options={{title: 'Orders'}}
-      />
-      <Screen
-        name='OrderDetail'
-        component={OrderDetailScreen}
-        options={{title: 'Order Details'}}
       />
     </Navigator>
   )
