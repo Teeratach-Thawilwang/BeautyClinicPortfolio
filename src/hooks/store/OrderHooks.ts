@@ -4,37 +4,36 @@ import {useForm} from 'react-hook-form'
 import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
-import {useNavigate} from '@hooks/CommonHooks'
-import {CardDetail, CreateOrderProps} from '@models/store/OrderTypes'
+import {
+  CardDetail,
+  CreateChargeProps,
+  CreateOrderProps,
+} from '@models/store/OrderTypes'
 import OrderService from '@services/store/OrderService'
-import {PaymentMethod} from '@utils/Payments'
 
-export function useCreateOrderMutation(
-  courseId: number,
-  paymentMethod?: PaymentMethod,
-  grandTotal?: number,
-) {
-  const navigation = useNavigate()
+export function useCreateOrderMutation() {
   const mutation = useMutation({
     mutationFn: async (params: CreateOrderProps) =>
       await OrderService.create(params),
-    onSuccess: charge => {
-      if (paymentMethod && grandTotal) {
-        navigation.navigate('PaymentScreen', {
-          paymentMethod: paymentMethod,
-          amount: grandTotal,
-          courseId: courseId,
-          chargeId: charge?.id,
-          qrCode: charge?.qr_code_image,
-          authorizeUri: charge?.authorize_uri,
-          referenceNo: charge?.reference_no,
-        })
-      }
-    },
     onError: error => {
       Toast.show({
         type: 'error',
         text1: 'Create order failed.',
+        text2: error.message,
+      })
+    },
+  })
+  return mutation
+}
+
+export function useCreateChargeMutation() {
+  const mutation = useMutation({
+    mutationFn: async (params: CreateChargeProps) =>
+      await OrderService.createCharge(params),
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: 'Create charge failed.',
         text2: error.message,
       })
     },
@@ -49,7 +48,7 @@ export function useCreateOmiseTokenMutation() {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: 'Payment failed.',
+        text1: 'Create charge token failed.',
         text2: error.message,
       })
     },
