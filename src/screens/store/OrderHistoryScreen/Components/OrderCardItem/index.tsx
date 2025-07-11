@@ -84,7 +84,7 @@ export default function OrderCardItem({order}: Props) {
           {orderPaymentStatusMapping[order.status]}
         </Text>
       </View>
-      {!isPaid ? (
+      {order.status == OrderStatusEnum.Created ? (
         <Button
           onPress={() => {
             navigation.navigate('RePaymentScreen', {
