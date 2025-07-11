@@ -1,7 +1,10 @@
+import {paymentFee} from '@assets/constants/Payment'
+import {PaymentMethod} from '@enums/PaymentEnums'
 import {ChargeStatusEnum} from '@enums/StatusEnums'
 import {
   CardDetail,
-  CreateOrderPayload,
+  CreateChargeProps,
+  CreateChargeResponse,
   CreateOrderProps,
   CreateOrderResponse,
 } from '@models/store/OrderTypes'
@@ -11,18 +14,44 @@ import {toFormUrlEncoded} from '@utils/Helpers'
 class OrderService {
   public async create(params: CreateOrderProps): Promise<CreateOrderResponse> {
     const sessionResponse = await supabase.auth.getSession()
-    const userId = sessionResponse.data.session?.user.id
     const accessToken = sessionResponse.data.session?.access_token
-    if (!accessToken || !userId) {
+    if (!accessToken) {
       throw new Error('Only authenticated user has permission.')
-    }
-    const payload: CreateOrderPayload = {
-      ...params,
-      userId: userId,
-      returnUri: params.returnUri ?? process.env.APP_LINK + '/',
     }
     const response = await fetch(
       process.env.SUPABASE_URL + '/functions/v1/create-order',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      },
+    )
+
+    const result = await response.json()
+    if (!response.ok) {
+      console.log(result)
+      throw result
+    }
+    return result
+  }
+
+  public async createCharge(
+    params: CreateChargeProps,
+  ): Promise<CreateChargeResponse> {
+    const sessionResponse = await supabase.auth.getSession()
+    const accessToken = sessionResponse.data.session?.access_token
+    if (!accessToken) {
+      throw new Error('Only authenticated user has permission.')
+    }
+    const payload: CreateChargeProps = {
+      ...params,
+      returnUri: params.returnUri ?? process.env.APP_LINK + '/',
+    }
+    const response = await fetch(
+      process.env.SUPABASE_URL + '/functions/v1/create-charge',
       {
         method: 'POST',
         headers: {
@@ -35,6 +64,7 @@ class OrderService {
 
     const result = await response.json()
     if (!response.ok) {
+      console.log(result)
       throw result
     }
     return result
@@ -98,6 +128,23 @@ class OrderService {
       throw result
     }
     return result
+  }
+
+  public calculatePaymentFee(
+    amount: number,
+    paymentMethod: PaymentMethod,
+    vat: number = 7,
+  ) {
+    const stang = amount * 100
+    let fee = 0
+    if (paymentFee[paymentMethod].type == 'FIX_COST') {
+      fee = paymentFee[paymentMethod].fee * 100
+    } else {
+      fee = (stang * paymentFee[paymentMethod].fee) / 100
+    }
+
+    fee = fee * (1 + vat / 100)
+    return Math.ceil(fee) / 100
   }
 }
 

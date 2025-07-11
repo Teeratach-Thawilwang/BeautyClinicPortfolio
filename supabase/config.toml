@@ -344,3 +344,9 @@ verify_jwt = false
 import_map = "./deno.json"
 entrypoint = "./functions/charge-webhook/index.ts"
 
+
+[functions.create-charge]
+enabled = true
+verify_jwt = true
+import_map = "./deno.json"
+entrypoint = "./functions/create-charge/index.ts"

@@ -5,6 +5,8 @@ import {Text} from 'react-native-paper'
 import Button from '@components/Button'
 import ResponseModal from '@components/ResponseModal'
 import {useTheme} from '@context-providers/ThemeProvider'
+import {PaymentMethod} from '@enums/PaymentEnums'
+import {ChargeStatusEnum} from '@enums/StatusEnums'
 import {
   disableBackSwipe,
   useAppState,
@@ -12,13 +14,12 @@ import {
   useNavigate,
 } from '@hooks/CommonHooks'
 import {
+  useCreateChargeMutation,
   useCreateOmiseTokenMutation,
-  useCreateOrderMutation,
   useGetPaymentStatusMutation,
 } from '@hooks/store/OrderHooks'
-import {CardDetail, CreateOrderProps} from '@models/store/OrderTypes'
+import {CardDetail, CreateChargeProps} from '@models/store/OrderTypes'
 import {PaymentScreenRouteProp} from '@navigation/AppNavigator'
-import {ChargeStatus, PaymentMethod} from '@utils/Payments'
 
 import PaymentCreditCard from './Components/PaymentCreditCard'
 import PaymentMobileBanking from './Components/PaymentMobileBanking'
@@ -38,7 +39,7 @@ export default function PaymentScreen({
   const {
     paymentMethod,
     amount,
-    courseId,
+    orderId,
     chargeId,
     qrCode,
     authorizeUri,
@@ -55,28 +56,28 @@ export default function PaymentScreen({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const delayRef = useRef(initialDelayMs)
 
-  const {mutateAsync: createToken, error: errorToken} =
+  const {mutateAsync: createToken, error: tokenError} =
     useCreateOmiseTokenMutation()
   const {
-    mutateAsync: createOrder,
+    mutateAsync: createCharge,
     data: charge,
-    error: errorOrder,
-  } = useCreateOrderMutation(courseId)
+    error: chargeError,
+  } = useCreateChargeMutation()
   const {
     mutateAsync: getPaymentStatus,
     data: status,
-    error: errorStatus,
+    error: statusError,
   } = useGetPaymentStatusMutation()
 
   useFocusEffect(() => {
-    if (status == ChargeStatus.SUCCESSFUL) {
+    if (status == ChargeStatusEnum.SUCCESSFUL) {
       setEnable(false)
       setModal('success')
     }
-    if (errorToken || errorOrder || errorStatus) {
+    if (tokenError || chargeError || statusError) {
       setModal('error')
     }
-  }, [status, errorToken, errorOrder, errorStatus])
+  }, [status, tokenError, chargeError, statusError])
 
   disableBackSwipe(() => true)
 
@@ -117,7 +118,7 @@ export default function PaymentScreen({
         return (
           <PaymentCreditCard
             amount={amount}
-            disabled={status == ChargeStatus.SUCCESSFUL}
+            disabled={status == ChargeStatusEnum.SUCCESSFUL}
             onSubmit={async card => {
               const [mm, yyyy] = card.expiration.split('/')
               const cardPayload: CardDetail = {
@@ -128,13 +129,12 @@ export default function PaymentScreen({
                 securityCode: card.securityCode,
               }
               const token = await createToken(cardPayload)
-              const params: CreateOrderProps = {
-                courseId: courseId,
-                amount: amount * 100, // stang unit
+              const params: CreateChargeProps = {
+                orderId: orderId,
                 paymentMethod: paymentMethod,
                 token: token,
               }
-              await createOrder(params)
+              await createCharge(params)
               setEnable(true)
             }}
           />
@@ -180,7 +180,7 @@ export default function PaymentScreen({
             containerStyle={styles.buttonContainer}
             labelStyle={styles.buttonLabel}
             onPress={() => {
-              // navigation.navigate('OrderHistory')
+              navigation.navigate('OrderHistoryScreen')
             }}>
             ไปหน้าการซื้อของฉัน
           </Button>
@@ -192,9 +192,9 @@ export default function PaymentScreen({
         text={
           modal == 'success'
             ? 'ชำระเงินเสร็จสมบูรณ์\nขอบคุณที่ไว้ใจให้เราบริการ'
-            : (errorToken?.message ??
-              errorOrder?.message ??
-              errorStatus?.message ??
+            : (tokenError?.message ??
+              chargeError?.message ??
+              statusError?.message ??
               '')
         }
         imageSource={
@@ -202,10 +202,10 @@ export default function PaymentScreen({
             ? require('@assets/images/successfully_icon.png')
             : require('@assets/images/failed_icon.png')
         }
-        buttonText={modal == 'success' ? 'กลับหน้าแรก' : undefined}
+        buttonText={modal == 'success' ? 'ไปหน้าการซื้อของฉัน' : undefined}
         onDismiss={() => (modal == 'error' ? setModal(undefined) : null)}
         onButtonPress={() => {
-          navigation.navigate('BottomTabScreens', {screen: 'Home'})
+          navigation.replace('OrderHistoryScreen')
           setModal(undefined)
         }}
       />

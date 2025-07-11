@@ -30,7 +30,7 @@ export default function PaymentMobileBanking({
           const canOpen = await Linking.canOpenURL(authorizeUri)
           if (canOpen) Linking.openURL(authorizeUri)
         }}>
-        ไปยังแอพธนาคาร
+        {`ดำเนินการชำระ ฿${amount.toFixed(2)}`}
       </Button>
     </View>
   )

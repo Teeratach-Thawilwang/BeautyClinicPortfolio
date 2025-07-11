@@ -4,14 +4,18 @@ import {ScrollView, Text, View} from 'react-native'
 import Button from '@components/Button'
 import CourseCardItem from '@components/CourseCardItem'
 import HeaderBar from '@components/HeaderBar'
+import OrderSummary from '@components/OrderSummary'
+import PaymentSelector from '@components/PaymentSelector'
 import {useTheme} from '@context-providers/ThemeProvider'
+import {PaymentMethod} from '@enums/PaymentEnums'
 import {useNavigate} from '@hooks/CommonHooks'
-import {useCreateOrderMutation} from '@hooks/store/OrderHooks'
+import {
+  useCreateChargeMutation,
+  useCreateOrderMutation,
+} from '@hooks/store/OrderHooks'
 import {CheckoutScreenRouteProp} from '@navigation/AppNavigator'
-import {PaymentMethod, calculatePaymentFee} from '@utils/Payments'
+import OrderService from '@services/store/OrderService'
 
-import OrderSummary from './Components/OrderSummary'
-import PaymentSelector from './Components/PaymentSelector'
 import {getStyles} from './styles'
 
 export default function CheckoutScreen({
@@ -32,11 +36,8 @@ export default function CheckoutScreen({
   const [isShowValidateMessage, setIsShowValidateMessage] = useState(false)
   const scrollRef = useRef<ScrollView>(null)
 
-  const {mutateAsync} = useCreateOrderMutation(
-    course.id,
-    paymentMethod,
-    grandTotal,
-  )
+  const {mutateAsync: createOrder} = useCreateOrderMutation()
+  const {mutateAsync: createCharge} = useCreateChargeMutation()
 
   return (
     <View style={styles.container}>
@@ -56,7 +57,7 @@ export default function CheckoutScreen({
             setPaymentMethod(method)
             setIsShowValidateMessage(false)
             if (method) {
-              const fee = calculatePaymentFee(course.price, method)
+              const fee = OrderService.calculatePaymentFee(course.price, method)
               setPaymentFee(fee)
               setGrandTotal(course.price + fee)
             } else {
@@ -84,17 +85,30 @@ export default function CheckoutScreen({
           }
           setIsShowValidateMessage(false)
           if (grandTotal) {
+            const order = await createOrder({
+              courseId: course.id,
+              stangAmount: Math.ceil(grandTotal * 100),
+            })
+
             if (paymentMethod == PaymentMethod.CREDIT_CARD) {
-              navigation.navigate('PaymentScreen', {
+              navigation.replace('PaymentScreen', {
                 paymentMethod: paymentMethod,
                 amount: grandTotal!,
-                courseId: course.id,
+                orderId: order.id,
               })
             } else {
-              await mutateAsync({
-                courseId: course.id,
-                amount: grandTotal * 100, // to stang unit
+              const charge = await createCharge({
+                orderId: order.id,
                 paymentMethod: paymentMethod,
+              })
+              navigation.replace('PaymentScreen', {
+                paymentMethod: paymentMethod,
+                amount: grandTotal,
+                orderId: order.id,
+                chargeId: charge?.id,
+                qrCode: charge?.qr_code_image,
+                authorizeUri: charge?.authorize_uri,
+                referenceNo: charge?.reference_no,
               })
             }
           }
