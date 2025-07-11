@@ -36,7 +36,6 @@ This section is restricted to **admin users only**. Admins can:
 
 ## 📦 Features in Progress
 
-- [Store] Order history and order detail screen
 - [Store] Appointment booking with date/time selection
 - [Store] Push notification when appointment incoming (using cron + edge function + FCM).
 
