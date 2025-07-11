@@ -1,17 +1,80 @@
+import dayjs from 'dayjs'
+
 import {paymentFee} from '@assets/constants/Payment'
 import {PaymentMethod} from '@enums/PaymentEnums'
-import {ChargeStatusEnum} from '@enums/StatusEnums'
+import {ChargeStatusEnum, OrderStatusEnum} from '@enums/StatusEnums'
 import {
   CardDetail,
   CreateChargeProps,
   CreateChargeResponse,
   CreateOrderProps,
   CreateOrderResponse,
+  OrderHistoryItem,
+  OrderHistoryList,
 } from '@models/store/OrderTypes'
 import supabase from '@services/SupabaseClient'
 import {toFormUrlEncoded} from '@utils/Helpers'
 
 class OrderService {
+  tableName = 'orders'
+
+  public async getList(
+    status?: OrderStatusEnum,
+    page: number = 1,
+    perPage: number = 15,
+    sortBy: string = 'id',
+    orderBy: 'ASC' | 'DESC' = 'DESC',
+  ): Promise<OrderHistoryList> {
+    const sessionResponse = await supabase.auth.getSession()
+    const user = sessionResponse.data.session?.user
+    if (!user) {
+      throw new Error('Only authenticated user has permission.')
+    }
+
+    const from = (page - 1) * perPage
+    const to = from + perPage - 1
+
+    let query = supabase
+      .from(this.tableName)
+      .select(
+        `
+        *,
+        courses(
+          id,
+          name,
+          images,
+          price,
+          treatment_rounds,
+          duration_per_round
+        )
+        `,
+        {count: 'exact'},
+      )
+      .eq('user_id', user.id)
+      .order(sortBy, {ascending: orderBy == 'ASC'})
+
+    if (status) {
+      query = query.eq('status', status)
+    }
+
+    const {data, error, count} = await query.range(from, to)
+    if (error) throw error
+
+    const transformData = data.map(item => {
+      const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
+      return {
+        ...item,
+        created_at: createdAt,
+      }
+    })
+
+    return {
+      data: transformData as unknown as OrderHistoryItem[],
+      last: count ? Math.ceil(count / perPage) : 1,
+      total: count ?? 0,
+    }
+  }
+
   public async create(params: CreateOrderProps): Promise<CreateOrderResponse> {
     const sessionResponse = await supabase.auth.getSession()
     const accessToken = sessionResponse.data.session?.access_token
@@ -32,7 +95,6 @@ class OrderService {
 
     const result = await response.json()
     if (!response.ok) {
-      console.log(result)
       throw result
     }
     return result
@@ -64,7 +126,6 @@ class OrderService {
 
     const result = await response.json()
     if (!response.ok) {
-      console.log(result)
       throw result
     }
     return result

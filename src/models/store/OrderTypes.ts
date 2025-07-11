@@ -1,5 +1,31 @@
+import {ImageFileAsset} from '@components/ImagePicker/types'
 import {PaymentMethod} from '@enums/PaymentEnums'
 import {OrderStatusEnum} from '@enums/StatusEnums'
+
+// order history
+export type OrderHistoryItem = {
+  id: number
+  user_id: string
+  course_id: string
+  status: OrderStatusEnum
+  amount: number
+  updated_by: string
+  created_at: string
+  courses: {
+    id: number
+    name: string
+    images: ImageFileAsset[]
+    price: number
+    treatment_rounds: number
+    duration_per_round: number
+  }
+}
+
+export type OrderHistoryList = {
+  data: OrderHistoryItem[]
+  last: number
+  total: number
+}
 
 // create-order
 export type CreateOrderProps = {

@@ -1,15 +1,36 @@
 import {zodResolver} from '@hookform/resolvers/zod'
-import {useMutation} from '@tanstack/react-query'
+import {useMutation, useQuery} from '@tanstack/react-query'
 import {useForm} from 'react-hook-form'
 import Toast from 'react-native-toast-message'
 import {z} from 'zod'
 
+import {OrderStatusEnum} from '@enums/StatusEnums'
 import {
   CardDetail,
   CreateChargeProps,
   CreateOrderProps,
+  OrderHistoryItem,
 } from '@models/store/OrderTypes'
 import OrderService from '@services/store/OrderService'
+
+export function useQueryOrderList(
+  page: number = 1,
+  status?: OrderStatusEnum,
+  orderBy: 'ASC' | 'DESC' = 'DESC',
+  staleTime: number = 20 * 1000,
+  initialValue?: {data: OrderHistoryItem[]; last: 1; total: 0},
+) {
+  initialValue = initialValue ?? {data: [], last: 1, total: 0}
+  const result = useQuery({
+    queryKey: ['order-list', page, status, orderBy],
+    queryFn: async () =>
+      await OrderService.getList(status, page, 8, 'id', orderBy),
+    placeholderData: previousData => previousData,
+    staleTime: staleTime,
+  })
+
+  return {...result, data: result.data ?? initialValue}
+}
 
 export function useCreateOrderMutation() {
   const mutation = useMutation({
