@@ -43,7 +43,9 @@ export default function MenuScreen() {
           <MenuCardItem
             label='Order History'
             icon='ion-bag-handle-sharp'
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('OrderHistoryScreen')
+            }}
           />
         ) : null}
         <MenuCardItem
