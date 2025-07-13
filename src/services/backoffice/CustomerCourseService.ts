@@ -9,7 +9,7 @@ import {
 } from '@models/backoffice/CustomerCourseType'
 import supabase from '@services/SupabaseClient'
 
-class CustomerCousreService {
+class CustomerCourseService {
   private tableName = 'customer_courses'
 
   public async getList(
@@ -96,4 +96,4 @@ class CustomerCousreService {
   }
 }
 
-export default new CustomerCousreService()
+export default new CustomerCourseService()

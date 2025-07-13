@@ -11,7 +11,7 @@ import {
   CustomerCourseForm,
   CustomerCourseUpdateProps,
 } from '@models/backoffice/CustomerCourseType'
-import CustomerCousreService from '@services/backoffice/CustomerCousreService'
+import CustomerCourseService from '@services/backoffice/CustomerCourseService'
 
 export function useQueryCustomerCourseList(
   customerId: string,
@@ -35,7 +35,7 @@ export function useQueryCustomerCourseList(
       stopCreatedAt,
     ],
     queryFn: async () =>
-      await CustomerCousreService.getList(
+      await CustomerCourseService.getList(
         customerId,
         page,
         15,
@@ -56,7 +56,7 @@ export function useCustomerCourseUpdateMutation() {
   const navigation = useNavigate()
   const mutation = useMutation({
     mutationFn: async (course: CustomerCourseUpdateProps) =>
-      await CustomerCousreService.update(course),
+      await CustomerCourseService.update(course),
     onSuccess: () => {
       navigation.goBack()
       Toast.show({
