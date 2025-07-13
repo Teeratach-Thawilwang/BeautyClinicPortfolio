@@ -45,13 +45,12 @@ class BlackoutPeriodService {
     const {data, error, count} = await query.range(from, to)
     if (error) throw error
 
-    // const currentDate = dayjs()
     const transformData = data.map(item => {
       const date = dayjs(item.date, 'YYYY-MM-DD')
-      const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
+      const createdAt = dayjs(item.created_at).format('DD-MM-YYYY HH:mm')
       return {
         id: item.id,
-        date: date.format('DD/MM/YYYY'),
+        date: date.format('DD-MM-YYYY'),
         time_range: `${item.time_range.start} - ${item.time_range.end}`,
         status: date.isBefore()
           ? BlackoutPeriodStatus.Expired
@@ -77,7 +76,7 @@ class BlackoutPeriodService {
 
     return {
       ...data,
-      date: dayjs(data.date, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      date: dayjs(data.date, 'YYYY-MM-DD').format('DD-MM-YYYY'),
     } as BlackoutPeriod
   }
 
@@ -86,7 +85,7 @@ class BlackoutPeriodService {
   ): Promise<null> {
     const transformData = {
       ...blackoutPeriod,
-      date: dayjs(blackoutPeriod.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      date: dayjs(blackoutPeriod.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
     }
     const {error} = await supabase.from(this.tableName).insert(transformData)
 
@@ -98,7 +97,7 @@ class BlackoutPeriodService {
     blackoutPeriod: BlackoutPeriodUpdateProps,
   ): Promise<null> {
     const transformData = {
-      date: dayjs(blackoutPeriod.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      date: dayjs(blackoutPeriod.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       time_range: blackoutPeriod.time_range,
     }
     const {error} = await supabase

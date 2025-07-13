@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 
 import {BookingStatus} from '@enums/StatusEnums'
 import {
-  BookingCreateProps,
   BookingForm,
   BookingList,
   BookingListItem,
@@ -29,13 +28,17 @@ class BookingService {
     let query = supabase
       .from(this.tableName + '_view')
       .select(
-        'id, \
-        user_id, \
-        course_id, \
-        booking_date, \
-        booking_time, \
-        status, \
-        created_at',
+        `
+        id,
+        user_id,
+        booking_date,
+        booking_time,
+        status,
+        created_at,
+        customer_courses (
+          course_id
+        )
+      `,
         {count: 'exact'},
       )
       .order(sortBy, {ascending: orderBy == 'ASC'})
@@ -64,14 +67,15 @@ class BookingService {
     if (error) throw error
 
     const transformData = data.map(item => {
-      const createdAt = dayjs(item.created_at).format('DD/MM/YYYY HH:mm')
-      const bookingDate = dayjs(item.booking_date).format('DD/MM/YYYY')
+      const createdAt = dayjs(item.created_at).format('DD-MM-YYYY HH:mm')
+      const bookingDate = dayjs(item.booking_date).format('DD-MM-YYYY')
       const bookingTime = `${item.booking_time.start} - ${item.booking_time.end}`
+      const courseId = (item.customer_courses as any).course_id
 
       return {
         id: item.id,
         user_id: item.user_id,
-        course_id: item.course_id,
+        course_id: courseId,
         booking_date: bookingDate,
         booking_time: bookingTime,
         status: item.status,
@@ -88,32 +92,43 @@ class BookingService {
   public async getById(id: number): Promise<BookingForm> {
     const {data, error} = await supabase
       .from(this.tableName)
-      .select('*')
+      .select(
+        `
+        id,
+        user_id,
+        booking_date,
+        booking_time,
+        status,
+        created_at,
+        customer_courses (
+          course_id
+        )
+      `,
+      )
       .eq('id', id)
       .single()
-
     if (error) throw error
 
     return {
       ...data,
-      booking_date: dayjs(data.booking_date).format('DD/MM/YYYY'),
+      course_id: (data.customer_courses as any).course_id,
+      booking_date: dayjs(data.booking_date).format('DD-MM-YYYY'),
       time_range: data.booking_time,
     } as BookingForm
   }
 
-  public async create(booking: BookingCreateProps): Promise<null> {
-    const {error} = await supabase.from(this.tableName).insert(booking)
-
-    if (error) throw error
-    return null
-  }
-
   public async update(booking: BookingUpdateProps): Promise<null> {
-    const {id, ...updateParams} = {...booking}
+    const updateParams = {
+      booking_date: dayjs(booking.booking_date, 'DD-MM-YYYY').format(
+        'YYYY-MM-DD',
+      ),
+      booking_time: booking.booking_time,
+      status: booking.status,
+    }
     const {error} = await supabase
       .from(this.tableName)
       .update(updateParams)
-      .eq('id', id)
+      .eq('id', booking.id)
 
     if (error) throw error
     return null

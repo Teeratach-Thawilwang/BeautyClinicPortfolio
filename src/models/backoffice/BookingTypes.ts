@@ -28,11 +28,6 @@ export type BookingList = {
   last: number
 }
 
-export type BookingCreateProps = Omit<
-  Booking,
-  'id' | 'created_at' | 'updated_at'
->
-
 export type BookingUpdateProps = Omit<Booking, 'created_at' | 'updated_at'>
 
 export type BookingForm = {
