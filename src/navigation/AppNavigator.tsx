@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack'
 import React from 'react'
 
+import {TimeRange} from '@components/TimeRangePicker/types'
 import {PaymentMethod} from '@enums/PaymentEnums'
 import {WidgetCourseItemDetail} from '@models/store/WidgetTypes'
 import LinkingConfiguration from '@navigation/LinkingConfiguration'
@@ -18,6 +19,8 @@ import CategoryCourseScreen from '@screens/store/CategoryCourseScreen'
 import CheckoutScreen from '@screens/store/CheckoutScreen'
 import ConfirmSignupScreen from '@screens/store/ConfirmSignupScreen'
 import CourseDetailScreen from '@screens/store/CourseDetailScreen'
+import CreateBookingScreen from '@screens/store/CreateBookingScreen'
+import EditBookingScreen from '@screens/store/EditBookingScreen'
 import ForgotPasswordScreen from '@screens/store/ForgotPasswordScreen'
 import OrderHistoryScreen from '@screens/store/OrderHistoryScreen'
 import PaymentScreen from '@screens/store/PaymentScreen'
@@ -48,10 +51,6 @@ export default function AppNavigator() {
             component={CategoryCourseScreen}
           />
           <Screen name='CourseDetailScreen' component={CourseDetailScreen} />
-          <Screen name='CheckoutScreen' component={CheckoutScreen} />
-          <Screen name='PaymentScreen' component={PaymentScreen} />
-          <Screen name='OrderHistoryScreen' component={OrderHistoryScreen} />
-          <Screen name='RePaymentScreen' component={RePaymentScreen} />
         </Group>
 
         {!isSignIn ? (
@@ -71,7 +70,19 @@ export default function AppNavigator() {
               component={ResetPasswordScreen}
             />
           </Group>
-        ) : null}
+        ) : (
+          <Group>
+            <Screen name='CheckoutScreen' component={CheckoutScreen} />
+            <Screen name='PaymentScreen' component={PaymentScreen} />
+            <Screen name='OrderHistoryScreen' component={OrderHistoryScreen} />
+            <Screen name='RePaymentScreen' component={RePaymentScreen} />
+            <Screen
+              name='CreateBookingScreen'
+              component={CreateBookingScreen}
+            />
+            <Screen name='EditBookingScreen' component={EditBookingScreen} />
+          </Group>
+        )}
         {isAdmin ? (
           <Screen name='BackOfficeScreens' component={BackOfficeNavigator} />
         ) : null}
@@ -109,6 +120,13 @@ export type RootStackParamList = {
   }
   OrderHistoryScreen: undefined
   RePaymentScreen: {orderId: number; coursePrice: number}
+  CreateBookingScreen: {customerCourseId: number}
+  EditBookingScreen: {
+    bookingId: number
+    customerCourseId: number
+    date: string
+    time: TimeRange
+  }
 }
 
 export type RootScreenNavigationProps =
@@ -144,4 +162,12 @@ export type PaymentScreenRouteProp = RouteProp<
 export type RePaymentScreenRouteProp = RouteProp<
   RootStackParamList,
   'RePaymentScreen'
+>
+export type CreateBookingScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CreateBookingScreen'
+>
+export type EditBookingScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'EditBookingScreen'
 >
