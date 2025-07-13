@@ -5,7 +5,7 @@ As part of the learning process, the project also includes practice in designing
 
 ## Preview
 
-- ▶️ [Demo 1 - home / course / category / search / filter](https://drive.google.com/file/d/1QSH6FC3u4NWmhYcd3A6ej6FPQBFgRdwU/view?usp=sharing)
+- ▶️ [Demo 1 - Home / course / category / search / filter](https://drive.google.com/file/d/1QSH6FC3u4NWmhYcd3A6ej6FPQBFgRdwU/view?usp=sharing)
 - ▶️ [Demo 2 - Changing theme color](https://drive.google.com/file/d/1QX1-57-1EZXK3vDzd0EZIwxamMF-Ge14/view?usp=drive_link)
 - ▶️ [Demo 3 - Signin / create, update and cancel booking](https://drive.google.com/file/d/1QYNz0MLuREpr76Z_NyNPCVzgBXtoxTdw/view?usp=drive_link)
 - ▶️ [Demo 4 - Purchase course / payment / order history](https://drive.google.com/file/d/1QZmXoo5coMxdQXaY7m-DmbCoifo-ZFcs/view?usp=drive_link)
