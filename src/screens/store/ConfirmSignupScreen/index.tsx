@@ -29,7 +29,18 @@ export default function ConfirmSignupScreen({
   useFocusEffect(() => {
     setIsModalVisible(false)
     if (isSignIn) {
-      navigation.replace('BottomTabScreens', {screen: 'Home'})
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'BottomTabScreens',
+            state: {
+              routes: [{name: 'Home'}],
+              index: 0,
+            },
+          },
+        ],
+      })
     } else if (route.params.token_hash) {
       mutate(route.params.token_hash)
     }

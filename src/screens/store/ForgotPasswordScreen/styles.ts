@@ -28,9 +28,10 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       marginTop: 8,
     },
     buttonContainer: {
-      borderRadius: 25,
       marginTop: 20,
       paddingVertical: 4,
+      height: 50,
+      borderRadius: 25,
       color: theme.colors.onPrimary,
       backgroundColor: theme.colors.primary,
     },

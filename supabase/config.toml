@@ -350,3 +350,9 @@ enabled = true
 verify_jwt = true
 import_map = "./deno.json"
 entrypoint = "./functions/create-charge/index.ts"
+
+[functions.get-booking-time-available]
+enabled = true
+verify_jwt = true
+import_map = "./deno.json"
+entrypoint = "./functions/get-booking-time-available/index.ts"

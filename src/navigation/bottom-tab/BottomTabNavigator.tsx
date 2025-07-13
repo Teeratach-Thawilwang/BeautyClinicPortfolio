@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {NavigatorScreenParams} from '@react-navigation/native'
+import {NavigatorScreenParams, RouteProp} from '@react-navigation/native'
 
 import BottomTabNavigatorOption from '@navigation/bottom-tab/BottomTabNavigatorOption'
 import AppointmentScreen from '@screens/store/AppointmentScreen'
@@ -29,9 +29,14 @@ export default function BottomTabNavigator() {
 
 export type BottomTabNavigatorParamList = {
   Home: undefined
-  Appointment: undefined
+  Appointment: {tab?: 'Course' | 'Booking'}
   Menu: undefined
 }
 
 export type BottomTabNavigatorParams =
   NavigatorScreenParams<BottomTabNavigatorParamList>
+
+export type AppointmentScreenRouteProp = RouteProp<
+  BottomTabNavigatorParamList,
+  'Appointment'
+>
