@@ -1,46 +1,53 @@
-import {AdaptiveMD3Theme} from '@models/ThemeTypes'
-import React from 'react'
-import {StyleSheet, Text, View} from 'react-native'
-import {Button} from 'react-native-paper'
+import React, {useState} from 'react'
+import {useWindowDimensions} from 'react-native'
+import {SceneMap, TabBar, TabView} from 'react-native-tab-view'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useNavigate} from '@hooks/CommonHooks'
+import {AppointmentScreenRouteProp} from '@navigation/bottom-tab/BottomTabNavigator'
 
-export default function AppointmentScreen() {
-  const {theme, toggleTheme} = useTheme()
-  const navigation = useNavigate()
+import BookingView from './Components/BookingView'
+import CustomerCourseView from './Components/CustomerCourseView'
+
+const routes = [
+  {key: 'first', title: 'Course'},
+  {key: 'second', title: 'My Booking'},
+]
+
+export default function AppointmentScreen({
+  route,
+}: {
+  route: AppointmentScreenRouteProp
+}) {
+  const {theme} = useTheme()
+  const {width} = useWindowDimensions()
+  const tab = route.params?.tab ?? 'Course'
+  const [index, setIndex] = useState(tab == 'Course' ? 0 : 1)
+
   return (
-    <View style={getStyles(theme).container}>
-      <Text style={getStyles(theme).text}>AppointmentScreen</Text>
-      <Button onPress={toggleTheme}>Change Theme</Button>
-      <Button
-        onPress={() =>
-          navigation.navigate('BottomTabScreens', {screen: 'Home'})
-        }>
-        Home
-      </Button>
-      <Button
-        onPress={() =>
-          navigation.navigate('BottomTabScreens', {screen: 'Menu'})
-        }>
-        Menu
-      </Button>
-    </View>
+    <TabView
+      navigationState={{index, routes}}
+      onIndexChange={setIndex}
+      initialLayout={{width: width}}
+      renderScene={SceneMap({
+        first: CustomerCourseView,
+        second: BookingView,
+      })}
+      renderTabBar={(props: any) => (
+        <TabBar
+          {...props}
+          indicatorStyle={{
+            marginHorizontal: 20,
+            width: width / 2 - 40,
+            backgroundColor: theme.colors.primary,
+          }}
+          style={{backgroundColor: theme.colors.surface}}
+          activeColor={theme.colors.onSurface}
+          inactiveColor={theme.colors.onSurfaceVariant}
+        />
+      )}
+      commonOptions={{
+        labelStyle: {fontSize: theme.fontSize.label},
+      }}
+    />
   )
-}
-
-function getStyles(theme: AdaptiveMD3Theme) {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background,
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    text: {
-      color: theme.colors.onSurface,
-      textAlign: 'center',
-      fontSize: theme.fontSize.displayLarge,
-    },
-  })
 }
