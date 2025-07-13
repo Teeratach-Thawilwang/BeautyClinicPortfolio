@@ -3,7 +3,17 @@
 **BeautiClinicPortfolio** is a mobile application project built for learning and practicing mobile app development using **React Native** and **Supabase**.
 As part of the learning process, the project also includes practice in designing responsive layouts suitable for mobile and Tablet devices.
 
-**Figma** : https://www.figma.com/design/LclVuFlU6b8HWD7l7pJJU2/Beauty-Clinic?node-id=2-3&t=mwLgLOYju5BHOhsH-1
+## Preview
+
+- ▶️ [Demo 1 - home / course / category / search / filter](https://drive.google.com/file/d/1QSH6FC3u4NWmhYcd3A6ej6FPQBFgRdwU/view?usp=sharing)
+- ▶️ [Demo 2 - Changing theme color](https://drive.google.com/file/d/1QX1-57-1EZXK3vDzd0EZIwxamMF-Ge14/view?usp=drive_link)
+- ▶️ [Demo 3 - Signin / create, update and cancel booking](https://drive.google.com/file/d/1QYNz0MLuREpr76Z_NyNPCVzgBXtoxTdw/view?usp=drive_link)
+- ▶️ [Demo 4 - Purchase course / payment / order history](https://drive.google.com/file/d/1QZmXoo5coMxdQXaY7m-DmbCoifo-ZFcs/view?usp=drive_link)
+- ▶️ [Demo 5 - Backoffice](https://drive.google.com/file/d/1QHNlarl3EjnlnQoQOhtXG-b0Y102Nj8r/view?usp=drive_link)
+
+---
+
+<br>
 
 This project simulates a beauty clinic platform with two main sections:
 
