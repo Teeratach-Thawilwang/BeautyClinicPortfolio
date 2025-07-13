@@ -9,6 +9,9 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       backgroundColor: theme.colors.background,
       flex: 1,
     },
+    headerBar: {
+      height: 50,
+    },
     scrollViewContainer: {
       marginTop: 10,
     },

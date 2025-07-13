@@ -42,7 +42,7 @@ export default function OrderHistoryScreen() {
 
   return (
     <View style={styles.container}>
-      <HeaderBar title='Order History' />
+      <HeaderBar title='Order History' containerStyle={styles.headerBar} />
       <ScrollView
         style={styles.scrollViewContainer}
         contentContainerStyle={styles.contentContainer}
