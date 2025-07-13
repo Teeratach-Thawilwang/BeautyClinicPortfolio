@@ -42,7 +42,18 @@ export function useSignInMutation() {
     mutationFn: (formData: SignInFormData) =>
       AuthService.signInWithEmail(formData.email, formData.password),
     onSuccess: () => {
-      navigation.navigate('BottomTabScreens', {screen: 'Home'})
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'BottomTabScreens',
+            state: {
+              routes: [{name: 'Home'}],
+              index: 0,
+            },
+          },
+        ],
+      })
     },
     onError: () => {
       setIsModalVisible(true)

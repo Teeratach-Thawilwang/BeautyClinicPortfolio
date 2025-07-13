@@ -33,7 +33,18 @@ export default function ResetPasswordScreen({
     isPasswordUpdated.current = false
 
     if (isSignIn) {
-      navigation.replace('BottomTabScreens', {screen: 'Home'})
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'BottomTabScreens',
+            state: {
+              routes: [{name: 'Home'}],
+              index: 0,
+            },
+          },
+        ],
+      })
       return
     }
     if (route.params.token_hash) {

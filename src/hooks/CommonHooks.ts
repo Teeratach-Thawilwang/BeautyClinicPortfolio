@@ -51,7 +51,18 @@ export async function googleSignInHandler(
 ) {
   const {success} = await AuthService.signInWithGoogle()
   if (success) {
-    navigation.navigate('BottomTabScreens', {screen: 'Home'})
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: 'BottomTabScreens',
+          state: {
+            routes: [{name: 'Home'}],
+            index: 0,
+          },
+        },
+      ],
+    })
   }
 }
 
