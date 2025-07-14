@@ -11,6 +11,8 @@ As part of the learning process, the project also includes practice in designing
 - ▶️ [Demo 4 - Purchase course / payment / order history](https://drive.google.com/file/d/1QZmXoo5coMxdQXaY7m-DmbCoifo-ZFcs/view?usp=drive_link)
 - ▶️ [Demo 5 - Backoffice](https://drive.google.com/file/d/1QHNlarl3EjnlnQoQOhtXG-b0Y102Nj8r/view?usp=drive_link)
 
+- [Conceptual design on Figma](https://www.figma.com/design/LclVuFlU6b8HWD7l7pJJU2/Beauty-Clinic?node-id=2655-1438&t=UpdKB8rpiLU3rhd7-0)
+
 ---
 
 <br>
@@ -23,30 +25,29 @@ This section is designed for **customers**. Users can:
 
 - Browse and purchase beauty treatment **courses**
 - **Book appointments** with the clinic
-- View their booking history and course details
+- View their course, booking and order history
+- Use authentication features such as sign in, sign up, forgot password and password reset
+- Change the app's theme color
 
 ## 🛠️ Backoffice (Admin Side)
 
 This section is restricted to **admin users only**. Admins can:
 
-- Manage available courses and pricing
-- View and update customer bookings
+- Manage available courses, category and blackout period
+- View and update customer bookings and customer course
 - Control access to administrative features
 
 ## 🔧 Technologies Used
 
-- **React Native** — for building the mobile UI
-- **React Native Paper** — for UI components
-- **Supabase** — used for authentication, database, storage, and edge functions
-- **TypeScript** — for type safety and better developer experience
-- **React Navigation** — for navigation between screens (Stack, BottomTab, Drawer)
-- **Redux Toolkit** for state management
-- **React Query** for state management of APIs
-- **Firebase** for authentication and FCM
-
-## 📦 Features in Progress
-
-- [Store] Push notification when appointment incoming (using cron + edge function + FCM).
+- **React Native** — for building the cross-platform mobile application
+- **TypeScript** — for static typing and improved developer experience
+- **React Native Paper** — for ready-to-use UI components
+- **React Navigation** — for handling screen navigation (Stack, Bottom Tabs, Drawer)
+- **Redux Toolkit** — for local state management
+- **React Query** — for server state and API data caching
+- **Supabase** — used for authentication, database, file storage, and Edge Functions
+- **Firebase** — used for FCM (push notification) and optional authentication
+- **Omise** — for payment gateway integration
 
 ## 📱 Platform
 
