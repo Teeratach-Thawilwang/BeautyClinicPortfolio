@@ -356,3 +356,9 @@ enabled = true
 verify_jwt = true
 import_map = "./deno.json"
 entrypoint = "./functions/get-booking-time-available/index.ts"
+
+[functions.send-incoming-appointment-notification]
+enabled = true
+verify_jwt = false
+import_map = "./deno.json"
+entrypoint = "./functions/send-incoming-appointment-notification/index.ts"

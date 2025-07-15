@@ -1,6 +1,15 @@
 ขั้นตอน setup
     1. Setup Firebase console
+        > ไปที่ Project settings -> tab Cloud Messgging เชคว่า
+            Firebase Cloud Messaging API (V1) Enabled
+        > ไปที่ Project settings -> tab Service accounts
+            - Firebase Admin SDK -> กด Generate new private key
+                จะได้ไฟล์ json ออกมา ตั้งชื่อเป็น firebase-service-account.json
+                ข้อมูลในนี้จะเอาไว้ใช้สร้าง access token ในการทำ push notification สำหรับ FCM HTTP API V1
+
     2. Setup Android / IOS
+        > follow document : https://rnfirebase.io/
+
     3. Setup Policy and fcm_tokens Table on supabase
 
 
