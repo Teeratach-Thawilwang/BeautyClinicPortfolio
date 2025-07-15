@@ -3,3 +3,5 @@ Debug mode
     > ./gradlew assembleRelease
     > adb install ./app/build/outputs/apk/release/app-release.apk
 
+ดู logcat android
+    > adb logcat *:E  // เอาเฉพาะ error ที่ทำให้ app clash
