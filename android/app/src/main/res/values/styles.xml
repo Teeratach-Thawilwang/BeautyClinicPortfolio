@@ -1,9 +1,15 @@
 <resources>
-
-    <!-- Base application theme. -->
+    <!-- ธีมหลัก -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!-- <item name="android:windowBackground">@layout/launch_screen</item> -->
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
 
+    <!-- ธีม splash -->
+    <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@layout/launch_screen</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

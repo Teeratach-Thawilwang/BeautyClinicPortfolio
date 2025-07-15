@@ -1,0 +1,126 @@
+1. สร้างไฟล์รูป เป็นทรงสี่เหลี่ยมด้านเทา Width = height เป็นไฟล์ PNG
+    > ใช้ Figma ออกแบบแล้ว export png ออกมา
+    
+2. ไปที่เว็ป https://apetools.webprofusion.com/#/tools/imagegorilla
+    > อัพรูปไปที่ฝั่ง Splash screen
+    > เลือก Android กับ IOS
+    > โหลดไฟล์ออกมา จะได้ ApeToolsGeneratedAssets.zip
+    > แตกไฟล์จะได้โฟลเดอร์
+        - bundle/
+            - android
+            - ios
+
+3. copy ไฟล์ลงโปรเจค
+    - Android
+        > copy folder ทุกตัวใน bundle/android/ ไปไว้ที่ project path : android/app/src/main/res/
+    
+    - IOS
+        > copy folder bundle/iOS/LaunchImage.launchimage ไปไว้ที่ project path : ios/<project_name>/Images.xcassets/
+
+4. 4. setup
+    - Android
+        0. install react-native-splash-screen
+            1. แก้ไขไฟล์ android\app\build.gradle
+                dependencies {
+                    implementation project(':react-native-splash-screen')
+                    ...
+                }
+
+            2. แก้ไขไฟล์ android\gradle.properties 
+                เพิ่มบรรทัด
+                android.enableJetifier=true
+            
+            3. android\settings.gradle
+                เพิ่มบรรทัด
+                include ':react-native-splash-screen'   
+                project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
+
+            4. ใน App.tsx เพิ่มโค้ดปิด splash screen
+                useEffect(() => {
+                    if (Platform.OS === 'android') {
+                    SplashScreen.hide()
+                    }
+                }, [])
+
+        1. แก้ไข (สร้างถ้าไม่มี) ไฟล์ android\app\src\main\res\values\styles.xml
+            <resources>
+                <!-- ธีมหลัก -->
+                <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+                    <item name="android:windowBackground">@color/app_background</item>
+                    <item name="android:windowNoTitle">true</item>
+                    <item name="android:windowFullscreen">false</item>
+                </style>
+
+                <!-- ธีม splash -->
+                <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+                    <item name="android:windowBackground">@layout/launch_screen</item>
+                    <item name="android:windowNoTitle">true</item>
+                    <item name="android:windowFullscreen">true</item>
+                </style>
+            </resources>
+
+        2. แก้ไข (สร้างถ้าไม่มี) ไฟล์ android\app\src\main\res\values\colors.xml
+            <resources>
+                <color name="splash_background">#1a1c1e</color>
+                <color name="app_background">#1a1c1e</color>
+            </resources>
+
+        3. แก้ไข (สร้างถ้าไม่มี) ไฟล์ android\app\src\main\res\layout\launch_screen.xml
+            <?xml version="1.0" encoding="utf-8"?>
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView 
+                    android:layout_width="match_parent" 
+                    android:layout_height="match_parent" 
+                    android:src="@drawable/screen" 
+                    android:scaleType="centerCrop"
+                />
+            </RelativeLayout>
+
+        4. แก้ไขไฟล์ android\app\src\main\AndroidManifest.xml
+            <application
+            android:name=".MainApplication"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:allowBackup="false"
+            android:theme="@style/SplashTheme"                     <---
+        
+        5. แก้ไขไฟล์ android\app\src\main\java\com\beautyclinicportfolio\MainActivity.kt
+            import android.os.Bundle;
+            import org.devio.rn.splashscreen.SplashScreen
+            import com.beautyclinicportfolio.R
+
+            class MainActivity : ReactActivity() {
+
+                override fun onCreate(savedInstanceState: Bundle?) {
+                    // แสดง Splash Screen ก่อนโหลด React Native
+                    SplashScreen.show(this) 
+
+                    // เปลี่ยน Theme กลับเป็น AppTheme ก่อนแสดง React Native
+                    setTheme(R.style.AppTheme)
+
+                    super.onCreate(savedInstanceState)
+                }
+
+                ...
+            }
+
+    - iOS
+        1. เปิด XCode
+        2. ios/<project_name>.xcworkspace
+            - ลาก ImageView มาวางไว้ในหน้า storyboard
+            - ตั้งชื่อ ImageView นี้ให้ใช้ image ที่เพิ่มไว้ เช่น LaunchImage
+            - ปรับ layout ให้เต็มหน้าจอ:
+                - ใช้ AutoLayout Constraints ให้เต็ม Safe Area หรือ Superview
+                - Content Mode เป็น Aspect Fill หรือ Scale to Fill ตามความเหมาะสม
+                - ปรับสี background ตามความเหมาะสม
+        3. ตรวจสอบไฟล์ Info.plist ต้องมี key string ดังนี้
+            <key>UILaunchStoryboardName</key>
+            <string>LaunchScreen</string>
+        4. เปิด XCode ไปที่ Targets > YourApp > General
+            - ดูในส่วน App Icons and Launch Images
+              ที่ Launch Screen File ให้ใส่ชื่อ storyboard เป็น LaunchScreen (ไม่ต้องมี .storyboard)
+

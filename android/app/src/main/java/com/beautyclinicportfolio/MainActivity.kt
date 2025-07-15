@@ -6,12 +6,17 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen
+import com.beautyclinicportfolio.R
 
 class MainActivity : ReactActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
       // แสดง Splash Screen ก่อนโหลด React Native
       SplashScreen.show(this) 
+
+      // เปลี่ยน Theme กลับเป็น AppTheme ก่อนแสดง React Native
+      setTheme(R.style.AppTheme)
+
       super.onCreate(savedInstanceState)
   }
 

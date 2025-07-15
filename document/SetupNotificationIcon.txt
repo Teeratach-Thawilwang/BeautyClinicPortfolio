@@ -1,0 +1,24 @@
+1. สร้างไฟล์รูป เป็นทรงสี่เหลี่ยมด้านเทา Width = height เป็นไฟล์ PNG
+    ** รูปต้องเป็นลายเส้นมี Transparent **
+    > ใช้ Figma ออกแบบแล้ว export png ออกมา
+
+2. เปิด android studio ขึ้นมา
+    > คลิกขวาที่โฟลเดอร์ android\app\src\main\res
+    > New -> Image Asset
+    > Icon type : Notification Icons
+    > Asset type : image (เลือกรูปที่ได้มาจาก figma)
+    > Next -> Finish
+    > จะได้ไฟล์ ic_stat_name.png ในโฟลเดอร์ 
+        drawable-hdpi
+        drawable-mdpi
+        drawable-xhdpi
+        drawable-xxhdpi
+        drawable-xxxhdpi
+
+4. แก้ไขไฟล์ android\app\src\main\AndroidManifest.xml
+    <application
+      android:name=".MainApplication"
+      ...>
+      <meta-data
+      android:name="com.google.firebase.messaging.default_notification_icon"
+      android:resource="@drawable/ic_stat_name" />
