@@ -18,6 +18,8 @@ export default function ImageCarousel({images}: Props) {
   const progress = useSharedValue<number>(0)
   const itemWidth = width - 20
   const itemHeight = itemWidth * 0.7
+  const itemCount = images.length
+  const maxLength = itemCount * itemWidth
   const paginateData = useMemo(() => images.map(_ => ({color: ''})), [images])
 
   return (
@@ -44,7 +46,8 @@ export default function ImageCarousel({images}: Props) {
         }}
         onProgressChange={(offset: number) => {
           ;('worklet')
-          const snapPoint = Math.abs(offset / itemWidth)
+          const calculateOffset = Math.abs(maxLength - offset) / itemWidth
+          const snapPoint = calculateOffset % itemCount
           progress.value = snapPoint
         }}
         renderItem={({item, index}) => <ImageItem key={index} uri={item.uri} />}

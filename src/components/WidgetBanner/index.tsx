@@ -18,12 +18,15 @@ export default function WidgetBanner({banners}: Props) {
   const progress = useSharedValue<number>(0)
   const itemWidth = width - 20
   const itemHeight = itemWidth * 0.5
+  const itemCount = banners.length
+  const maxLength = itemCount * itemWidth
   const paginateData = useMemo(() => banners.map(_ => ({color: ''})), [banners])
 
   return (
     <View style={styles.container}>
       <Carousel
         testID='widget-banner-carousel'
+        data={banners}
         loop={true}
         width={itemWidth}
         height={itemHeight}
@@ -31,16 +34,16 @@ export default function WidgetBanner({banners}: Props) {
         pagingEnabled={true}
         autoPlay={true}
         autoPlayInterval={2000}
-        data={banners}
         defaultScrollOffsetValue={scrollOffsetValue}
         onConfigurePanGesture={gesture => {
           'worklet'
           gesture.activeOffsetX([-10, 10])
           gesture.failOffsetY([-10, 10])
         }}
-        onProgressChange={offsetProgress => {
+        onProgressChange={offset => {
           ;('worklet')
-          const snapPoint = Math.abs(offsetProgress / itemWidth)
+          const calculateOffset = Math.abs(maxLength - offset) / itemWidth
+          const snapPoint = calculateOffset % itemCount
           progress.value = snapPoint
         }}
         renderItem={({item}) => {
