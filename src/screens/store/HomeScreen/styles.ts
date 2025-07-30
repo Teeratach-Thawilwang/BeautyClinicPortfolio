@@ -14,6 +14,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       paddingBottom: 20,
     },
     skeletonContainer: {
+      paddingHorizontal: 10,
+      backgroundColor: theme.colors.background,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
