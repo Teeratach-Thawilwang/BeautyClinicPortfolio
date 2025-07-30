@@ -1,0 +1,36 @@
+To-Do-List
+- ปรับ stack จ่ายเงินเเล้วมันชอบมาที่หน้า order history ค้างๆ หลายหน้า
+- ปรับปุ่มสำหรับ payment mobile banking ให้ ไม่สับสน
+- BookingDatePicker มันไม่ limit เวลาย้อนหลัง มันควรจะเลือกได้แค่ ตั้งแต่วันปัจจุบันเป็นต้นไป
+- ปรับ date picker ใน bottomSheet filter ให้มันสวย เหมือนใน BookingDatePicker
+- booking backoffice เวลาลบ มันไม่คืน used_round ให้
+- จัด dayjs ใหม่ ใน utils ทำให้มันไม่ซับสน ไหนจะ YYYY-MM-DD, ไหนจะ DD-MM-YYYY
+- แยก skeletonContainer ไปเป็น component
+
+ปัญหา
+- Carousel มีปัญหาเรื่อง lagging ยังหาทางแก้ไม่ได้ อาจจะเป็นเพราะเรียกใช้หลาย component เเล้วเรียก native api พร้อมกันเยอะ
+- เขียนหลักการ responsive
+  1. Different design (mobile, tablet)
+  2. width 100%, minWidth, maxWith (may be hooks)
+  3. Flex box many column on tablet, single column on mobile
+- ปัญหาเรื่องสี Theme color
+  1. สี container: lowest, low, normal, high, highest ไม่โอเค อาจจะไปหาดูของ tailwind มาปรับ
+  2. สี outline, outlineVariant, onSurfaceVariant มีหลักการใช้ยังไง ค่ามันเหมือนกัน
+
+การทดลอง
+- ลองทำ TimePicker ของตัวเอง => เปรียบเทียบ performace ของ react-native-date-picker
+  => ช้ากว่า
+  155ms แบบ 8 wheel - 1 component 
+  180ms 8 wheel - 2 component
+  36ms - 6 wheel - 2 components - react-native-date-picker
+  => ช้ากว่าเพราะจำนวน wheel item มันเยอะ ที่ชม คือ 24 ตัว + ปัจจัยอื่นที่ยังไม่รู้
+
+Flow การทำงาน
+1. Logic flow
+2. Figma desgin
+3. component design
+4. Data usage
+5. Api design
+6. State management design
+7. Refactoring
+8. Testing
