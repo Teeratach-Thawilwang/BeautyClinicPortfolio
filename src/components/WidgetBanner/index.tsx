@@ -1,11 +1,12 @@
-import React from 'react'
-import {Image, View} from 'react-native'
+import React, {useMemo} from 'react'
+import {View} from 'react-native'
 import {useSharedValue} from 'react-native-reanimated'
 import Carousel, {Pagination} from 'react-native-reanimated-carousel'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useResponsiveScreen} from '@hooks/CommonHooks'
 
+import WidgetBannerItem from './Components/WidgetBannerItem'
 import {getStyles} from './styles'
 import {Props} from './types'
 
@@ -15,14 +16,17 @@ export default function WidgetBanner({banners}: Props) {
   const {width, responsive} = useResponsiveScreen()
   const scrollOffsetValue = useSharedValue<number>(0)
   const progress = useSharedValue<number>(0)
+  const itemWidth = width - 20
+  const itemHeight = itemWidth * 0.5
+  const paginateData = useMemo(() => banners.map(_ => ({color: ''})), [banners])
 
   return (
     <View style={styles.container}>
       <Carousel
         testID='widget-banner-carousel'
         loop={true}
-        height={200}
-        width={width - 20}
+        width={itemWidth}
+        height={itemHeight}
         snapEnabled={true}
         pagingEnabled={true}
         autoPlay={true}
@@ -34,22 +38,27 @@ export default function WidgetBanner({banners}: Props) {
           gesture.activeOffsetX([-10, 10])
           gesture.failOffsetY([-10, 10])
         }}
-        onSnapToItem={(index: number) => {
-          progress.value = index
+        onProgressChange={offsetProgress => {
+          ;('worklet')
+          const snapPoint = Math.abs(offsetProgress / itemWidth)
+          progress.value = snapPoint
         }}
         renderItem={({item}) => {
           return (
-            <View style={styles.imageContainer}>
-              <Image source={{uri: item.image.uri}} style={styles.image} />
-            </View>
+            <WidgetBannerItem
+              item={item}
+              width={itemWidth}
+              height={itemHeight}
+            />
           )
         }}
+        style={styles.carousel}
       />
       <Pagination.Basic<{color: string}>
         key={`banner-pagination-${responsive}`}
         progress={progress}
         horizontal={true}
-        data={banners.map(_ => ({color: ''}))}
+        data={paginateData}
         dotStyle={styles.paginateDot}
         activeDotStyle={styles.paginateActiveDot}
         containerStyle={styles.paginateContainer}

@@ -7,21 +7,11 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     container: {
       marginTop: 10,
     },
-    imageContainer: {
-      width: '100%',
-      height: '100%',
+    carousel: {
       borderRadius: 5,
-      backgroundColor: theme.colors.primary,
-    },
-    image: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 5,
-      resizeMode: 'contain',
     },
     paginateContainer: {
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: 5,
       gap: 10,
     },
     paginateDot: {
