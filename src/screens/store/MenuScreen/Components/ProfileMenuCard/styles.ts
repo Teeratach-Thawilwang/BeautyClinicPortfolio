@@ -21,13 +21,12 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     imageContainer: {
       padding: 5,
       borderRadius: 100,
-      backgroundColor: theme.colors.primary,
+      backgroundColor: theme.dark ? theme.colors.primary : 'transparent',
     },
     image: {
       width: 45,
       height: 45,
       borderRadius: 100,
-      backgroundColor: theme.colors.primary,
     },
     detail: {
       marginLeft: 10,
