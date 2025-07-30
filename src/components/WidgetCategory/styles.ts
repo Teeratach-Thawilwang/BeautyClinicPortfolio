@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native'
 
-import {useResponsiveScreen} from '@hooks/CommonHooks'
 import {AdaptiveMD3Theme} from '@models/ThemeTypes'
 
-export function getStyles(theme: AdaptiveMD3Theme) {
-  const {responsive} = useResponsiveScreen()
+export function getStyles(
+  theme: AdaptiveMD3Theme,
+  responsive: 'MOBILE' | 'TABLET' | 'DESKTOP',
+) {
   return StyleSheet.create({
     container: {
       marginTop: 20,
@@ -18,7 +19,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       marginTop: 10,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      justifyContent: responsive === 'MOBILE' ? 'space-between' : 'flex-start',
+      justifyContent:
+        responsive === 'MOBILE' ? 'space-between' : 'space-evenly',
       alignItems: 'flex-start',
       gap: responsive === 'MOBILE' ? 10 : 20,
     },
@@ -28,8 +30,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
       gap: 5,
     },
     itemImage: {
-      width: 70,
-      height: 70,
+      width: responsive === 'MOBILE' ? 70 : 120,
+      height: responsive === 'MOBILE' ? 70 : 120,
       borderRadius: 10,
       resizeMode: 'cover',
     },

@@ -3,19 +3,22 @@ import {Image, Text, View} from 'react-native'
 import {TouchableRipple} from 'react-native-paper'
 
 import {useTheme} from '@context-providers/ThemeProvider'
-import {useNavigate} from '@hooks/CommonHooks'
+import {useNavigate, useResponsiveScreen} from '@hooks/CommonHooks'
 
 import {getStyles} from './styles'
 import {Props} from './types'
 
 export default function WidgetCategory({banners}: Props) {
+  const {responsive} = useResponsiveScreen()
   const {theme} = useTheme()
-  const styles = getStyles(theme)
+  const styles = getStyles(theme, responsive)
   const navigation = useNavigate()
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>หมวดหมู่</Text>
+      {responsive == 'MOBILE' ? (
+        <Text style={styles.title}>หมวดหมู่</Text>
+      ) : null}
       <View style={styles.flexContainer}>
         {banners.map((banner, index) => {
           return (
