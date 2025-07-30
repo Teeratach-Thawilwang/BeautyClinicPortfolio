@@ -12,6 +12,7 @@
     "edge-deploy": "npx supabase functions deploy"
   },
   "dependencies": {
+    "@d11/react-native-fast-image": "^8.10.0",
     "@gorhom/bottom-sheet": "^5.1.2",
     "@hookform/resolvers": "^3.10.0",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
