@@ -1,8 +1,7 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import {Text, View} from 'react-native'
 import {TouchableRipple} from 'react-native-paper'
-import {useSharedValue} from 'react-native-reanimated'
-import Carousel from 'react-native-reanimated-carousel'
+import Animated from 'react-native-reanimated'
 
 import {useTheme} from '@context-providers/ThemeProvider'
 import {useNavigate, useResponsiveScreen} from '@hooks/CommonHooks'
@@ -15,11 +14,12 @@ export default function WidgetCourseItem({courses}: Props) {
   const {theme} = useTheme()
   const styles = getStyles(theme)
   const navigation = useNavigate()
-  const {width, responsive} = useResponsiveScreen()
-  const scrollOffsetValue = useSharedValue<number>(0)
-  const coursesData = cloneData(
-    courses.courses,
-    responsive != 'MOBILE' ? 14 : 8,
+  const {responsive} = useResponsiveScreen()
+  const snapLenght = 152 + 10 // WidgetCourseItemDetail's width + margin
+
+  const coursesData = useMemo(
+    () => cloneData(courses.courses, responsive == 'MOBILE' ? 3 : 6),
+    [courses.courses, responsive],
   )
 
   return (
@@ -39,30 +39,21 @@ export default function WidgetCourseItem({courses}: Props) {
           <Text style={styles.titleButton}>ดูทั้งหมด</Text>
         </TouchableRipple>
       </View>
-      <Carousel
-        testID='widget-course-carousel'
-        mode='parallax'
-        modeConfig={{
-          parallaxScrollingScale: 1,
-          parallaxScrollingOffset: width - 185,
-          parallaxAdjacentItemScale: 1,
-        }}
+      <Animated.FlatList
         data={coursesData}
-        loop={true}
-        width={width - 20}
-        height={205}
-        autoFillData={true}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
         pagingEnabled={true}
-        defaultScrollOffsetValue={scrollOffsetValue}
-        onConfigurePanGesture={gesture => {
-          'worklet'
-          gesture.activeOffsetX([-10, 10])
-          gesture.failOffsetY([-10, 10])
-        }}
-        renderItem={({item, index}) => {
+        snapToInterval={snapLenght}
+        disableIntervalMomentum={true}
+        decelerationRate='fast'
+        snapToAlignment='start'
+        style={styles.carousel}
+        contentContainerStyle={styles.carouselContent}
+        keyExtractor={(_, index) => `${courses.categoryId}-${index}`}
+        renderItem={({item}) => {
           return (
             <WidgetCourseItemDetail
-              key={index}
               course={item}
               category={{
                 id: courses.categoryId,
@@ -71,7 +62,6 @@ export default function WidgetCourseItem({courses}: Props) {
             />
           )
         }}
-        style={styles.carousel}
       />
     </View>
   )

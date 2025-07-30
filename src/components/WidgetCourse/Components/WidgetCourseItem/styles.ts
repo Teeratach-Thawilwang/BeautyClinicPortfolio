@@ -24,5 +24,8 @@ export function getStyles(theme: AdaptiveMD3Theme) {
     carousel: {
       marginTop: 10,
     },
+    carouselContent: {
+      gap: 10,
+    },
   })
 }
